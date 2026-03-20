@@ -44,7 +44,7 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
             <Link href="/en" className={`text-xs font-bold transition-colors ${lang === 'en' ? 'text-accent' : 'text-zinc-500 hover:text-white'}`}>EN</Link>
           </div>
 
-          <Link href="https://github.com" target="_blank" className="text-zinc-400 hover:text-white hover:-translate-y-0.5 transition-all flex items-center gap-2 ml-4">
+          <Link href="https://github.com/will-opz/deops.org" target="_blank" className="text-zinc-400 hover:text-white hover:-translate-y-0.5 transition-all flex items-center gap-2 ml-4">
             <Github className="w-5 h-5" />
           </Link>
         </nav>

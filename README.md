@@ -1,99 +1,86 @@
-# deops.org
+# deops (de + ops) — AI-Native Operations Infrastructure
 
-**deops (de + ops)** — AI-Native Operations Infrastructure
+[English](./README.md) | [简体中文](./README_zh.md)
 
-This repository contains the Next.js (Edge) frontend architecture for [deops.org](https://deops.org). Designed from the perspective of a Senior SRE/Architect, the site embodies the core philosophy: **Minimalist, Hardcore, Automated, and Lightning-fast**.
+**deops** is a minimalist, hardcore, and fully automated operations infrastructure built for the next generation of AI-native engineers. Designed from the perspective of a Senior SRE, it embodies a decentralized, code-defined philosophy with a high-end, terminal-inspired aesthetic.
 
----
-
-## 🌟 Core Philosophy
-
-- **Deep, Define, Decentralized (`de`)**: Reimagining operations with depth, infrastructure as code (defined), and distributed paradigms.
-- **Ops**: The lifeblood of system reliability and AI-native workflows.
-- **Aesthetic**: Minimalist, developer-centric, terminal-inspired (Obsidian/Zinc OLED black theme), with subtle geometric UI and tech-focused accents (Emerald & Cyan).
+> [!IMPORTANT]
+> This project is optimized for the **Cloudflare Edge Runtime**. It uses a pure Edge Dynamic architecture to achieve near-zero latency for operational tools and service management.
 
 ---
 
-## 🛠️ Architecture (v2.0)
+## 🚀 Key Features
 
-We migrated from a single HTML file to a robust **Next.js 16 (App Router)** frontend, fully optimized for Cloudflare Edge.
-
-- **Framework**: Next.js (React) Server Components.
-- **Styling**: Tailwind CSS v4 + native PostCSS.
-- **Icons**: Lucide React.
-- **Internationalization (i18n)**:
-  - Pure Edge SSR rendering driven by native `proxy.ts`. Content managed via `src/dictionaries/`.
-- **Knowledge Base (MDX)**:
-  - Git-backed Markdown renderer (`next-mdx-remote`) with automated slug mapping scanning `src/content/kb`.
-- **AI Ops Copilot (RAG)**:
-  - Real-time SSE streaming backend proxying to a secure Cloudflare Tunnel / Dify RAG endpoint.
+- **⚡ Edge-First Architecture**: Built on **Next.js 16 (Turbopack)** and optimized for **Cloudflare Pages**, bypassing traditional server bottlenecks.
+- **🛡️ Cyber Toolbelt**: Industrial-grade utilities including an entropy-focused **Password Generator** and real-time **Text-to-QR** matrix encoding.
+- **🌐 HUD Service Matrix**: A centralized "Head-Up Display" for infrastructure observability and CI/CD pipeline monitoring.
+- **🧠 Knowledge Base (Ready for Core)**: A pre-configured Markdown engine for high-density incident post-mortems and architecture design docs.
+- **💎 Premium Aesthetic**: A sleek, Obsidian-inspired OLED black theme with glassmorphism and subtle geometric micro-animations.
 
 ---
 
-## 🚀 Deployment (Cloudflare Pages)
+## 🛠️ Tech Stack
 
-This project is tailored to deploy as a Serverless Edge application on **Cloudflare Pages**.
-
-### Required Cloudflare Setup:
-1. Connect this GitHub repository in the Cloudflare Pages dashboard.
-2. **Framework preset**: Select **`OpenNext`** (Important!).
-3. **Build command**: `npm run cf:build` (This runs `opennextjs-cloudflare`).
-4. **Build output directory**: `.open-next/assets` (Note: OpenNext uses this directory for assets).
-
-### ⚠️ Critical Configuration (Node.js Compatibility)
-Because Next.js routing and OpenNext rely on native Node APIs during the build/edge phase, you must explicitly enable Node APIs:
-- Go to your Pages project -> **Settings** -> **Functions** -> **Compatibility flags**.
-- Type exactly **`nodejs_compat`** in both Production and Preview fields.
-- **Compatibility Date**: Set to `2024-11-18` or later.
+- **Core**: [Next.js 16](https://nextjs.org/) (App Router & Server Components)
+- **Runtime**: [Cloudflare Edge Runtime](https://workers.cloudflare.com/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) + PostCSS
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **i18n**: Pure Edge-side localization via a custom `proxy.ts` layer.
 
 ---
 
-## 💻 Operations & Maintenance
+## 📦 Deployment (Cloudflare Pages)
 
-### 1. How to Publish a Knowledge Base Runbook (/kb)
-The Knowledge Base (`/kb`) embraces the GitOps philosophy. 
-1. Write your markdown file locally or in Obsidian.
-2. Place it into the `src/content/kb/` directory.
-3. Add the following YAML Frontmatter at the top of the file:
+This project is tailored for **Cloudflare Pages** using the legacy `@cloudflare/next-on-pages@1` plugin (to ensure maximum compatibility without complex adapters).
 
-```yaml
----
-title: "Incident Runbook: Redis OOM"
-date: "2026-03-20"
-description: "SOP for resolving cache evictions."
----
-```
-4. Commit and push. The `/kb` index page will auto-render it using `@tailwindcss/typography`.
-
-### 2. How to Connect the AI Ops Copilot (/kb/chat)
-The chat interface requires connecting to your self-hosted Dify LLM model.
-Copy `.env.example` to `.env.local` and configure your API keys. 
-If your tunnel is protected by **Cloudflare Zero Trust Access**, generate a Service Auth Token and add it to `.env.local`:
-
-```env
-CF_ACCESS_CLIENT_ID="your_client_id"
-CF_ACCESS_CLIENT_SECRET="your_client_secret"
+### 1. Build Command
+```bash
+npx @cloudflare/next-on-pages@1
 ```
 
-### 3. How to Add a New Navigation Site (/services HUD)
-The Services Matrix is rendered via a data array. To add a new operational link:
-1. Open `src/app/[lang]/services/page.tsx`.
-2. Locate the `categorizedServices` array and inject a new object:
-
-```tsx
-{ 
-  name: "Datadog", 
-  desc: "Cloud Observability Platform", 
-  icon: Activity, // Import an SVG icon from 'lucide-react'
-  status: "operational", // Change to "maintenance" for blinking yellow 
-  url: "https://app.datadoghq.com" 
-}
-```
+### 2. Required Settings
+- **Framework Preset**: None (Custom)
+- **Build Output Directory**: `.vercel/output/static`
+- **Compatibility Flags**: Add `nodejs_compat` to both Production and Preview.
+- **Compatibility Date**: Set to at least `2024-11-18`.
 
 ---
+
+## 🛠️ Development
 
 ```bash
-# Local Development
+# Clone the repository
+git clone https://github.com/will-opz/deops.org.git
+
+# Install dependencies
 npm install
-npm run dev # Open http://localhost:3000
+
+# Launch Turbopack dev server
+npm run dev
 ```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from the SRE and DevOps community. Whether it's adding a new cyber tool or optimizing the HUD layout, feel free to open a PR.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+Distributed under the **MIT License**. See `LICENSE` for more information.
+
+---
+
+<p align="center">
+  <b>Deep. Define. Decentralized.</b><br/>
+  Designed by <a href="https://deops.org">deops.org</a>
+</p>
+
