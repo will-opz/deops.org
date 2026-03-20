@@ -35,5 +35,22 @@
     "copyright": "© 2026 deops.org",
     "slogan": "深度. 定义. 去中心化.",
     "all_systems_operational": "所有节点响应健康"
+  },
+  "kb_index": {
+    "title_part1": "Knowledge",
+    "title_part2": "Base.",
+    "subtitle": "核心运维手册与故障排查知识沉淀库 (Git-backed)",
+    "runbooks": "标准运行手册 (Runbooks)",
+    "btn_ai_copilot": "启动 AI Copilot",
+    "read_more": "阅读全文"
+  },
+  "kb": {
+    "title_part1": "Ops",
+    "title_part2": "Copilot.",
+    "subtitle": "直连内部 Runbook 与故障排查体系的 RAG 智能检索引擎。",
+    "placeholder": "描述你的故障现象或查询架构 (例如：线上 Redis 被打满了怎么扩容，或者 给我看一下网关服务的部署架构图)",
+    "btn_search": "下发指令",
+    "kb_active": "神经链路已接通",
+    "loading": "检索云端知识图谱..."
   }
 }

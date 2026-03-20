@@ -21,10 +21,12 @@ We migrated from a single HTML file to a robust **Next.js 16 (App Router)** fron
 - **Framework**: Next.js (React) Server Components.
 - **Styling**: Tailwind CSS v4 + native PostCSS.
 - **Icons**: Lucide React.
-- **Internationalization (i18n)**: 
-  - Pure Server-Side Rendering (SSR) driven routing without heavy external libraries.
-  - Edge `proxy.ts` detects the browser's `Accept-Language` header to default route to `/zh` or `/en`.
-  - Content managed exclusively via `src/dictionaries/`.
+- **Internationalization (i18n)**:
+  - Pure Edge SSR rendering driven by native `proxy.ts`. Content managed via `src/dictionaries/`.
+- **Knowledge Base (MDX)**:
+  - Git-backed Markdown renderer (`next-mdx-remote`) with automated slug mapping scanning `src/content/kb`.
+- **AI Ops Copilot (RAG)**:
+  - Real-time SSE streaming backend proxying to a secure Cloudflare Tunnel / Dify RAG endpoint.
 
 ---
 
@@ -48,37 +50,45 @@ Because Next.js routing relies on native Node APIs, you must explicitly enable N
 
 ## 💻 Operations & Maintenance
 
-### 1. How to Add a New Navigation Site (HUD)
-The Services Matrix is rendered via a data array. To add a new operational link:
+### 1. How to Publish a Knowledge Base Runbook (/kb)
+The Knowledge Base (`/kb`) embraces the GitOps philosophy. 
+1. Write your markdown file locally or in Obsidian.
+2. Place it into the `src/content/kb/` directory.
+3. Add the following YAML Frontmatter at the top of the file:
 
+```yaml
+---
+title: "Incident Runbook: Redis OOM"
+date: "2026-03-20"
+description: "SOP for resolving cache evictions."
+---
+```
+4. Commit and push. The `/kb` index page will auto-render it using `@tailwindcss/typography`.
+
+### 2. How to Connect the AI Ops Copilot (/kb/chat)
+The chat interface requires connecting to your self-hosted Dify LLM model.
+Copy `.env.example` to `.env.local` and configure your API keys. 
+If your tunnel is protected by **Cloudflare Zero Trust Access**, generate a Service Auth Token and add it to `.env.local`:
+
+```env
+CF_ACCESS_CLIENT_ID="your_client_id"
+CF_ACCESS_CLIENT_SECRET="your_client_secret"
+```
+
+### 3. How to Add a New Navigation Site (/services HUD)
+The Services Matrix is rendered via a data array. To add a new operational link:
 1. Open `src/app/[lang]/services/page.tsx`.
-2. Locate the `categorizedServices` array (around line 15).
-3. Find your desired category (e.g., Monitoring, CI/CD, or Infra) and inject a new object into its `tools` array:
+2. Locate the `categorizedServices` array and inject a new object:
 
 ```tsx
-// Example of adding a new service
 { 
   name: "Datadog", 
   desc: "Cloud Observability Platform", 
-  icon: Activity, // Import an SVG icon from 'lucide-react' at the top of the file
-  status: "operational", // Change to "maintenance" for blinking yellow indicator
+  icon: Activity, // Import an SVG icon from 'lucide-react'
+  status: "operational", // Change to "maintenance" for blinking yellow 
   url: "https://app.datadoghq.com" 
 }
 ```
-4. Save the file. The Next.js dev server will hot-reload instantly.
-
-### 2. How to Update Text or Add a Language
-All hardcoded strings are sanitized into centralized JSON dictionary files.
-- To update the Chinese copy: Edit `src/dictionaries/zh.json`
-- To update the English copy: Edit `src/dictionaries/en.json`
-
----
-
-## 🔮 Future Expansion (Roadmap)
-
-- [ ] **Knowledge Base (`/kb`)**: Implement an Obsidian-style `.mdx` rendering engine for runbooks and architectural decision records (ADRs).
-- [ ] **AIOps Health Probes**: Upgrade the `/services` static status dots to dynamic `/api/ping` checks that fetch real HTTP or Grafana health statuses.
-- [ ] **Technical Blog (`/blog`)**: Deep dives into decentralized systems, performance tuning, and LLM-driven ops.
 
 ---
 
