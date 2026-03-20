@@ -18,7 +18,9 @@ function getLocale(request: NextRequest): string | undefined {
   }
 }
 
-export default function middleware(request: NextRequest) {
+export const runtime = 'experimental-edge'
+
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   
   if (
