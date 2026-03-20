@@ -90,10 +90,13 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
 
         {/* Quick Access HUD */}
         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 px-6 py-3 rounded-2xl border border-white/5 bg-zinc-900/40 backdrop-blur-xl mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 shadow-2xl">
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] border-r border-white/10 pr-6 mr-2 hidden sm:block">
-              {dict.home.quick_access}
-            </span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 text-zinc-400 border-r border-white/10 pr-6 mr-2 hidden sm:flex">
+              <Terminal className="w-3.5 h-3.5 text-accent/70" />
+              <span className="text-[11px] font-mono uppercase tracking-[0.15em] font-medium">
+                {dict.home.quick_access}
+              </span>
+            </div>
             <Link href={`/${lang}/tools/passgen`} className="flex items-center gap-2.5 group hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all">
               <div className="w-7 h-7 rounded-md bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
                 <Zap className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
