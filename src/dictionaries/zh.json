@@ -1,6 +1,8 @@
 {
   "nav": {
-    "services": "服务矩阵"
+    "kb": "知识库",
+    "services": "服务矩阵",
+    "blog": "技术笔记"
   },
   "home": {
     "meta_title": "deops - AI 原生运维基建",
@@ -14,7 +16,12 @@
     "card1_title": "AI 驱动洞察",
     "card1_desc": "基于大语言模型的预测性异常检测与自动化根因分析，将 MTTR 降至冰点。",
     "card2_title": "全自动流水线",
-    "card2_desc": "事件驱动修复与 CI/CD 深度集成。基础设施即代码，把其余的交给算法。"
+    "card2_desc": "事件驱动修复与 CI/CD 深度集成。基础设施即代码，把其余的交给算法。",
+    "card3_title": "极客知识库",
+    "card3_desc": "类 Obsidian 的 Markdown 渲染引擎，用于事故复盘与架构设计。沉淀你的全量运维记忆。",
+    "quick_access": "快捷指令",
+    "tool_passgen": "密码生成",
+    "tool_qrgen": "二维码转化"
   },
   "services": {
     "title_part1": "服务",

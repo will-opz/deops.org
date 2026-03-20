@@ -1,6 +1,8 @@
 {
   "nav": {
-    "services": "Service Matrix"
+    "kb": "KB",
+    "services": "Services",
+    "blog": "Blog"
   },
   "home": {
     "meta_title": "deops - AI-Native Operations Infrastructure",
@@ -14,7 +16,12 @@
     "card1_title": "AI-Driven Insights",
     "card1_desc": "Predictive anomaly detection and automated root-cause analysis powered by LLMs, reducing MTTR to virtually zero.",
     "card2_title": "Automated Workflows",
-    "card2_desc": "Event-driven remediation and seamless CI/CD pipeline integrations. Define your infra state once, let algorithms handle the rest."
+    "card2_desc": "Event-driven remediation and seamless CI/CD pipeline integrations. Define your infra state once, let algorithms handle the rest.",
+    "card3_title": "Knowledge Base",
+    "card3_desc": "Obsidian-inspired Markdown engine for incident post-mortems and architecture specs. Your ops memory, eternally searchable.",
+    "quick_access": "Quick Commands",
+    "tool_passgen": "PassGen",
+    "tool_qrgen": "QR-Encode"
   },
   "services": {
     "title_part1": "Service",

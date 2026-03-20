@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BookOpen, TerminalSquare, FileText, Github, Zap, Code2, BrainCircuit, Workflow, Database, ArrowUpRight, Menu } from 'lucide-react'
+import { BookOpen, TerminalSquare, FileText, Github, Zap, Code2, BrainCircuit, Workflow, Database, ArrowUpRight, Menu, QrCode } from 'lucide-react'
 import { getDictionary } from '../../dictionaries'
 
 export const runtime = 'edge'
@@ -29,11 +29,15 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
         </Link>
 
         <nav className="hidden md:flex gap-8 items-center font-mono text-sm">
+          <Link href={`/${lang}#kb`} className="text-zinc-400 hover:text-white hover:-translate-y-0.5 transition-all flex items-center gap-2">
+            <BookOpen className="w-4 h-4" /> {dict.nav.kb}
+          </Link>
           <Link href={`/${lang}/services`} className="text-zinc-400 hover:text-white hover:-translate-y-0.5 transition-all flex items-center gap-2">
             <TerminalSquare className="w-4 h-4" /> {dict.nav.services}
           </Link>
-          
-          
+          <Link href={`/${lang}#blog`} className="text-zinc-400 hover:text-white hover:-translate-y-0.5 transition-all flex items-center gap-2">
+            <FileText className="w-4 h-4" /> {dict.nav.blog}
+          </Link>
           <div className="flex items-center gap-2 ml-4 border-l border-zinc-800 pl-6">
             <Link href="/zh" className={`text-xs font-bold transition-colors ${lang === 'zh' ? 'text-accent' : 'text-zinc-500 hover:text-white'}`}>ZH</Link>
             <span className="text-zinc-700 text-xs">/</span>
@@ -79,9 +83,53 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
           </Link>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl text-left">
+        {/* Quick Access HUD */}
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 px-6 py-3 rounded-2xl border border-white/5 bg-zinc-900/40 backdrop-blur-xl mb-20 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out shadow-2xl">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] border-r border-white/10 pr-6 mr-2 hidden sm:block">
+              {dict.home.quick_access}
+            </span>
+            <Link href={`/${lang}/tools/passgen`} className="flex items-center gap-2.5 group hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all">
+              <div className="w-7 h-7 rounded-md bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
+                <Zap className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
+              </div>
+              <span className="text-sm font-mono text-zinc-400 group-hover:text-white transition-colors">{dict.home.tool_passgen}</span>
+            </Link>
+          </div>
+          
+          <div className="h-6 w-px bg-white/10 hidden md:block" />
+          
+          <Link href={`/${lang}/tools/qrgen`} className="flex items-center gap-2.5 group hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all">
+            <div className="w-7 h-7 rounded-md bg-cyan-500/10 flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+              <QrCode className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
+            </div>
+            <span className="text-sm font-mono text-zinc-400 group-hover:text-white transition-colors">{dict.home.tool_qrgen}</span>
+          </Link>
+          
+          <div className="h-6 w-px bg-white/10 hidden md:block" />
 
+          <Link href={`/${lang}/services`} className="flex items-center gap-2.5 group hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all">
+            <div className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
+              <TerminalSquare className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+            </div>
+            <span className="text-sm font-mono text-zinc-400 group-hover:text-white transition-colors">{dict.nav.services}</span>
+          </Link>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl text-left">
+          <div className="glass-card p-8 rounded-xl group cursor-default">
+            <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all">
+              <BrainCircuit className="w-6 h-6 text-emerald-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+              {dict.home.card1_title}
+              <ArrowUpRight className="w-4 h-4 text-zinc-500 group-hover:text-emerald-400 transition-colors opacity-0 group-hover:opacity-100" />
+            </h3>
+            <p className="text-zinc-400 text-sm leading-relaxed">
+              {dict.home.card1_desc}
+            </p>
+          </div>
 
           <div className="glass-card p-8 rounded-xl group cursor-default">
             <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all">
@@ -106,6 +154,19 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
             </h3>
             <p className="text-zinc-400 text-sm leading-relaxed">
               Industrial-grade tools for everyday ops. Secure password generation and real-time QR encoding at your fingertips.
+            </p>
+          </div>
+
+          <div className="glass-card p-8 rounded-xl group cursor-default">
+            <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all">
+              <BrainCircuit className="w-6 h-6 text-purple-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+              {dict.home.card3_title}
+              <ArrowUpRight className="w-4 h-4 text-zinc-500 group-hover:text-purple-400 transition-colors opacity-0 group-hover:opacity-100" />
+            </h3>
+            <p className="text-zinc-400 text-sm leading-relaxed">
+              {dict.home.card3_desc}
             </p>
           </div>
         </div>
