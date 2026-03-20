@@ -36,15 +36,15 @@ This project is tailored to deploy as a Serverless Edge application on **Cloudfl
 
 ### Required Cloudflare Setup:
 1. Connect this GitHub repository in the Cloudflare Pages dashboard.
-2. **Framework preset**: Select `Next.js`
-3. **Build command**: `npx @cloudflare/next-on-pages@1`
-4. **Build output directory**: `.vercel/output/static`
+2. **Framework preset**: Select **`OpenNext`** (Important!).
+3. **Build command**: `npm run cf:build` (This runs `opennextjs-cloudflare`).
+4. **Build output directory**: `.open-next/assets` (Note: OpenNext uses this directory for assets).
 
 ### ⚠️ Critical Configuration (Node.js Compatibility)
-Because Next.js routing relies on native Node APIs, you must explicitly enable Node APIs in Cloudflare Edge Workers:
+Because Next.js routing and OpenNext rely on native Node APIs during the build/edge phase, you must explicitly enable Node APIs:
 - Go to your Pages project -> **Settings** -> **Functions** -> **Compatibility flags**.
-- Type exactly **`nodejs_compat`** in both Production and Preview fields and press Enter to save it as a tag.
-- Click **Save**, then go to the "Deployments" tab and hit **Retry deployment**.
+- Type exactly **`nodejs_compat`** in both Production and Preview fields.
+- **Compatibility Date**: Set to `2024-11-18` or later.
 
 ---
 
