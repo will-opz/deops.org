@@ -165,7 +165,7 @@ export default async function Home() {
             </p>
           </div>
 
-          <div id="kb" className="glass-card p-8 rounded-xl group cursor-default scroll-mt-24">
+          <a href="https://kb.deops.org" target="_blank" rel="noopener noreferrer" id="kb" className="glass-card p-8 rounded-xl group hover:border-cyan-500/30 transition-all scroll-mt-24 no-underline cursor-pointer">
             <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all">
               <BookOpen className="w-6 h-6 text-cyan-600" />
             </div>
@@ -176,7 +176,7 @@ export default async function Home() {
             <p className="text-zinc-600 text-sm leading-relaxed">
               {dict.home.card3_desc}
             </p>
-          </div>
+          </a>
 
           <Link href={`/services`} className="glass-card p-8 rounded-xl group hover:border-orange-500/30 transition-all scroll-mt-24 no-underline">
             <div className="w-12 h-12 rounded-lg bg-orange-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-orange-500/20 transition-all">
@@ -191,7 +191,7 @@ export default async function Home() {
             </p>
           </Link>
 
-          <Link href={`/#blog`} id="blog" className="glass-card p-8 rounded-xl group hover:border-purple-500/30 transition-all scroll-mt-24 no-underline">
+          <Link href={`/blog`} id="blog" className="glass-card p-8 rounded-xl group hover:border-purple-500/30 transition-all scroll-mt-24 no-underline">
             <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all">
               <FileText className="w-6 h-6 text-purple-600" />
             </div>
