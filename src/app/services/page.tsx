@@ -14,7 +14,15 @@ import {
   GitMerge,
   KeyRound,
   QrCode,
-  Globe
+  Globe,
+  Network,
+  Lock,
+  Mail,
+  Wifi,
+  Brain,
+  MessageSquare,
+  Sparkles,
+  Rocket
 } from 'lucide-react'
 import { getDictionary } from '@/dictionaries'
 
@@ -56,6 +64,25 @@ export default async function ServicesPage() {
         { name: dict.tools.passgen_title, desc: dict.tools.passgen_desc, icon: KeyRound, status: "operational", url: `/tools/passgen` },
         { name: dict.tools.qrgen_title, desc: dict.tools.qrgen_desc, icon: QrCode, status: "operational", url: `/tools/qrgen` },
         { name: dict.tools.ip_title, desc: dict.tools.ip_desc, icon: Globe, status: "operational", url: `/tools/ip` },
+      ]
+    },
+    {
+      category: lang === 'zh' ? "安全通道与零信任" : "Zero Trust & Tunnels",
+      tools: [
+        { name: "Tailscale", desc: "Mesh VPN Network", icon: Network, status: "operational", url: "https://tailscale.com" },
+        { name: "WireGuard", desc: "Fast & Modern VPN", icon: Lock, status: "operational", url: "https://www.wireguard.com" },
+        { name: "Pritunl", desc: "Enterprise VPN Server", icon: Shield, status: "operational", url: "https://pritunl.com" },
+        { name: "OpenClaw", desc: "Traffic Routing & Bypass", icon: Wifi, status: "operational", url: "#" },
+        { name: "Proton Mail", desc: "Encrypted Email Service", icon: Mail, status: "operational", url: "https://proton.me/mail" },
+      ]
+    },
+    {
+      category: lang === 'zh' ? "人工智能体中枢" : "AI & Intelligence",
+      tools: [
+        { name: "OpenAI", desc: "GPT-4 / O1 Inference", icon: Brain, status: "operational", url: "https://chat.openai.com" },
+        { name: "Claude", desc: "Anthropic Opus/Sonnet", icon: MessageSquare, status: "operational", url: "https://claude.ai" },
+        { name: "Gemini3", desc: "Google Advanced Gemini", icon: Sparkles, status: "operational", url: "https://gemini.google.com" },
+        { name: "Grok", desc: "xAI Unfiltered Model", icon: Rocket, status: "operational", url: "https://twitter.com/i/grok" },
       ]
     }
   ]
