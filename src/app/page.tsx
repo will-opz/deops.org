@@ -86,9 +86,9 @@ export default async function Home() {
             {dict.home.system_status}
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold text-zinc-900 tracking-tighter leading-[1.05] mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
+          <h1 className="text-5xl md:text-7xl font-black text-zinc-900 tracking-[-0.04em] leading-[1.05] mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
             {dict.home.title_part1} <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600 font-mono italic">{dict.home.title_part2}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-emerald-600 to-cyan-500 font-mono italic tracking-[-0.02em]">{dict.home.title_part2}</span>
           </h1>
           
           <p className="text-lg md:text-xl text-zinc-600 max-w-2xl mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">

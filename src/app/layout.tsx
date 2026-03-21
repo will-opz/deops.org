@@ -1,11 +1,16 @@
 import { cookies } from 'next/headers'
 import { getDictionary } from '@/dictionaries'
 import type { Metadata } from 'next'
-import { Inter, JetBrains_Mono } from 'next/font/google'
+import { Inter, JetBrains_Mono, Noto_Sans_SC } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains' })
+const notoSansSC = Noto_Sans_SC({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '700', '900'],
+  variable: '--font-noto-sc'
+})
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: 'en' | 'zh' }> }): Promise<Metadata> {
   const cookieStore = await cookies();
@@ -41,7 +46,7 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const lang = (cookieStore.get("NEXT_LOCALE")?.value || "zh") as "zh" | "en";
   return (
-    <html lang={lang} className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang={lang} className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansSC.variable}`}>
       <body className="font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden selection:bg-accent selection:text-zinc-900">
         {/* Grid overlay */}
         <div className="absolute inset-0 bg-grid-pattern pointer-events-none z-[-2]"></div>
