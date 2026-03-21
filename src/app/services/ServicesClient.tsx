@@ -49,11 +49,19 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
   // Move the massive data array here so we can import and use Lucide icons dynamically in a Client component
   const categorizedServices = [
     {
+      category: dict.tools.cat_cyber,
+      tools: [
+        { name: dict.tools.passgen_title, desc: dict.tools.passgen_desc, icon: KeyRound, status: "operational", url: `/tools/passgen` },
+        { name: dict.tools.qrgen_title, desc: dict.tools.qrgen_desc, icon: QrCode, status: "operational", url: `/tools/qrgen` },
+        { name: dict.tools.ip_title, desc: dict.tools.ip_desc, icon: Globe, status: "operational", url: `/tools/ip` },
+      ]
+    },
+    {
       category: dict.services.cat_monitoring,
       tools: [
-        { name: "Grafana", desc: "Metrics & Visualization", icon: BarChart, status: "operational", url: "#" },
-        { name: "Prometheus", desc: "Time-series Database", icon: Activity, status: "operational", url: "#" },
-        { name: "Elasticsearch", desc: "Log Analytics Engine", icon: Database, status: "operational", url: "#" },
+        { name: "Grafana", desc: "Metrics & Visualization", icon: BarChart, status: "operational", url: "https://grafana.com" },
+        { name: "Prometheus", desc: "Time-series Database", icon: Activity, status: "operational", url: "https://prometheus.io" },
+        { name: "Elasticsearch", desc: "Log Analytics Engine", icon: Database, status: "operational", url: "https://www.elastic.co" },
         { name: "Zabbix", desc: "Enterprise Monitoring", icon: MonitorCheck, status: "operational", url: "https://www.zabbix.com" },
       ]
     },
@@ -68,25 +76,17 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
     {
       category: dict.services.cat_infra,
       tools: [
-        { name: "AWS Console", desc: "Primary Cloud Provider", icon: Cloud, status: "operational", url: "#" },
-        { name: "Cloudflare", desc: "Edge Network & WAF", icon: Shield, status: "operational", url: "#" },
-        { name: "Kubernetes", desc: "Container Orchestration", icon: Server, status: "operational", url: "#" },
+        { name: "AWS Console", desc: "Primary Cloud Provider", icon: Cloud, status: "operational", url: "https://aws.amazon.com/console/" },
+        { name: "Cloudflare", desc: "Edge Network & WAF", icon: Shield, status: "operational", url: "https://dash.cloudflare.com" },
+        { name: "Kubernetes", desc: "Container Orchestration", icon: Server, status: "operational", url: "https://kubernetes.io" },
       ]
     },
     {
       category: dict.services.cat_cicd,
       tools: [
-        { name: "GitHub Actions", desc: "Automated Workflows", icon: GitMerge, status: "operational", url: "#" },
-        { name: "ArgoCD", desc: "GitOps Delivery", icon: Workflow, status: "operational", url: "#" },
-        { name: "Jenkins", desc: "Legacy Automation", icon: Terminal, status: "maintenance", url: "#" },
-      ]
-    },
-    {
-      category: dict.tools.cat_cyber,
-      tools: [
-        { name: dict.tools.passgen_title, desc: dict.tools.passgen_desc, icon: KeyRound, status: "operational", url: `/tools/passgen` },
-        { name: dict.tools.qrgen_title, desc: dict.tools.qrgen_desc, icon: QrCode, status: "operational", url: `/tools/qrgen` },
-        { name: dict.tools.ip_title, desc: dict.tools.ip_desc, icon: Globe, status: "operational", url: `/tools/ip` },
+        { name: "GitHub Actions", desc: "Automated Workflows", icon: GitMerge, status: "operational", url: "https://github.com/features/actions" },
+        { name: "ArgoCD", desc: "GitOps Delivery", icon: Workflow, status: "operational", url: "https://argoproj.github.io/cd/" },
+        { name: "Jenkins", desc: "Legacy Automation", icon: Terminal, status: "maintenance", url: "https://www.jenkins.io" },
       ]
     },
     {
