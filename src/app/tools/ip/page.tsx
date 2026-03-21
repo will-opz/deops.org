@@ -143,29 +143,50 @@ export default function IPPage() {
 
       const fetchIPMeta = async (ip: string) => {
         try {
-          const metaRes = await fetch(`https://ipapi.co/${ip}/json/`)
+          // Native extensible query capability (q=ip)
+          const metaRes = await fetch(`/api/ip?q=${ip}`, { signal: AbortSignal.timeout(4000) })
           const meta = await metaRes.json()
-          if (meta.error) return { ip }
-          return { ...meta, ip, network_type: meta.org?.toLowerCase().includes('cloud') ? 'Data Center' : 'Residential' }
+          return meta.error ? { ip } : meta
         } catch(e) {
           return { ip }
         }
       }
 
-      const [v4Ip, v6Ip] = await Promise.all([
-        fetchIpAddress('https://api4.ipify.org?format=json'),
-        fetchIpAddress('https://api6.ipify.org?format=json')
-      ])
+      // 1. Primary CF-Connecting-IP Native Fetch
+      let edgeData: any = null
+      try {
+        const edgeRes = await fetch('/api/ip', { cache: 'no-store' })
+        edgeData = await edgeRes.json()
+      } catch(e) {}
 
-      let v4DataResult = v4Ip ? { ip: v4Ip } as IPData : null
-      let v6DataResult = v6Ip ? { ip: v6Ip } as IPData : null
+      let v4Ip = null
+      let v6Ip = null
+      let v4DataResult = null
+      let v6DataResult = null
 
-      if (v4Ip) {
-        v4DataResult = await fetchIPMeta(v4Ip) as IPData
-      }
-      if (v6Ip) {
-        await new Promise(r => setTimeout(r, 600)) // Rate limit avoidance
-        v6DataResult = await fetchIPMeta(v6Ip) as IPData
+      if (edgeData && edgeData.ip) {
+        if (edgeData.ip.includes(':')) {
+           v6Ip = edgeData.ip
+           v6DataResult = edgeData
+           // Probe hidden v4
+           v4Ip = await fetchIpAddress('https://api4.ipify.org?format=json')
+           if (v4Ip) v4DataResult = await fetchIPMeta(v4Ip)
+        } else {
+           v4Ip = edgeData.ip
+           v4DataResult = edgeData
+           // Probe hidden v6
+           v6Ip = await fetchIpAddress('https://api6.ipify.org?format=json')
+           if (v6Ip) v6DataResult = await fetchIPMeta(v6Ip)
+        }
+      } else {
+         // Fallback probing
+         const [v4, v6] = await Promise.all([
+           fetchIpAddress('https://api4.ipify.org?format=json'),
+           fetchIpAddress('https://api6.ipify.org?format=json')
+         ])
+         v4Ip = v4; v6Ip = v6;
+         if (v4Ip) v4DataResult = await fetchIPMeta(v4Ip)
+         if (v6Ip) v6DataResult = await fetchIPMeta(v6Ip)
       }
 
       setV4Data(v4DataResult)
@@ -173,9 +194,9 @@ export default function IPPage() {
       setIpv4(v4Ip)
       setIpv6(v6Ip)
       
-      const primaryData = v6DataResult || v4DataResult
+      const primaryData = edgeData || v4DataResult || v6DataResult
       if (primaryData) setData(primaryData)
-      setStack(v6DataResult ? 'v6' : 'v4')
+      setStack(edgeData?.ip?.includes(':') ? 'v6' : 'v4')
 
       setLoading(false)
     }
