@@ -202,9 +202,9 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
       </main>
 
       {/* Footer */}
-      <footer className="w-full border-t border-zinc-200/50 bg-zinc-950/80 backdrop-blur-md z-10 mt-auto">
+      <footer className="w-full border-t border-zinc-200/50 bg-white/80 backdrop-blur-md z-10 mt-auto">
         <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-zinc-600 text-sm font-mono flex items-center gap-2">
+          <div className="text-zinc-500 text-sm font-mono flex items-center gap-2">
             {dict.footer.copyright}
             <span className="hidden md:inline text-zinc-700">|</span>
             <Link href="https://github.com/will-opz/deops.org" target="_blank" className="hover:text-zinc-700 transition-colors">
