@@ -32,13 +32,6 @@ export default async function Home() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-accent/5 blur-[120px] rounded-full pointer-events-none z-[-1]"></div>
 
         <div className="max-w-4xl mx-auto flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-200 bg-white/80 text-xs font-mono text-accent mb-6 shadow-lg backdrop-blur-sm animate-in fade-in duration-1000">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-            </span>
-            {dict.home.system_status}
-          </div>
 
           <h1 className="text-5xl md:text-7xl font-black text-zinc-900 tracking-[-0.04em] leading-[1.05] mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
             {dict.home.title_part1} <br/>
