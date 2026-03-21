@@ -40,7 +40,10 @@ import {
   Layers,
   MonitorCheck,
   Zap,
-  ArrowUp
+  ArrowUp,
+  Vault,
+  KeySquare,
+  ShieldCheck
 } from 'lucide-react'
 
 export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" | "en" }) {
@@ -55,6 +58,14 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
         { name: dict.tools.passgen_title, desc: dict.tools.passgen_desc, icon: KeyRound, status: "operational", url: `/tools/passgen` },
         { name: dict.tools.qrgen_title, desc: dict.tools.qrgen_desc, icon: QrCode, status: "operational", url: `/tools/qrgen` },
         { name: dict.tools.ip_title, desc: dict.tools.ip_desc, icon: Globe, status: "operational", url: `/tools/ip` },
+      ]
+    },
+    {
+      category: lang === 'zh' ? "密码管理与凭证" : "Password Management",
+      tools: [
+        { name: "1Password", desc: "Enterprise Password Manager", icon: KeySquare, status: "operational", url: "https://1password.com" },
+        { name: "Enpass", desc: "Offline Password Manager", icon: Vault, status: "operational", url: "https://www.enpass.io" },
+        { name: "Bitwarden", desc: "Open Source Vault", icon: ShieldCheck, status: "operational", url: "https://bitwarden.com" },
       ]
     },
     {
