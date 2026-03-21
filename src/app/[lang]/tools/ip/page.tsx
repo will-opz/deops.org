@@ -43,6 +43,12 @@ export default function IPPage() {
   
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<IPData | null>(null)
+  const [ipv4, setIpv4] = useState<string | null>(null)
+  const [ipv6, setIpv6] = useState<string | null>(null)
+  const [v4Data, setV4Data] = useState<IPData | null>(null)
+  const [v6Data, setV6Data] = useState<IPData | null>(null)
+  const [stack, setStack] = useState<'v4' | 'v6'>('v4')
+  
   const [uaInfo, setUaInfo] = useState({ ua: '', os: '', browser: '', protocol: 'HTTP/2' })
   const [copied, setCopied] = useState(false)
 
@@ -73,7 +79,11 @@ export default function IPPage() {
       country: "所在国家",
       city: "城市/地区",
       ua: "浏览器指纹",
-      timezone: "当地时间"
+      timezone: "当地时间",
+      ipv4: "IPv4 地址",
+      ipv6: "IPv6 地址",
+      not_found: "未检测到",
+      detecting: "检测中..."
     },
     en: {
       title: "Ops IP Insights",
@@ -100,28 +110,51 @@ export default function IPPage() {
       country: "Country",
       city: "City / Region",
       ua: "UA Fingerprint",
-      timezone: "Local Time"
+      timezone: "Local Time",
+      ipv4: "IPv4 Address",
+      ipv6: "IPv6 Address",
+      not_found: "Not Detected",
+      detecting: "Detecting..."
     }
   }[lang]
 
   useEffect(() => {
-    async function fetchIP() {
-      try {
-        const res = await fetch('https://ipapi.co/json/')
-        const json = await res.json()
-        setData(json)
-        
-        // Mocking some professional ops data that ipapi might not give in free tier
-        setData(prev => ({
-          ...prev!,
-          network_type: json.org?.toLowerCase().includes('cloud') ? 'Data Center' : 'Residential',
-          proxy: false // Browser JS cannot easily detect proxy without a specialized backend
-        }))
-      } catch (e) {
-        console.error("IP leak check failed", e)
-      } finally {
-        setLoading(false)
+    async function probeConnectivity() {
+      setLoading(true)
+      
+      const fetchIPData = async (url: string) => {
+        try {
+          const res = await fetch(url, { signal: AbortSignal.timeout(3000) })
+          const json = await res.json()
+          const ip = json.ip
+          const metaRes = await fetch(`https://ipapi.co/${ip}/json/`)
+          const meta = await metaRes.json()
+          return { ...meta, network_type: meta.org?.toLowerCase().includes('cloud') ? 'Data Center' : 'Residential' }
+        } catch (e) {
+          return null
+        }
       }
+
+      const [v4, v6] = await Promise.all([
+        fetchIPData('https://api4.ipify.org?format=json'),
+        fetchIPData('https://api6.ipify.org?format=json')
+      ])
+
+      setV4Data(v4)
+      setV6Data(v6)
+      setIpv4(v4?.ip || null)
+      setIpv6(v6?.ip || null)
+      
+      // Default to what we found
+      if (v6) {
+        setData(v6)
+        setStack('v6')
+      } else if (v4) {
+        setData(v4)
+        setStack('v4')
+      }
+
+      setLoading(false)
     }
 
     // UA Parsing
@@ -137,7 +170,7 @@ export default function IPPage() {
     else if (ua.indexOf("Edge") != -1) browser = "Edge"
 
     setUaInfo({ ua, os, browser, protocol: window.location.protocol === 'https:' ? 'HTTP/2' : 'HTTP/1.1' })
-    fetchIP()
+    probeConnectivity()
   }, [])
 
   const copyToClipboard = () => {
@@ -182,15 +215,45 @@ export default function IPPage() {
       </header>
 
       <main className="w-full max-w-6xl mx-auto px-6 mt-12 z-20 relative">
-        {/* Main IP Badge */}
-        <div className="flex flex-col items-center justify-center text-center mb-16">
-          <span className="text-[10px] font-mono text-accent uppercase tracking-[0.3em] mb-4">{dict.your_ip}</span>
-          <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-4 translate-z-0 font-mono">
-            {data?.ip || '0.0.0.0'}
-          </h1>
-          <div className="flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full">
+        {/* Dual Stack Display */}
+        <div className="flex flex-col items-center justify-center text-center mb-16 px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+            {/* IPv4 Block */}
+            <div className={`p-8 rounded-2xl border transition-all ${stack === 'v4' ? 'bg-zinc-900 border-accent/30 shadow-[0_0_40px_rgba(16,185,129,0.05)]' : 'bg-transparent border-white/5 opacity-50'}`}
+                 onClick={() => v4Data && (setData(v4Data), setStack('v4'))}>
+              <span className="text-[10px] font-mono text-accent uppercase tracking-[0.3em] mb-4 block">{dict.ipv4}</span>
+              <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter mb-4 font-mono truncate">
+                {ipv4 || (loading ? dict.detecting : dict.not_found)}
+              </h2>
+              {ipv4 && (
+                <div className="flex items-center justify-center gap-2 text-[10px] text-emerald-400 font-mono">
+                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_6px_#10b981]"></span>
+                  ONLINE
+                </div>
+              )}
+            </div>
+
+            {/* IPv6 Block */}
+            <div className={`p-8 rounded-2xl border transition-all ${stack === 'v6' ? 'bg-zinc-900 border-accent/30 shadow-[0_0_40px_rgba(16,185,129,0.05)]' : 'bg-transparent border-white/5 opacity-50'}`}
+                 onClick={() => v6Data && (setData(v6Data), setStack('v6'))}>
+              <span className="text-[10px] font-mono text-accent uppercase tracking-[0.3em] mb-4 block">{dict.ipv6}</span>
+              <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter mb-4 font-mono truncate">
+                {ipv6 || (loading ? dict.detecting : dict.not_found)}
+              </h2>
+              {ipv6 && (
+                <div className="flex items-center justify-center gap-2 text-[10px] text-emerald-400 font-mono">
+                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_6px_#10b981]"></span>
+                  ONLINE
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-12 flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full">
             <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_#10b981]"></div>
-            <span className="text-[10px] uppercase font-mono tracking-widest text-emerald-400 font-bold">System: Operational</span>
+            <span className="text-[10px] uppercase font-mono tracking-widest text-emerald-400 font-bold">
+              {ipv4 && ipv6 ? 'Dual-Stack: Operational' : 'Single-Stack: Operational'}
+            </span>
           </div>
         </div>
 
