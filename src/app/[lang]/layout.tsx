@@ -41,7 +41,7 @@ export default async function RootLayout({
   const { lang } = await params;
   return (
     <html lang={lang} className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden selection:bg-accent selection:text-white">
+      <body className="font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden selection:bg-accent selection:text-zinc-900">
         {/* Grid overlay */}
         <div className="absolute inset-0 bg-grid-pattern pointer-events-none z-[-2]"></div>
         {/* Ambient glow */}

@@ -196,32 +196,32 @@ export default function IPPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center font-mono p-6">
+      <div className="min-h-screen bg-[#fafafa] flex flex-col items-center justify-center font-mono p-6">
         <Activity className="w-12 h-12 text-accent animate-pulse mb-6 rotate-radar" />
-        <p className="text-zinc-500 animate-pulse uppercase tracking-[0.2em]">{dict.loading}</p>
+        <p className="text-zinc-400 animate-pulse uppercase tracking-[0.2em]">{dict.loading}</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-black text-zinc-300 font-sans selection:bg-accent selection:text-white pb-24 relative overflow-hidden">
+    <div className="min-h-screen bg-[#fafafa] text-zinc-700 font-sans selection:bg-accent selection:text-zinc-900 pb-24 relative overflow-hidden">
       {/* Background Grid Layer */}
       <div className="absolute inset-0 bg-grid-zinc-900/[0.05] pointer-events-none"></div>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-accent/5 blur-[120px] rounded-full pointer-events-none"></div>
 
       <header className="w-full max-w-6xl mx-auto px-6 py-8 flex justify-between items-center z-20 relative">
         <div className="flex items-center gap-4">
-          <Link href={`/${lang}/services`} className="text-zinc-500 hover:text-white transition-colors p-2 hover:bg-zinc-900 rounded-lg">
+          <Link href={`/${lang}/services`} className="text-zinc-400 hover:text-zinc-900 transition-colors p-2 hover:bg-white rounded-lg">
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <div className="font-mono text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            <span className="text-zinc-500">deops /</span> ip-pulse<span className="text-accent animate-pulse">_</span>
+          <div className="font-mono text-xl font-bold tracking-tight text-zinc-900 flex items-center gap-2">
+            <span className="text-zinc-400">deops /</span> ip-pulse<span className="text-accent animate-pulse">_</span>
           </div>
         </div>
         
         <button 
           onClick={copyToClipboard}
-          className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 px-4 py-2 rounded-md hover:border-zinc-700 transition-all active:scale-95"
+          className="flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-md hover:border-zinc-300 transition-all active:scale-95"
         >
           {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
           <span className="text-xs font-mono uppercase tracking-wider">{copied ? dict.copied : dict.copy}</span>
@@ -233,14 +233,14 @@ export default function IPPage() {
         <div className="flex flex-col items-center justify-center text-center mb-16 px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
             {/* IPv4 Block */}
-            <div className={`p-8 rounded-2xl border transition-all ${stack === 'v4' ? 'bg-zinc-900 border-accent/30 shadow-[0_0_40px_rgba(16,185,129,0.05)]' : 'bg-transparent border-white/5 opacity-50'}`}
+            <div className={`p-8 rounded-2xl border transition-all ${stack === 'v4' ? 'bg-white border-accent/30 shadow-[0_0_40px_rgba(16,185,129,0.05)]' : 'bg-transparent border-black/5 opacity-50'}`}
                  onClick={() => v4Data && (setData(v4Data), setStack('v4'))}>
               <span className="text-[10px] font-mono text-accent uppercase tracking-[0.3em] mb-4 block">{dict.ipv4}</span>
-              <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter mb-4 font-mono truncate">
+              <h2 className="text-3xl md:text-4xl font-black text-zinc-900 tracking-tighter mb-4 font-mono truncate">
                 {ipv4 || (loading ? dict.detecting : dict.not_found)}
               </h2>
               {ipv4 && (
-                <div className="flex items-center justify-center gap-2 text-[10px] text-emerald-400 font-mono">
+                <div className="flex items-center justify-center gap-2 text-[10px] text-emerald-600 font-mono">
                   <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_6px_#10b981]"></span>
                   ONLINE
                 </div>
@@ -248,14 +248,14 @@ export default function IPPage() {
             </div>
 
             {/* IPv6 Block */}
-            <div className={`p-8 rounded-2xl border transition-all ${stack === 'v6' ? 'bg-zinc-900 border-accent/30 shadow-[0_0_40px_rgba(16,185,129,0.05)]' : 'bg-transparent border-white/5 opacity-50'}`}
+            <div className={`p-8 rounded-2xl border transition-all ${stack === 'v6' ? 'bg-white border-accent/30 shadow-[0_0_40px_rgba(16,185,129,0.05)]' : 'bg-transparent border-black/5 opacity-50'}`}
                  onClick={() => v6Data && (setData(v6Data), setStack('v6'))}>
               <span className="text-[10px] font-mono text-accent uppercase tracking-[0.3em] mb-4 block">{dict.ipv6}</span>
-              <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter mb-4 font-mono truncate">
+              <h2 className="text-3xl md:text-4xl font-black text-zinc-900 tracking-tighter mb-4 font-mono truncate">
                 {ipv6 || (loading ? dict.detecting : dict.not_found)}
               </h2>
               {ipv6 && (
-                <div className="flex items-center justify-center gap-2 text-[10px] text-emerald-400 font-mono">
+                <div className="flex items-center justify-center gap-2 text-[10px] text-emerald-600 font-mono">
                   <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_6px_#10b981]"></span>
                   ONLINE
                 </div>
@@ -265,7 +265,7 @@ export default function IPPage() {
 
           <div className="mt-12 flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full">
             <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_#10b981]"></div>
-            <span className="text-[10px] uppercase font-mono tracking-widest text-emerald-400 font-bold">
+            <span className="text-[10px] uppercase font-mono tracking-widest text-emerald-600 font-bold">
               {ipv4 && ipv6 ? 'Dual-Stack: Operational' : 'Single-Stack: Operational'}
             </span>
           </div>
@@ -274,50 +274,50 @@ export default function IPPage() {
         {/* Insight Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Card 1: Geo */}
-          <div className="glass-card p-6 rounded-xl border border-white/5 bg-zinc-900/10 backdrop-blur-2xl">
+          <div className="glass-card p-6 rounded-xl border border-black/5 bg-black/10 backdrop-blur-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center rounded-lg">
-                <MapPin className="w-4 h-4 text-emerald-400" />
+                <MapPin className="w-4 h-4 text-emerald-600" />
               </div>
-              <h3 className="text-xs font-mono font-bold text-white uppercase tracking-wider">{dict.geo}</h3>
+              <h3 className="text-xs font-mono font-bold text-zinc-900 uppercase tracking-wider">{dict.geo}</h3>
             </div>
             <div className="space-y-4">
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{dict.country}</span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">{dict.country}</span>
                 <span className="text-sm border-l-2 border-emerald-500/50 pl-3 py-0.5">{data?.country_name} ({data?.country_code})</span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{dict.region}</span>
-                <span className="text-sm border-l-2 border-zinc-800 pl-3 py-0.5">{data?.region}, {data?.city}</span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">{dict.region}</span>
+                <span className="text-sm border-l-2 border-zinc-200 pl-3 py-0.5">{data?.region}, {data?.city}</span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{dict.coords}</span>
-                <span className="text-sm border-l-2 border-zinc-800 pl-3 py-0.5 font-mono">{data?.latitude}, {data?.longitude}</span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">{dict.coords}</span>
+                <span className="text-sm border-l-2 border-zinc-200 pl-3 py-0.5 font-mono">{data?.latitude}, {data?.longitude}</span>
               </div>
             </div>
           </div>
 
           {/* Card 2: Connectivity */}
-          <div className="glass-card p-6 rounded-xl border border-white/5 bg-zinc-900/10 backdrop-blur-2xl">
+          <div className="glass-card p-6 rounded-xl border border-black/5 bg-black/10 backdrop-blur-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center rounded-lg">
-                <Server className="w-4 h-4 text-cyan-400" />
+                <Server className="w-4 h-4 text-cyan-600" />
               </div>
-              <h3 className="text-xs font-mono font-bold text-white uppercase tracking-wider">{dict.net}</h3>
+              <h3 className="text-xs font-mono font-bold text-zinc-900 uppercase tracking-wider">{dict.net}</h3>
             </div>
             <div className="space-y-4">
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{dict.isp}</span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">{dict.isp}</span>
                 <span className="text-sm border-l-2 border-cyan-500/50 pl-3 py-0.5 truncate" title={data?.org}>{data?.org}</span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">BGP / ASN</span>
-                <span className="text-sm border-l-2 border-zinc-800 pl-3 py-0.5 text-cyan-400 font-mono italic">{data?.asn || 'AS.PROBING'}</span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest font-mono">BGP / ASN</span>
+                <span className="text-sm border-l-2 border-zinc-200 pl-3 py-0.5 text-cyan-600 font-mono italic">{data?.asn || 'AS.PROBING'}</span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{dict.type}</span>
-                <span className="text-sm border-l-2 border-zinc-800 pl-3 py-0.5">
-                  <span className="bg-zinc-800 px-2 py-0.5 rounded text-[10px] font-mono text-zinc-400">
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">{dict.type}</span>
+                <span className="text-sm border-l-2 border-zinc-200 pl-3 py-0.5">
+                  <span className="bg-zinc-100 px-2 py-0.5 rounded text-[10px] font-mono text-zinc-400">
                     {data?.network_type === 'Data Center' ? 'CLOUD/IDC' : 'ISP/RES'}
                   </span>
                 </span>
@@ -326,67 +326,67 @@ export default function IPPage() {
           </div>
 
           {/* Card 3: Security */}
-          <div className="glass-card p-6 rounded-xl border border-white/5 bg-zinc-900/10 backdrop-blur-2xl">
+          <div className="glass-card p-6 rounded-xl border border-black/5 bg-black/10 backdrop-blur-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 bg-orange-500/10 border border-orange-500/20 flex items-center justify-center rounded-lg">
-                <Shield className="w-4 h-4 text-orange-400" />
+                <Shield className="w-4 h-4 text-orange-600" />
               </div>
-              <h3 className="text-xs font-mono font-bold text-white uppercase tracking-wider">{dict.sec}</h3>
+              <h3 className="text-xs font-mono font-bold text-zinc-900 uppercase tracking-wider">{dict.sec}</h3>
             </div>
             <div className="space-y-4">
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{dict.proxy}</span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">{dict.proxy}</span>
                 <span className="text-sm border-l-2 border-orange-500/50 pl-3 py-0.5">
-                  <span className={data?.proxy ? 'text-orange-400' : 'text-emerald-400'}>
+                  <span className={data?.proxy ? 'text-orange-600' : 'text-emerald-600'}>
                     {data?.proxy ? 'DETECTED' : 'CLEAR'}
                   </span>
                 </span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{dict.risk}</span>
-                <span className="text-sm border-l-2 border-zinc-800 pl-3 py-0.5 flex items-center gap-2">
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">{dict.risk}</span>
+                <span className="text-sm border-l-2 border-zinc-200 pl-3 py-0.5 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></span>
                   {dict.security}
                 </span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">VPN / TOR / RELAY</span>
-                <span className="text-sm border-l-2 border-zinc-800 pl-3 py-0.5 font-mono text-zinc-600 italic">NEGATIVE</span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">VPN / TOR / RELAY</span>
+                <span className="text-sm border-l-2 border-zinc-200 pl-3 py-0.5 font-mono text-zinc-400 italic">NEGATIVE</span>
               </div>
             </div>
           </div>
 
           {/* Card 4: Environment */}
-          <div className="glass-card p-6 rounded-xl border border-white/5 bg-zinc-900/10 backdrop-blur-2xl">
+          <div className="glass-card p-6 rounded-xl border border-black/5 bg-black/10 backdrop-blur-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 bg-purple-500/10 border border-purple-500/20 flex items-center justify-center rounded-lg">
-                <Monitor className="w-4 h-4 text-purple-400" />
+                <Monitor className="w-4 h-4 text-purple-600" />
               </div>
-              <h3 className="text-xs font-mono font-bold text-white uppercase tracking-wider">{dict.env}</h3>
+              <h3 className="text-xs font-mono font-bold text-zinc-900 uppercase tracking-wider">{dict.env}</h3>
             </div>
             <div className="space-y-4">
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{dict.ua}</span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">{dict.ua}</span>
                 <span className="text-[11px] border-l-2 border-purple-500/50 pl-3 py-0.5 leading-tight">{uaInfo.browser} / {uaInfo.os}</span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{dict.protocol}</span>
-                <span className="text-sm border-l-2 border-zinc-800 pl-3 py-0.5 font-mono text-emerald-400">{uaInfo.protocol} <span className="text-[10px] text-zinc-600">(ALPN)</span></span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">{dict.protocol}</span>
+                <span className="text-sm border-l-2 border-zinc-200 pl-3 py-0.5 font-mono text-emerald-600">{uaInfo.protocol} <span className="text-[10px] text-zinc-400">(ALPN)</span></span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{dict.timezone}</span>
-                <span className="text-sm border-l-2 border-zinc-800 pl-3 py-0.5 font-mono">{data?.utc_offset} ({data?.timezone?.split('/')[1]})</span>
+                <span className="text-[10px] text-zinc-400 uppercase tracking-widest">{dict.timezone}</span>
+                <span className="text-sm border-l-2 border-zinc-200 pl-3 py-0.5 font-mono">{data?.utc_offset} ({data?.timezone?.split('/')[1]})</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Global Traffic Radar Mockup */}
-        <div className="mt-16 glass-card p-4 rounded-xl border border-white/5 bg-zinc-900/10 backdrop-blur-md overflow-hidden relative min-h-[120px]">
+        <div className="mt-16 glass-card p-4 rounded-xl border border-black/5 bg-black/10 backdrop-blur-md overflow-hidden relative min-h-[120px]">
           <div className="absolute top-0 right-0 p-4">
             <Activity className="w-4 h-4 text-emerald-500 opacity-30" />
           </div>
-          <p className="text-[11px] font-mono text-zinc-600 mb-2 uppercase tracking-widest">Global Routing Trace (Simulated)</p>
+          <p className="text-[11px] font-mono text-zinc-400 mb-2 uppercase tracking-widest">Global Routing Trace (Simulated)</p>
           <div className="h-20 flex items-end gap-1 opacity-20">
             {[...Array(40)].map((_, i) => (
               <div 

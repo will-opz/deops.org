@@ -2,8 +2,8 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-dark: #05050a; /* Deeper OLED-like tech black */
-  --color-surface: #121216;
+  --color-base: #fcfcfc; /* Premium off-white surface */
+  --color-surface: #ffffff;
   --color-accent: #10b981;
   --color-accent-hover: #059669;
   
@@ -13,16 +13,16 @@
 
 @layer base {
   body {
-    background-color: var(--color-dark);
-    color: #d4d4d8;
+    background-color: var(--color-base);
+    color: #3f3f46;
     background-image: none;
   }
 }
 
 @layer utilities {
   .bg-grid-pattern {
-    /* Advanced tech dot-matrix pattern */
-    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    /* Subtle dot-matrix pattern on white */
+    background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
     background-size: 24px 24px;
     background-position: 0 0;
   }
@@ -32,10 +32,10 @@
   position: absolute;
   width: 1200px;
   height: 800px;
-  /* Dual Core tech glow: Emerald + Cyan */
+  /* Premium Dual Core tech glow: cleaner colors for light */
   background: 
-    radial-gradient(circle at 30% 0%, rgba(16, 185, 129, 0.12) 0%, transparent 60%),
-    radial-gradient(circle at 70% 0%, rgba(6, 182, 212, 0.12) 0%, transparent 60%);
+    radial-gradient(circle at 30% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 70% 0%, rgba(6, 182, 212, 0.08) 0%, transparent 60%);
   top: -200px;
   left: 50%;
   transform: translateX(-50%);
@@ -44,19 +44,25 @@
 }
 
 .glass-card {
-  background: rgba(24, 24, 27, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(63, 63, 70, 0.5);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .glass-card:hover {
-  transform: translateY(-8px);
-  border-color: #10b981;
-  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.15);
+  transform: translateY(-4px);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 12px 30px -10px rgba(16, 185, 129, 0.1);
 }
 
 .logo-svg path, .logo-svg circle, .logo-svg rect {
   transition: all 0.3s ease;
 }
+
+.logo-svg rect { stroke: #d4d4d8; }
+.logo-svg circle, .logo-svg path { stroke: #52525b; }
+.group:hover .logo-svg rect { stroke: rgba(16,185,129,0.5); }
+.group:hover .logo-svg circle, .group:hover .logo-svg path { stroke: #18181b; }

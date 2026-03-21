@@ -85,7 +85,7 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
       <div className="max-w-2xl mx-auto">
         <Link 
           href={`/${lang}/services`}
-          className="inline-flex items-center text-emerald-500 hover:text-emerald-400 transition-colors mb-8 group"
+          className="inline-flex items-center text-emerald-500 hover:text-emerald-600 transition-colors mb-8 group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           {dict.nav.services}
@@ -99,15 +99,15 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
             <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-500">
               {dict.tools.passgen_title}
             </h1>
-            <p className="text-zinc-500 mt-1">{dict.tools.passgen_desc}</p>
+            <p className="text-zinc-400 mt-1">{dict.tools.passgen_desc}</p>
           </div>
         </div>
 
         <div className="mt-12 space-y-8">
           {/* Result Box */}
-          <div className="bg-zinc-900/50 rounded-3xl border border-white/10 p-2 backdrop-blur-md relative group overflow-hidden">
-            <div className="p-8 text-center bg-black/40 rounded-2xl border border-white/5">
-              <span className="text-2xl sm:text-4xl font-mono text-white tracking-widest break-all select-all selection:bg-emerald-500/30">
+          <div className="bg-white/50 rounded-3xl border border-black/10 p-2 backdrop-blur-md relative group overflow-hidden">
+            <div className="p-8 text-center bg-[#fafafa]/40 rounded-2xl border border-black/5">
+              <span className="text-2xl sm:text-4xl font-mono text-zinc-900 tracking-widest break-all select-all selection:bg-emerald-500/30">
                 {password}
               </span>
             </div>
@@ -115,14 +115,14 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
             <div className="flex p-2 gap-2">
               <button
                 onClick={regenerate}
-                className="flex-1 py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 group"
+                className="flex-1 py-4 bg-zinc-100 hover:bg-zinc-700 text-zinc-900 rounded-xl font-bold transition-all flex items-center justify-center gap-2 group"
               >
                 <RefreshCw className="w-5 h-5 group-active:rotate-180 transition-transform duration-500" />
                 {dict.tools.passgen.generate}
               </button>
               <button
                 onClick={() => copyToClipboard(password)}
-                className="flex-1 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+                className="flex-1 py-4 bg-emerald-600 hover:bg-emerald-500 text-zinc-900 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
               >
                 {copied ? <Check className="w-5 h-5 animate-bounce" /> : <Copy className="w-5 h-5" />}
                 {copied ? dict.tools.passgen.copied : dict.tools.passgen.copy}
@@ -130,7 +130,7 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
               <button
                 onClick={() => setShowQR(!showQR)}
                 className={`p-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
-                  showQR ? 'bg-white text-black' : 'bg-zinc-800 text-white hover:bg-zinc-700'
+                  showQR ? 'bg-white text-black' : 'bg-zinc-100 text-zinc-900 hover:bg-zinc-700'
                 }`}
               >
                 <QrCode className="w-5 h-5" />
@@ -139,7 +139,7 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
           </div>
 
           {/* Controls */}
-          <div className="bg-zinc-900/30 rounded-3xl border border-zinc-800/50 p-8 space-y-10">
+          <div className="bg-white/30 rounded-3xl border border-zinc-200/50 p-8 space-y-10">
             {/* Length Slider */}
             <div className="space-y-4">
               <div className="flex justify-between items-end">
@@ -152,7 +152,7 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
                 max="64"
                 value={length}
                 onChange={(e) => setLength(parseInt(e.target.value))}
-                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-500 transition-all"
+                className="w-full h-1.5 bg-zinc-100 rounded-lg appearance-none cursor-pointer accent-emerald-500 transition-all"
               />
             </div>
 
@@ -164,13 +164,13 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
                   onClick={() => setOptions({ ...options, [key]: !options[key as keyof typeof options] })}
                   className={`flex items-center justify-between p-4 rounded-xl border transition-all ${
                     options[key as keyof typeof options]
-                      ? 'bg-emerald-500/5 border-emerald-500/20 text-white'
-                      : 'bg-zinc-900/50 border-white/5 text-zinc-500'
+                      ? 'bg-emerald-500/5 border-emerald-500/20 text-zinc-900'
+                      : 'bg-white/50 border-black/5 text-zinc-400'
                   }`}
                 >
                   <span className="font-medium text-sm uppercase tracking-wider">{dict.tools.passgen[key]}</span>
                   <div className={`w-10 h-6 rounded-full relative transition-colors ${
-                      options[key as keyof typeof options] ? 'bg-emerald-500' : 'bg-zinc-800'
+                      options[key as keyof typeof options] ? 'bg-emerald-500' : 'bg-zinc-100'
                     }`}>
                     <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${
                         options[key as keyof typeof options] ? 'left-5' : 'left-1'
@@ -182,7 +182,7 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
           </div>
 
           {/* History Section */}
-          <div className="bg-zinc-900/30 rounded-3xl border border-zinc-800/50 p-8 animate-in fade-in duration-500">
+          <div className="bg-white/30 rounded-3xl border border-zinc-200/50 p-8 animate-in fade-in duration-500">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-zinc-400 font-medium flex items-center gap-2">
                 <RefreshCw className="w-4 h-4" />
@@ -191,7 +191,7 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
               {history.length > 0 && (
                 <button 
                   onClick={clearHistory}
-                  className="text-xs text-zinc-600 hover:text-red-400 transition-colors"
+                  className="text-xs text-zinc-400 hover:text-red-400 transition-colors"
                 >
                   {dict.tools.passgen.clear_history}
                 </button>
@@ -203,14 +203,14 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
                 history.map((h, idx) => (
                   <div 
                     key={idx}
-                    className="flex items-center justify-between p-3 bg-black/30 rounded-xl border border-white/5 group hover:border-emerald-500/30 transition-colors"
+                    className="flex items-center justify-between p-3 bg-[#fafafa]/30 rounded-xl border border-black/5 group hover:border-emerald-500/30 transition-colors"
                   >
                     <span className="font-mono text-zinc-400 group-hover:text-zinc-200 transition-colors truncate mr-4">
                       {h}
                     </span>
                     <button
                       onClick={() => copyToClipboard(h)}
-                      className="p-2 text-zinc-600 hover:text-emerald-500 hover:bg-emerald-500/10 rounded-lg transition-all"
+                      className="p-2 text-zinc-400 hover:text-emerald-500 hover:bg-emerald-500/10 rounded-lg transition-all"
                     >
                       <Copy className="w-4 h-4" />
                     </button>
@@ -223,7 +223,7 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
               )}
             </div>
 
-            <p className="mt-6 text-[11px] text-zinc-600 flex items-center gap-1.5 justify-center">
+            <p className="mt-6 text-[11px] text-zinc-400 flex items-center gap-1.5 justify-center">
               <ShieldCheck className="w-3.5 h-3.5" />
               {dict.tools.passgen.history_helper}
             </p>
@@ -234,28 +234,28 @@ export default function PassClient({ lang, dict }: { lang: string, dict: any }) 
       {/* Global Fixed Modal */}
       {showQR && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-300"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#fafafa]/90 backdrop-blur-xl animate-in fade-in duration-300"
           onClick={() => setShowQR(false)}
         >
           <div 
-            className="bg-zinc-900 border border-white/10 p-10 rounded-3xl flex flex-col items-center gap-6 shadow-2xl max-w-sm w-full animate-in zoom-in-95 duration-300"
+            className="bg-white border border-black/10 p-10 rounded-3xl flex flex-col items-center gap-6 shadow-2xl max-w-sm w-full animate-in zoom-in-95 duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-4 bg-white rounded-2xl shadow-xl">
               <QRCodeSVG value={password} size={220} level="M" />
             </div>
             <div className="text-center space-y-2">
-              <p className="text-white font-medium flex items-center justify-center gap-2">
+              <p className="text-zinc-900 font-medium flex items-center justify-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-emerald-500" />
                 Security Transfer
               </p>
-              <p className="text-sm text-zinc-500 leading-relaxed px-2">
+              <p className="text-sm text-zinc-400 leading-relaxed px-2">
                 Scan with your mobile device to securely transfer this password without using the clipboard.
               </p>
             </div>
             <button 
               onClick={() => setShowQR(false)}
-              className="mt-4 w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl transition-colors font-medium hover:text-white"
+              className="mt-4 w-full py-3 bg-zinc-100 hover:bg-zinc-700 text-zinc-900 rounded-xl transition-colors font-medium hover:text-zinc-900"
             >
               Close
             </button>

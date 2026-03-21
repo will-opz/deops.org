@@ -33,7 +33,7 @@ export default function QRClient({ lang, dict }: { lang: string, dict: any }) {
       <div className="max-w-4xl mx-auto">
         <Link 
           href={`/${lang}/services`}
-          className="inline-flex items-center text-emerald-500 hover:text-emerald-400 transition-colors mb-8 group"
+          className="inline-flex items-center text-emerald-500 hover:text-emerald-600 transition-colors mb-8 group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           {dict.nav.services}
@@ -47,14 +47,14 @@ export default function QRClient({ lang, dict }: { lang: string, dict: any }) {
             <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-500">
               {dict.tools.qrgen_title}
             </h1>
-            <p className="text-zinc-500 mt-1">{dict.tools.qrgen_desc}</p>
+            <p className="text-zinc-400 mt-1">{dict.tools.qrgen_desc}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
           {/* Input Side */}
           <div className="space-y-6">
-            <div className="bg-zinc-900/50 rounded-2xl border border-white/10 p-6 backdrop-blur-sm">
+            <div className="bg-white/50 rounded-2xl border border-black/10 p-6 backdrop-blur-sm">
               <label className="block text-sm font-medium text-zinc-400 mb-4 flex items-center gap-2">
                 <Info className="w-4 h-4" />
                 {dict.tools.qrgen.helper}
@@ -63,12 +63,12 @@ export default function QRClient({ lang, dict }: { lang: string, dict: any }) {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder={dict.tools.qrgen.placeholder}
-                className="w-full h-64 bg-black/50 border border-white/10 rounded-xl p-4 text-white font-mono placeholder:text-zinc-700 focus:outline-none focus:border-emerald-500/50 transition-colors resize-none mb-4"
+                className="w-full h-64 bg-[#fafafa]/50 border border-black/10 rounded-xl p-4 text-zinc-900 font-mono placeholder:text-zinc-700 focus:outline-none focus:border-emerald-500/50 transition-colors resize-none mb-4"
               />
               <button
                 onClick={downloadQR}
                 disabled={!text}
-                className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-zinc-900 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
               >
                 <Download className="w-5 h-5" />
                 {dict.tools.qrgen.download}
@@ -90,7 +90,7 @@ export default function QRClient({ lang, dict }: { lang: string, dict: any }) {
                   className="relative z-10"
                 />
               ) : (
-                <div className="w-[256px] h-[256px] border-2 border-dashed border-zinc-200 rounded-2xl flex items-center justify-center text-zinc-300 italic text-center px-8">
+                <div className="w-[256px] h-[256px] border-2 border-dashed border-zinc-200 rounded-2xl flex items-center justify-center text-zinc-700 italic text-center px-8">
                   Wait data input...
                 </div>
               )}
