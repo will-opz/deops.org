@@ -1,4 +1,6 @@
+import { cookies } from 'next/headers'
 import Link from 'next/link'
+import { LanguageToggle } from '@/components/LanguageToggle'
 import { 
   ArrowLeft, 
   Activity, 
@@ -14,12 +16,13 @@ import {
   QrCode,
   Globe
 } from 'lucide-react'
-import { getDictionary } from '../../../dictionaries'
+import { getDictionary } from '@/dictionaries'
 
 export const runtime = 'edge'
 
-export default async function ServicesPage({ params }: { params: Promise<{ lang: 'en' | 'zh' }> }) {
-  const { lang } = await params;
+export default async function ServicesPage() {
+  const cookieStore = await cookies();
+  const lang = (cookieStore.get("NEXT_LOCALE")?.value || "zh") as "zh" | "en";
   const dict = await getDictionary(lang)
 
   const categorizedServices = [
@@ -50,9 +53,9 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
     {
       category: dict.tools.cat_cyber,
       tools: [
-        { name: dict.tools.passgen_title, desc: dict.tools.passgen_desc, icon: KeyRound, status: "operational", url: `/${lang}/tools/passgen` },
-        { name: dict.tools.qrgen_title, desc: dict.tools.qrgen_desc, icon: QrCode, status: "operational", url: `/${lang}/tools/qrgen` },
-        { name: dict.tools.ip_title, desc: dict.tools.ip_desc, icon: Globe, status: "operational", url: `/${lang}/tools/ip` },
+        { name: dict.tools.passgen_title, desc: dict.tools.passgen_desc, icon: KeyRound, status: "operational", url: `/tools/passgen` },
+        { name: dict.tools.qrgen_title, desc: dict.tools.qrgen_desc, icon: QrCode, status: "operational", url: `/tools/qrgen` },
+        { name: dict.tools.ip_title, desc: dict.tools.ip_desc, icon: Globe, status: "operational", url: `/tools/ip` },
       ]
     }
   ]
@@ -61,7 +64,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
     <div className="min-h-screen flex flex-col relative w-full">
       <header className="w-full max-w-6xl mx-auto px-6 py-8 flex justify-between items-center z-10">
         <div className="flex flex-col gap-2">
-          <Link href={`/${lang}`} className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-mono text-sm transition-colors" title="Return to Home">
+          <Link href={`/`} className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-mono text-sm transition-colors" title="Return to Home">
             <ArrowLeft className="w-4 h-4" /> 返回首页
           </Link>
           <div className="font-mono text-xl font-bold tracking-tight text-zinc-900 flex items-center gap-2">
@@ -87,11 +90,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
           </div>
           
           {/* Language Toggle */}
-          <div className="hidden md:flex items-center gap-2 border border-zinc-200 rounded-full px-4 py-1.5 bg-zinc-100">
-            <Link href="/zh/services" className={`text-xs font-bold transition-colors ${lang === 'zh' ? 'text-accent' : 'text-zinc-600 hover:text-zinc-900'}`}>ZH</Link>
-            <span className="text-zinc-700 text-xs">/</span>
-            <Link href="/en/services" className={`text-xs font-bold transition-colors ${lang === 'en' ? 'text-accent' : 'text-zinc-600 hover:text-zinc-900'}`}>EN</Link>
-          </div>
+          <LanguageToggle currentLang={lang} />
         </div>
 
         <div className="space-y-16">

@@ -32,11 +32,11 @@ export default function QRClient({ lang, dict }: { lang: string, dict: any }) {
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-2 mb-8 text-sm font-mono">
-          <Link href={`/${lang}`} className="text-zinc-500 hover:text-zinc-900 transition-colors">
+          <Link href={`/`} className="text-zinc-500 hover:text-zinc-900 transition-colors">
             🏠 首页
           </Link>
           <span className="text-zinc-300">/</span>
-          <Link href={`/${lang}/services`} className="text-emerald-700 hover:text-emerald-600 transition-colors">
+          <Link href={`/services`} className="text-emerald-700 hover:text-emerald-600 transition-colors">
             {dict.nav.services}
           </Link>
         </div>

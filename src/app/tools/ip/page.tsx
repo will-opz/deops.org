@@ -229,7 +229,7 @@ export default function IPPage() {
 
       <header className="w-full max-w-6xl mx-auto px-6 py-8 flex justify-between items-center z-20 relative">
         <div className="flex flex-col gap-2">
-          <Link href={`/${lang}`} className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-mono text-sm transition-colors">
+          <Link href={`/`} className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-mono text-sm transition-colors">
             <ArrowLeft className="w-4 h-4" /> 返回首页
           </Link>
           <div className="font-mono text-xl font-bold tracking-tight text-zinc-900 flex items-center gap-2">

@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { 
   BrainCircuit, 
@@ -12,19 +13,21 @@ import {
   FileText,
   Menu
 } from 'lucide-react'
-import { getDictionary } from '../../dictionaries'
+import { getDictionary } from '@/dictionaries'
+import { LanguageToggle } from '@/components/LanguageToggle'
 
 export const runtime = 'edge'
 
-export default async function Home({ params }: { params: Promise<{ lang: 'en' | 'zh' }> }) {
-  const { lang } = await params;
+export default async function Home() {
+  const cookieStore = await cookies();
+  const lang = (cookieStore.get("NEXT_LOCALE")?.value || "zh") as "zh" | "en";
   const dict = await getDictionary(lang)
 
   return (
     <>
       {/* Header / Nav */}
       <header className="w-full max-w-6xl mx-auto px-6 py-8 flex justify-between items-center z-10">
-        <Link href={`/${lang}`} className="group flex items-center gap-3 no-underline outline-none">
+        <Link href={`/`} className="group flex items-center gap-3 no-underline outline-none">
           {/* Geometric Logo: d, o, and >_ */}
           <svg className="logo-svg w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="2" y="2" width="36" height="36" rx="8" stroke="#3f3f46" strokeWidth="2" className="group-hover:stroke-accent/50"/>
@@ -41,19 +44,17 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
         </Link>
 
         <nav className="hidden md:flex gap-8 items-center font-mono text-sm">
-          <Link href={`/${lang}#kb`} className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+          <Link href={`/#kb`} className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2">
             <BookOpen className="w-4 h-4" /> {dict.nav.kb}
           </Link>
-          <Link href={`/${lang}/services`} className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+          <Link href={`/services`} className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2">
             <TerminalSquare className="w-4 h-4" /> {dict.nav.services}
           </Link>
-          <Link href={`/${lang}#blog`} className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+          <Link href={`/#blog`} className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2">
             <FileText className="w-4 h-4" /> {dict.nav.blog}
           </Link>
           <div className="flex items-center gap-2 ml-4 border-l border-zinc-200 pl-6">
-            <Link href="/zh" className={`text-xs font-bold transition-colors ${lang === 'zh' ? 'text-accent' : 'text-zinc-600 hover:text-zinc-900'}`}>ZH</Link>
-            <span className="text-zinc-700 text-xs">/</span>
-            <Link href="/en" className={`text-xs font-bold transition-colors ${lang === 'en' ? 'text-accent' : 'text-zinc-600 hover:text-zinc-900'}`}>EN</Link>
+            <LanguageToggle currentLang={lang} />
           </div>
 
           <Link href="https://github.com/will-opz/deops.org" target="_blank" className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2 ml-4">
@@ -91,7 +92,7 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-14 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-            <Link href={`/${lang}/services`} className="px-8 py-3.5 rounded-md bg-white text-zinc-900 font-semibold hover:bg-zinc-200 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,0,0,0.05)]">
+            <Link href={`/services`} className="px-8 py-3.5 rounded-md bg-white text-zinc-900 font-semibold hover:bg-zinc-200 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,0,0,0.05)]">
               <Zap className="w-5 h-5" /> {dict.home.btn_init}
             </Link>
             <Link href="https://github.com/will-opz/deops.org" target="_blank" className="px-8 py-3.5 rounded-md border border-zinc-300 bg-zinc-100 text-zinc-700 font-mono text-sm hover:border-zinc-500 hover:bg-zinc-100 active:scale-95 transition-all flex items-center justify-center gap-2 outline-none">
@@ -109,7 +110,7 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
                 {dict.home.quick_access}
               </span>
             </div>
-            <Link href={`/${lang}/tools/passgen`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
+            <Link href={`/tools/passgen`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
               <div className="w-7 h-7 rounded-md bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
                 <Zap className="w-4 h-4 text-orange-600 group-hover:scale-110 transition-transform" />
               </div>
@@ -119,7 +120,7 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
           
           <div className="h-6 w-px bg-black/10 hidden md:block" />
           
-          <Link href={`/${lang}/tools/qrgen`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
+          <Link href={`/tools/qrgen`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
             <div className="w-7 h-7 rounded-md bg-cyan-500/10 flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
               <QrCode className="w-4 h-4 text-cyan-600 group-hover:scale-110 transition-transform" />
             </div>
@@ -128,7 +129,7 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
           
           <div className="h-6 w-px bg-black/10 hidden md:block" />
 
-          <Link href={`/${lang}/tools/ip`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
+          <Link href={`/tools/ip`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
             <div className="w-7 h-7 rounded-md bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
               <Globe className="w-4 h-4 text-purple-600 group-hover:scale-110 transition-transform" />
             </div>
@@ -137,7 +138,7 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
 
           <div className="h-6 w-px bg-black/10 hidden md:block" />
 
-          <Link href={`/${lang}/services`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
+          <Link href={`/services`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
             <div className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
               <TerminalSquare className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
             </div>
@@ -173,7 +174,7 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
             </p>
           </div>
 
-          <Link href={`/${lang}/services`} className="glass-card p-8 rounded-xl group hover:border-orange-500/30 transition-all scroll-mt-24 no-underline">
+          <Link href={`/services`} className="glass-card p-8 rounded-xl group hover:border-orange-500/30 transition-all scroll-mt-24 no-underline">
             <div className="w-12 h-12 rounded-lg bg-orange-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-orange-500/20 transition-all">
               <Zap className="w-6 h-6 text-orange-600" />
             </div>
@@ -186,7 +187,7 @@ export default async function Home({ params }: { params: Promise<{ lang: 'en' | 
             </p>
           </Link>
 
-          <Link href={`/${lang}#blog`} id="blog" className="glass-card p-8 rounded-xl group hover:border-purple-500/30 transition-all scroll-mt-24 no-underline">
+          <Link href={`/#blog`} id="blog" className="glass-card p-8 rounded-xl group hover:border-purple-500/30 transition-all scroll-mt-24 no-underline">
             <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all">
               <FileText className="w-6 h-6 text-purple-600" />
             </div>

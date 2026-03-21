@@ -7,7 +7,12 @@ import Negotiator from 'negotiator'
 const locales = ['zh', 'en']
 const defaultLocale = 'zh'
 
-function getLocale(request: NextRequest): string | undefined {
+function getLocale(request: NextRequest): string {
+  if (request.cookies.has('NEXT_LOCALE')) {
+    const cookieLang = request.cookies.get('NEXT_LOCALE')?.value;
+    if (cookieLang && locales.includes(cookieLang)) return cookieLang;
+  }
+  
   const negotiatorHeaders: Record<string, string> = {}
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value))
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages()
@@ -22,7 +27,6 @@ export const runtime = 'experimental-edge'
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  
   if (
     pathname.includes('.') ||
     pathname.startsWith('/api') ||
@@ -31,16 +35,19 @@ export function middleware(request: NextRequest) {
     return
   }
 
-  const pathnameIsMissingLocale = locales.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  )
+  const locale = getLocale(request)
+  const response = NextResponse.next()
 
-  if (pathnameIsMissingLocale) {
-    const locale = getLocale(request)
-    return NextResponse.redirect(
-      new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, request.url)
-    )
+  if (!request.cookies.has('NEXT_LOCALE') || request.cookies.get('NEXT_LOCALE')?.value !== locale) {
+    response.cookies.set('NEXT_LOCALE', locale, {
+      path: '/',
+      maxAge: 31536000,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production'
+    })
   }
+
+  return response
 }
 
 export const config = {
