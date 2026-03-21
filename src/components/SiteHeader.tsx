@@ -13,14 +13,22 @@ export function SiteHeader({ dict, lang }: { dict: any; lang: 'zh' | 'en' }) {
   return (
     <header className="w-full max-w-6xl mx-auto px-6 py-8 flex justify-between items-center z-10">
       <Link href={`/`} className="group flex items-center gap-3 no-underline outline-none">
-        <svg className="logo-svg w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="2" width="36" height="36" rx="8" stroke="#3f3f46" strokeWidth="2" className="group-hover:stroke-accent/50"/>
-          <circle cx="14" cy="20" r="5" stroke="#d4d4d8" strokeWidth="2" className="group-hover:stroke-white"/>
-          <path d="M19 12v13" stroke="#d4d4d8" strokeWidth="2" strokeLinecap="round" className="group-hover:stroke-white"/>
-          <circle cx="26" cy="20" r="5" stroke="#d4d4d8" strokeWidth="2" className="group-hover:stroke-white"/>
-          <path d="M16 30h8" stroke="#10b981" strokeWidth="2" strokeLinecap="round" className="group-hover:shadow-[0_0_10px_#10b981]"/>
-          <circle cx="26" cy="12" r="1.5" fill="#10b981"/>
-          <path d="M26 13.5v1.5" stroke="#10b981" strokeWidth="1" strokeDasharray="2 2"/>
+        <svg className="logo-svg w-10 h-10 group-hover:-rotate-3 transition-transform duration-300" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Decentralized Edge Nodes */}
+          <circle cx="6" cy="14" r="1.5" fill="#d4d4d8" className="group-hover:fill-cyan-500 transition-colors duration-500"/>
+          <circle cx="34" cy="26" r="1.5" fill="#d4d4d8" className="group-hover:fill-cyan-500 transition-colors duration-500"/>
+          <path d="M8 16 L12 20" stroke="#d4d4d8" strokeWidth="1" strokeDasharray="2 2" className="group-hover:stroke-cyan-500/50 transition-colors duration-500"/>
+          <path d="M25 26 L32 26" stroke="#d4d4d8" strokeWidth="1" strokeDasharray="2 2" className="group-hover:stroke-cyan-500/50 transition-colors duration-500"/>
+
+          {/* Core 'd' - Operations Infra */}
+          <circle cx="16" cy="24" r="7.5" stroke="#18181b" strokeWidth="2.5" className="group-hover:stroke-emerald-600 transition-colors duration-500"/>
+          <path d="M23.5 15 V32" stroke="#18181b" strokeWidth="2.5" strokeLinecap="round" className="group-hover:stroke-emerald-600 transition-colors duration-500"/>
+          
+          {/* AI Spark - Intelligence */}
+          <path d="M23.5 2 L25 7.5 L31 9.5 L25 11.5 L23.5 17 L22 11.5 L16 9.5 L22 7.5 Z" fill="#10b981" className="group-hover:scale-110 origin-[23.5px_9.5px] transition-transform duration-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]"/>
+          
+          {/* Heartbeat / Pulse / Automation */}
+          <circle cx="16" cy="24" r="2" fill="#10b981" className="animate-pulse group-hover:scale-[1.5] group-hover:fill-emerald-500 transition-all origin-[16px_24px] duration-500"/>
         </svg>
         <span className="font-mono text-xl font-bold tracking-tight text-zinc-900 group-hover:text-accent transition-colors">
           deops<span className="text-accent animate-pulse">_</span>
