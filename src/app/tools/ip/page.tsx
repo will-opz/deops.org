@@ -156,7 +156,10 @@ export default function IPPage() {
       let edgeData: any = null
       try {
         const edgeRes = await fetch('/api/ip', { cache: 'no-store' })
-        edgeData = await edgeRes.json()
+        const resJson = await edgeRes.json()
+        if (resJson.ip && resJson.ip !== '127.0.0.1' && resJson.ip !== '::1' && resJson.country_name) {
+          edgeData = resJson
+        }
       } catch(e) {}
 
       let v4Ip = null
