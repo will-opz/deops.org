@@ -1,8 +1,9 @@
 import { cookies } from 'next/headers'
 import Link from 'next/link'
-import { ArrowLeft, FileText, Construction } from 'lucide-react'
+import { FileText, Construction } from 'lucide-react'
 import { getDictionary } from '@/dictionaries'
-import { LanguageToggle } from '@/components/LanguageToggle'
+import { SiteHeader } from '@/components/SiteHeader'
+import { SiteFooter } from '@/components/SiteFooter'
 
 export const runtime = 'edge'
 
@@ -14,18 +15,8 @@ export default async function BlogPage() {
   const isZh = lang === 'zh'
 
   return (
-    <div className="min-h-screen flex flex-col relative w-full bg-[#fafafa]">
-      <header className="w-full max-w-4xl mx-auto px-6 py-8 flex justify-between items-center z-10">
-        <div className="flex flex-col gap-2">
-          <Link href={`/`} className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-mono text-sm transition-colors" title="Return to Home">
-            <ArrowLeft className="w-4 h-4" /> {isZh ? "返回首页" : "Home"}
-          </Link>
-          <div className="font-mono text-xl font-bold tracking-tight text-zinc-900 flex items-center gap-2">
-            <span className="text-zinc-600">deops /</span> blog<span className="text-accent animate-pulse">_</span>
-          </div>
-        </div>
-        <LanguageToggle currentLang={lang} />
-      </header>
+    <>
+      <SiteHeader dict={dict} lang={lang} />
 
       <main className="flex-grow w-full max-w-4xl mx-auto px-6 z-10 mt-4 mb-32 flex flex-col items-center justify-center">
         <div className="text-center py-24">
@@ -60,6 +51,8 @@ export default async function BlogPage() {
           </div>
         </div>
       </main>
-    </div>
+
+      <SiteFooter dict={dict} />
+    </>
   )
 }

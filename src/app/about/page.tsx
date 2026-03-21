@@ -1,8 +1,8 @@
 import { cookies } from 'next/headers'
-import Link from 'next/link'
-import { ArrowLeft, Globe, Github, Shield, Zap, Brain, Terminal, ArrowUpRight, Mail } from 'lucide-react'
+import { Shield, Zap, Brain, Terminal, Globe, Github, ArrowUpRight, Mail } from 'lucide-react'
 import { getDictionary } from '@/dictionaries'
-import { LanguageToggle } from '@/components/LanguageToggle'
+import { SiteHeader } from '@/components/SiteHeader'
+import { SiteFooter } from '@/components/SiteFooter'
 
 export const runtime = 'edge'
 
@@ -14,18 +14,8 @@ export default async function AboutPage() {
   const isZh = lang === 'zh'
 
   return (
-    <div className="min-h-screen flex flex-col relative w-full bg-[#fafafa]">
-      <header className="w-full max-w-4xl mx-auto px-6 py-8 flex justify-between items-center z-10">
-        <div className="flex flex-col gap-2">
-          <Link href={`/`} className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-mono text-sm transition-colors" title="Return to Home">
-            <ArrowLeft className="w-4 h-4" /> {isZh ? "返回首页" : "Home"}
-          </Link>
-          <div className="font-mono text-xl font-bold tracking-tight text-zinc-900 flex items-center gap-2">
-            <span className="text-zinc-600">deops /</span> about<span className="text-accent animate-pulse">_</span>
-          </div>
-        </div>
-        <LanguageToggle currentLang={lang} />
-      </header>
+    <>
+      <SiteHeader dict={dict} lang={lang} />
 
       <main className="flex-grow w-full max-w-4xl mx-auto px-6 z-10 mt-4 mb-32">
         {/* Hero */}
@@ -33,7 +23,7 @@ export default async function AboutPage() {
           <h1 className="text-4xl md:text-5xl font-extrabold text-zinc-900 tracking-tight leading-tight mb-6">
             {isZh ? "去中心化运维" : "Decentralized Operations"}
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600 font-mono italic">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-emerald-600 to-cyan-500 font-mono italic">
               {isZh ? "为下一代工程师而生" : "Built for Next-Gen Engineers"}
             </span>
           </h1>
@@ -149,14 +139,9 @@ export default async function AboutPage() {
             </div>
           </div>
         </section>
-
-        {/* Footer */}
-        <footer className="pt-12 border-t border-zinc-200/60">
-          <p className="text-zinc-400 font-mono text-xs text-center">
-            Deep. Define. Decentralized. — Built with ❤️ by <a href="https://deops.org" className="text-emerald-600 hover:underline">deops.org</a>
-          </p>
-        </footer>
       </main>
-    </div>
+
+      <SiteFooter dict={dict} />
+    </>
   )
 }
