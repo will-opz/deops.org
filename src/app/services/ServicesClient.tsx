@@ -39,7 +39,8 @@ import {
   Wrench,
   Layers,
   MonitorCheck,
-  Zap
+  Zap,
+  ArrowUp
 } from 'lucide-react'
 
 export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" | "en" }) {
@@ -144,6 +145,8 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
     }
   ]
 
+  const [showScrollTop, setShowScrollTop] = useState(false)
+
   // Filter Logic
   const filteredServices = categorizedServices.map(cat => {
     const matchedTools = cat.tools.filter((tool) => 
@@ -153,7 +156,7 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
     return { ...cat, tools: matchedTools }
   }).filter(cat => cat.tools.length > 0)
 
-  // Smooth scroll logic
+  // Smooth scroll to category logic
   const scrollToCat = (catId: string) => {
     const el = document.getElementById(catId)
     if (el) {
@@ -162,7 +165,12 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
     }
   }
 
-  // Keyboard shortcut listener (Cmd+K / Ctrl+K)
+  // Smooth scroll to top
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Keyboard shortcut listener (Cmd+K / Ctrl+K) & Scroll Event Listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -170,8 +178,22 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
         document.getElementById('matrix-search')?.focus()
       }
     }
+    
+    const handleScroll = () => {
+      // Show button if scrolled past 400px
+      setShowScrollTop(window.scrollY > 400)
+    }
+
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    // Initial check
+    handleScroll()
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   // Use Intersection Observer for automated active tab highlighting
@@ -324,6 +346,17 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
           )}
         </div>
       </div>
+
+      {/* Floating Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-10 right-10 p-3 bg-zinc-900/90 text-white rounded-full shadow-lg backdrop-blur-md hover:bg-emerald-600 transition-all duration-300 z-50 group border border-zinc-700/50 hover:scale-110"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp className="w-5 h-5 group-hover:-translate-y-1 transition-transform duration-300" />
+        </button>
+      )}
     </main>
   )
 }
