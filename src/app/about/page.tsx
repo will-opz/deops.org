@@ -20,16 +20,16 @@ export default async function AboutPage() {
         {/* Hero */}
         <section className="mb-20">
           <h1 className="text-4xl md:text-5xl font-extrabold text-zinc-900 tracking-tight leading-tight mb-6">
-            {isZh ? "去中心化运维" : "Decentralized Operations"}
+            {isZh ? "运维的未来" : "The Future of Ops"}
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-emerald-600 to-cyan-500 font-mono italic">
-              {isZh ? "为下一代工程师而生" : "Built for Next-Gen Engineers"}
+              {isZh ? "由 AI 定义" : "Defined by AI"}
             </span>
           </h1>
           <p className="text-zinc-600 text-lg leading-relaxed max-w-2xl">
             {isZh 
-              ? "deops (de + ops) 是一套极简、硬核、全面自动化的 AI 原生运维基础设施。我们相信运维的未来属于边缘计算、去中心化架构与大语言模型驱动的智能决策。"
-              : "deops (de + ops) is a minimalist, hardcore, fully automated AI-native operations infrastructure. We believe the future of operations belongs to edge computing, decentralized architecture, and LLM-driven intelligent decision-making."
+              ? "极简，极客，全面自动化。deops 是为下一代 AI 原生工程师构建的去中心化运维基础设施。我们相信运维的未来不仅限于基础设施的代码化，更属于边缘计算与大模型驱动的智能决策。"
+              : "Minimalist, hardcore, and fully automated. deops is the decentralized operations infrastructure built for the next generation of AI-native engineers. We believe the future of operations goes beyond infrastructure-as-code; it belongs to edge computing and LLM-driven intelligent decision-making."
             }
           </p>
         </section>
