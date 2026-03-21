@@ -43,7 +43,8 @@ import {
   ArrowUp,
   Vault,
   KeySquare,
-  ShieldCheck
+  ShieldCheck,
+  DoorOpen
 } from 'lucide-react'
 
 export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" | "en" }) {
@@ -104,6 +105,7 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
     {
       category: lang === 'zh' ? "安全通道与零信任" : "Zero Trust & Tunnels",
       tools: [
+        { name: "JumpServer", desc: "Open Source Bastion Host", icon: DoorOpen, status: "operational", url: "https://www.jumpserver.org" },
         { name: "Tailscale", desc: "Mesh VPN Network", icon: Network, status: "operational", url: "https://tailscale.com" },
         { name: "WireGuard", desc: "Fast & Modern VPN", icon: Lock, status: "operational", url: "https://www.wireguard.com" },
         { name: "Pritunl", desc: "Enterprise VPN Server", icon: Shield, status: "operational", url: "https://pritunl.com" },
