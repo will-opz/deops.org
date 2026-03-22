@@ -92,10 +92,7 @@ export default function IPClient() {
       ipv4: "IPv4 地址",
       ipv6: "IPv6 地址",
       not_found: "未检测到",
-      detecting: "检测中...",
-      vpn_recommend: "推荐 VPN 服务",
-      vpn_recommend_desc: "为了更好的上网体验和隐私保护，我们推荐使用 NordVPN。全球领先的加密通讯服务，有效隐藏真实 IP 并加密所有流量。",
-      vpn_btn: "立即获取 NordVPN (68% OFF)"
+      detecting: "检测中..."
     },
     en: {
       title: "Ops IP Insights",
@@ -126,10 +123,7 @@ export default function IPClient() {
       ipv4: "IPv4 Address",
       ipv6: "IPv6 Address",
       not_found: "Not Detected",
-      detecting: "Detecting...",
-      vpn_recommend: "Recommended VPN Service",
-      vpn_recommend_desc: "For a better experience and privacy, we recommend NordVPN. Global leading encrypted communication service. Hide IP and encrypt traffic.",
-      vpn_btn: "Get NordVPN Now (68% OFF)"
+      detecting: "Detecting..."
     }
   }[lang]
 
