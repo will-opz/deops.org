@@ -19,14 +19,15 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: 'en
   const dict = await getDictionary(lang);
   
   return {
+    metadataBase: new URL('https://opskitpro.com'),
     title: dict.home.meta_title,
     description: dict.home.meta_desc,
     openGraph: {
       title: dict.home.meta_title,
       description: dict.home.meta_desc,
       type: 'website',
-      url: `https://deops.org/${lang}`,
-      siteName: 'deops.org',
+      url: `https://opskitpro.com/${lang}`,
+      siteName: 'OpsKitPro.com',
     },
     twitter: {
       card: 'summary_large_image',

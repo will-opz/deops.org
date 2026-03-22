@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
-  "name": "deops-org",
+  "name": "opskitpro-org",
   "workers_dev": true,
   "compatibility_date": "2024-12-30",
   "compatibility_flags": [
@@ -15,11 +15,11 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "deops-org"
+      "service": "opskitpro-org"
     }
   ],
   "routes": [
-    { "pattern": "deops.org", "custom_domain": true },
-    { "pattern": "www.deops.org", "custom_domain": true }
+    { "pattern": "opskitpro.com", "custom_domain": true },
+    { "pattern": "www.opskitpro.com", "custom_domain": true }
   ]
 }

@@ -40,12 +40,12 @@ export default async function BlogPage() {
               {isZh ? "浏览服务矩阵" : "Browse Matrix"}
             </Link>
             <a 
-              href="https://kb.deops.org" 
+              href="https://kb.opskitpro.com" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-200 text-zinc-700 rounded-xl font-mono text-sm hover:border-emerald-500 hover:text-emerald-600 transition-all bg-white/60 shadow-sm"
             >
-              {isZh ? "查看数字花园" : "Digital Garden"} →
+              {isZh ? "访问运维智能节点" : "Ops Intelligence Node"} →
             </a>
           </div>
         </div>

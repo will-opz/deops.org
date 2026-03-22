@@ -1,8 +1,8 @@
-# deops (de + ops) — AI-Native Operations Infrastructure
+# OpsKitPro (Ops + Kit + Professional) — AI-Native Operations Infrastructure
 
 [English](./README.md) | [简体中文](./README_zh.md)
 
-**deops** is a minimalist, hardcore, and fully automated operations infrastructure built for the next generation of AI-native engineers. Designed from the perspective of a Senior SRE, it embodies a decentralized, code-defined philosophy with a high-end, terminal-inspired aesthetic.
+**OpsKitPro** is a minimalist, hardcore, and fully automated operations infrastructure built for the next generation of AI-native engineers. Designed from the perspective of a Senior SRE, it embodies a decentralized, code-defined philosophy with a high-end, terminal-inspired aesthetic.
 
 > [!IMPORTANT]
 > This project runs on **Cloudflare Workers** via [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare). The Worker entry point is only ~2 KB — all server logic and static assets are loaded on-demand from the edge.
@@ -12,17 +12,18 @@
 ## 🏛️ Architecture
 
 ```
-deops.org (Main Site — Next.js 16 on Cloudflare Workers)
-├── /              Home — Hero + Quick Access HUD
+opskitpro.com (Main Site — Next.js 16 on Cloudflare Workers)
+├── /              Home — Hero + Services HUB
 ├── /services      Service Matrix (45+ tools, 12 categories)
-├── /tools/passgen Password Generator (entropy-focused)
+├── /tools/passgen Password Generator (Entropy/UUID/PIN)
 ├── /tools/qrgen   Text-to-QR Matrix Encoder
-├── /tools/ip      Ops IP Edge Sensing (dual-stack)
-├── /blog          Tech Blog (coming soon)
-├── /about         About + Contact
-└── /api/ip        IP Geolocation API (via Cloudflare context)
+├── /tools/ip      Ops IP Edge Sensing (Dual-Stack)
+├── /tools/json    JSON Formatter & Smart Repair
+├── /blog          Tech Blog (SRE & AI Ops)
+├── /about         About OpsKitPro.com
+└── /api/ip        Edge Geolocation API (Cloudflare)
 
-kb.deops.org (Sub Site — Quartz + Obsidian)
+kb.opskitpro.com (Sub Site — Quartz + Obsidian)
 └── Digital Garden (knowledge graph, notes, deep content)
 ```
 
@@ -31,16 +32,18 @@ kb.deops.org (Sub Site — Quartz + Obsidian)
 ## 🚀 Key Features
 
 ### Native Cyber Tools (Self-Built)
-- **🔐 Password Generator**: Cryptographically secure, entropy-focused random password generation on the edge.
+- **🔐 Password Generator**: Cryptographically secure, entropy-focused random password generation (inc. UUID, PIN) on the edge.
 - **📱 QR Matrix Encoder**: Real-time text-to-QR code conversion with instant rendering.
 - **🌍 Ops IP Edge Sensing**: Dual-stack (IPv4/IPv6) geolocation and network intelligence powered by Cloudflare.
+- **{} JSON Workspace**: Industrial-grade JSON formatter, minifier, and smart structural repair engine.
+- **💬 Matrix Terminal**: Decentralized, E2E encrypted communication node integrated into the matrix.
 
 ### HUD Service Matrix
 A centralized "Head-Up Display" mapping **45+ operational tools** across **12 categories** with Spotlight global search (`Cmd+K`) and sticky sidebar navigation.
 
 ### Digital Garden (Sub-Site)
 - **Engine**: [Quartz 4](https://quartz.jzhao.xyz/) — purpose-built for Obsidian `[[wikilinks]]` and knowledge graphs.
-- **URL**: [kb.deops.org](https://kb.deops.org)
+- **URL**: [kb.opskitpro.com](https://kb.opskitpro.com)
 
 ### UX & Internationalization
 - **Cookie-based i18n** (zh/en) — language preference detected via `Accept-Language`, persisted via `NEXT_LOCALE` cookie.
@@ -76,8 +79,8 @@ A centralized "Head-Up Display" mapping **45+ operational tools** across **12 ca
 
 ```bash
 # Clone the repository
-git clone https://github.com/will-opz/deops.org.git
-cd deops.org
+git clone https://github.com/will-opz/opskitpro.git
+cd opskitpro
 
 # Install dependencies
 npm install
@@ -160,18 +163,18 @@ Worker configuration lives in [`wrangler.jsonc`](./wrangler.jsonc):
 
 | Setting | Value |
 |---------|-------|
-| Worker Name | `deops-org` |
-| Custom Domains | `deops.org`, `www.deops.org` |
+| Worker Name | `opskitpro-org` |
+| Custom Domains | `opskitpro.com`, `www.opskitpro.com` |
 | Compatibility Flags | `nodejs_compat`, `global_fetch_strictly_public` |
 | Compatibility Date | `2024-12-30` |
 
 OpenNext config lives in [`open-next.config.ts`](./open-next.config.ts).
 
-### Sub-Site `kb.deops.org` (Cloudflare Pages)
+### Sub-Site `kb.opskitpro.com` (Cloudflare Pages)
 
 | Setting | Value |
 |---------|-------|
-| Repository | `will-opz/kb.deops.org` |
+| Repository | `will-opz/kb.opskitpro.com` |
 | Framework Preset | None |
 | Build Command | `npx quartz build` |
 | Build Output Directory | `public` |
@@ -191,13 +194,14 @@ OpenNext config lives in [`open-next.config.ts`](./open-next.config.ts).
 │   │   └── tools/            # Cyber tools (passgen, qrgen, ip)
 │   ├── components/           # Shared React components
 │   ├── dictionaries/         # i18n translation files (zh.json, en.json)
-│   └── middleware.ts          # Locale detection middleware
+│   └── proxy.ts              # Locale detection and routing proxy
 ├── public/                   # Static assets
 ├── next.config.ts            # Next.js + OpenNext dev config
 ├── open-next.config.ts       # OpenNext adapter config
 ├── wrangler.jsonc            # Cloudflare Worker config
 ├── tailwind.config.ts        # Tailwind CSS config
-└── package.json
+├── package.json
+└── README.md
 ```
 
 ---
@@ -216,7 +220,7 @@ We welcome contributions from the SRE and DevOps community. Whether it's adding 
 
 ## 📬 Contact
 
-- **Email**: [admin@deops.org](mailto:admin@deops.org)
+- **Email**: [admin@opskitpro.com](mailto:admin@opskitpro.com)
 - **GitHub**: [github.com/will-opz](https://github.com/will-opz)
 
 ---
@@ -229,5 +233,5 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 
 <p align="center">
   <b>Deep. Define. Decentralized.</b><br/>
-  Designed by <a href="https://deops.org">deops.org</a>
+  Designed by <a href="https://opskitpro.com">OpsKitPro.com</a>
 </p>

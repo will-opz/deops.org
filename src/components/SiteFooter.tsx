@@ -7,7 +7,7 @@ export function SiteFooter({ dict }: { dict: any }) {
         <div className="text-zinc-500 text-sm font-mono flex items-center gap-2">
           {dict.footer.copyright}
           <span className="hidden md:inline text-zinc-700">|</span>
-          <Link href="https://github.com/will-opz/deops.org" target="_blank" className="hover:text-zinc-700 transition-colors">
+          <Link href="https://github.com/will-opz/opskitpro" target="_blank" className="hover:text-zinc-700 transition-colors">
             GitHub
           </Link>
           <span className="hidden md:inline text-zinc-700">|</span>

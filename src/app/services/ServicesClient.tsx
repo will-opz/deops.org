@@ -61,6 +61,7 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
         { name: dict.tools.qrgen_title, desc: dict.tools.qrgen_desc, icon: QrCode, status: "operational", url: `/tools/qrgen` },
         { name: dict.tools.ip_title, desc: dict.tools.ip_desc, icon: Globe, status: "operational", url: `/tools/ip` },
         { name: dict.tools.json_title, desc: dict.tools.json_desc, icon: Braces, status: "operational", url: `/tools/json` },
+        { name: dict.tools.matrix_title, desc: dict.tools.matrix_desc, icon: MessageSquare, status: "operational", url: "https://matrix.org" },
       ]
     },
     {
@@ -261,11 +262,11 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
       <div className="flex-grow w-full min-w-0">
         <div className="mb-14 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
           <div>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-zinc-900 tracking-tight leading-tight mb-3">
-              {dict.services.title_part1} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600 font-mono italic">{dict.services.title_part2}</span>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-zinc-900 tracking-tight leading-tight mb-3 italic">
+              OpsKit<span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600 font-mono italic">Pro_</span>
             </h1>
             <p className="text-zinc-600 max-w-xl leading-relaxed text-sm">
-              {dict.services.subtitle}
+              Professional Cloud & Ops Toolkit Matrix. Fully automated, decentralized infrastructure.
             </p>
           </div>
           

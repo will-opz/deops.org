@@ -49,5 +49,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
+  runtime: 'experimental-edge',
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }

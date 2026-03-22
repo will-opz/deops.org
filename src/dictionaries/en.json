@@ -1,26 +1,27 @@
 {
   "nav": {
-    "kb": "Digital Garden",
+    "kb": "Ops Intelligence Node",
     "services": "Matrix",
     "blog": "Tech Blog",
-    "about": "About deops"
+    "about": "About OpsKitPro"
   },
   "home": {
-    "meta_title": "deops - AI-Driven Edge Operations Infrastructure",
-    "meta_desc": "The future of operations is defined by AI. Minimalist, hardcore, and Edge-optimized for SREs.",
+    "meta_title": "OpsKitPro - The Professional Operations & Developer Toolbox",
+    "meta_desc": "Industrial-grade open source tools for SREs and developers. Minimalist, hardcore, and Edge-optimized.",
     "system_status": "System Core v2.4 operational",
+    "btn_chat": "Matrix Node",
     "title_part1": "The Future of Ops",
     "title_part2_pre": "Defined by",
     "title_part2_ai": "AI",
     "title_part2_suf": "",
-    "subtitle": "Minimalist, hardcore, and fully automated. deops is the decentralized operations infrastructure built for the next generation of AI-native engineers.",
+    "subtitle": "Minimalist, hardcore, and fully automated. OpsKitPro is the professional operations toolkit built for the next generation of SREs.",
     "btn_init": "Initialize Protocol",
     "btn_docs": "View Docs",
     "card1_title": "AI-Driven Insights",
     "card1_desc": "Predictive anomaly detection and automated root-cause analysis powered by LLMs, reducing MTTR to virtually zero.",
     "card2_title": "Automated Workflows",
     "card2_desc": "Event-driven remediation and seamless CI/CD pipeline integrations. Define your infra state once, let algorithms handle the rest.",
-    "card3_title": "Knowledge Base",
+    "card3_title": "Ops Intelligence Node",
     "card3_desc": "Obsidian-inspired Markdown engine for incident post-mortems and architecture specs. Your ops memory, eternally searchable.",
     "card4_title": "Hardcore Utilities",
     "card4_desc": "Industrial-grade tools for everyday ops. Secure password generation and real-time QR encoding at your fingertips.",
@@ -44,8 +45,8 @@
     "cat_cicd": "CI/CD & Delivery"
   },
   "footer": {
-    "copyright": "© 2026 deops.org",
-    "slogan": "Deep. Define. Decentralized.",
+    "copyright": "© 2026 OpsKitPro.com",
+    "slogan": "Simple. Professional. Efficient.",
     "all_systems_operational": "All Systems Operational"
   },
 
@@ -59,6 +60,8 @@
     "ip_desc": "Deep network metadata analysis including ASN, ISP attributes, and security forensics.",
     "json_title": "JSON Formatter / Validator",
     "json_desc": "Zero-lag structural processor with real-time validation and minification.",
+    "matrix_title": "Matrix Terminal",
+    "matrix_desc": "Decentralized, E2E encrypted real-time communication node.",
     "ip": {
       "loading": "Synchronizing global routing nodes...",
       "your_ip": "Your Access Address",
@@ -93,6 +96,9 @@
       "lowercase": "Lowercase (a-z)",
       "numbers": "Numbers (0-9)",
       "symbols": "Symbols (!@#$)",
+      "uuid": "UUID v4",
+      "pin6": "6-digit PIN",
+      "pin8": "8-digit PIN",
       "generate": "Regenerate",
       "copy": "Copy to Clipboard",
       "show_qr": "Show QR Code",

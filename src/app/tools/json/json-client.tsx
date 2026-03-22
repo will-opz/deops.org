@@ -5,7 +5,7 @@ import { Braces, Copy, Check, Trash2, AlertTriangle, CheckCircle2, Minimize2, Do
 import Link from 'next/link'
 
 const SAMPLE_JSON = `{
-  "project": "deops",
+  "project": "OpsKitPro",
   "version": "2.4.0",
   "infrastructure": {
     "provider": "cloudflare",
@@ -496,7 +496,7 @@ export default function JSONClient({ dict }: { dict: any }) {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `deops-json-${Date.now()}.json`
+    a.download = `opskitpro-json-${Date.now()}.json`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -527,11 +527,11 @@ export default function JSONClient({ dict }: { dict: any }) {
       <div className="max-w-5xl mx-auto">
         {/* Breadcrumbs */}
         <div className="flex items-center gap-2 mb-8 text-[11px] font-mono uppercase tracking-widest text-zinc-500">
-          <Link href="/" className="hover:text-emerald-600 transition-colors">Home</Link>
-          <span>/</span>
-          <Link href="/services" className="hover:text-emerald-600 transition-colors">Matrix</Link>
-          <span>/</span>
-          <span className="text-zinc-900 border-b border-emerald-500/30 font-bold">JSON-NODE</span>
+          <Link href="/" className="hover:text-emerald-600 transition-colors">HOME</Link>
+          <span className="text-zinc-300">/</span>
+          <Link href="/services" className="hover:text-emerald-600 transition-colors">MATRIX</Link>
+          <span className="text-zinc-300">/</span>
+          <span className="text-zinc-900 border-b border-emerald-500/30 font-bold uppercase">OPSKIT-NODE</span>
         </div>
 
         {/* Header */}

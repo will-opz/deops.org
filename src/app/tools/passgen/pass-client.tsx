@@ -2,10 +2,13 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import { KeyRound, RefreshCw, Copy, QrCode, Check, ShieldCheck } from 'lucide-react'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { QRCodeSVG } from 'qrcode.react'
 
 export default function PassClient({ dict }: { dict: any }) {
+  const params = useParams()
+  const lang = (params.lang as 'en' | 'zh') || 'en'
   const [password, setPassword] = useState('')
   const [length, setLength] = useState(16)
   const [options, setOptions] = useState({
@@ -13,13 +16,38 @@ export default function PassClient({ dict }: { dict: any }) {
     lowercase: true,
     numbers: true,
     symbols: true,
+    uuid: false,
+    pin6: false,
+    pin8: false,
   })
+
+  // Helper to toggle options correctly
+  const toggleOption = (key: string) => {
+    setOptions(prev => {
+      const next = { ...prev }
+      if (key === 'uuid' || key === 'pin6' || key === 'pin8') {
+        const val = !prev[key as keyof typeof prev]
+        // Reset all special modes first
+        next.uuid = false
+        next.pin6 = false
+        next.pin8 = false
+        next[key as keyof typeof next] = val
+      } else {
+        next[key as keyof typeof next] = !prev[key as keyof typeof next]
+        // If we are enabling a character set, disable special modes
+        next.uuid = false
+        next.pin6 = false
+        next.pin8 = false
+      }
+      return next
+    })
+  }
   const [copied, setCopied] = useState(false)
   const [showQR, setShowQR] = useState(false)
   const [history, setHistory] = useState<string[]>([])
 
   useEffect(() => {
-    const saved = localStorage.getItem('deops_pass_history')
+    const saved = localStorage.getItem('opskitpro_pass_history')
     if (saved) {
       try {
         setHistory(JSON.parse(saved))
@@ -30,33 +58,51 @@ export default function PassClient({ dict }: { dict: any }) {
   }, [])
 
   const generatePassword = useCallback((saveToHistory = true) => {
-    const charset: Record<string, string> = {
-      uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-      lowercase: 'abcdefghijklmnopqrstuvwxyz',
-      numbers: '0123456789',
-      symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?',
-    }
-
-    let characters = ''
-    if (options.uppercase) characters += charset.uppercase
-    if (options.lowercase) characters += charset.lowercase
-    if (options.numbers) characters += charset.numbers
-    if (options.symbols) characters += charset.symbols
-
-    if (characters.length === 0) return ''
-
     let generated = ''
-    const array = new Uint32Array(length)
-    window.crypto.getRandomValues(array)
-    for (let i = 0; i < length; i++) {
-      generated += characters[array[i] % characters.length]
+
+    if (options.uuid) {
+      // UUID v4 generation
+      generated = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = (Math.random() * 16) | 0
+        const v = c === 'x' ? r : (r & 0x3) | 0x8
+        return v.toString(16)
+      })
+    } else if (options.pin6 || options.pin8) {
+      const pinLength = options.pin6 ? 6 : 8
+      const array = new Uint32Array(pinLength)
+      window.crypto.getRandomValues(array)
+      for (let i = 0; i < pinLength; i++) {
+        generated += (array[i] % 10).toString()
+      }
+    } else {
+      const charset: Record<string, string> = {
+        uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        lowercase: 'abcdefghijklmnopqrstuvwxyz',
+        numbers: '0123456789',
+        symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?',
+      }
+
+      let characters = ''
+      if (options.uppercase) characters += charset.uppercase
+      if (options.lowercase) characters += charset.lowercase
+      if (options.numbers) characters += charset.numbers
+      if (options.symbols) characters += charset.symbols
+
+      if (characters.length === 0) return ''
+
+      const array = new Uint32Array(length)
+      window.crypto.getRandomValues(array)
+      for (let i = 0; i < length; i++) {
+        generated += characters[array[i] % characters.length]
+      }
     }
+
     setPassword(generated)
 
     if (saveToHistory) {
       setHistory(prev => {
         const newHistory = [generated, ...prev].slice(0, 5)
-        localStorage.setItem('deops_pass_history', JSON.stringify(newHistory))
+        localStorage.setItem('opskitpro_pass_history', JSON.stringify(newHistory))
         return newHistory
       })
     }
@@ -77,35 +123,39 @@ export default function PassClient({ dict }: { dict: any }) {
 
   const clearHistory = () => {
     setHistory([])
-    localStorage.removeItem('deops_pass_history')
+    localStorage.removeItem('opskitpro_pass_history')
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pt-12 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+
       <div className="max-w-2xl mx-auto">
-        <div className="flex items-center gap-2 mb-8 text-sm font-mono">
-          <Link href={`/`} className="text-zinc-500 hover:text-zinc-900 transition-colors">
-            🏠 首页
+        <div className="flex items-center gap-2 mb-8 text-[11px] font-mono uppercase tracking-widest text-zinc-500">
+          <Link href={`/`} className="hover:text-emerald-600 transition-colors">
+            HOME
           </Link>
           <span className="text-zinc-300">/</span>
-          <Link href={`/services`} className="text-emerald-700 hover:text-emerald-600 transition-colors">
-            {dict.nav.services}
+          <Link href={`/services`} className="hover:text-emerald-600 transition-colors">
+            MATRIX
           </Link>
+          <span className="text-zinc-300">/</span>
+          <span className="text-zinc-900 border-b border-emerald-500/30 font-bold uppercase">OPSKIT-NODE</span>
         </div>
 
         <div className="flex items-center gap-4 mb-2">
-          <div className="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
-            <KeyRound className="w-8 h-8 text-emerald-700" />
+          <div className="p-3.5 bg-zinc-900 rounded-2xl shadow-xl border border-zinc-800 group transition-all">
+            <KeyRound className="w-7 h-7 text-emerald-500 group-hover:scale-110 transition-transform" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-800 to-zinc-500">
+            <h1 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight flex items-center gap-3 italic">
               {dict.tools.passgen_title}
             </h1>
-            <p className="text-zinc-600 mt-1">{dict.tools.passgen_desc}</p>
+            <p className="text-zinc-500 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-1">{dict.tools.passgen_desc}</p>
           </div>
         </div>
 
-        <div className="mt-12 space-y-8">
+        <div className="mt-8 space-y-6">
           {/* Result Box */}
           <div className="bg-zinc-100 rounded-3xl border border-black/10 p-2 backdrop-blur-md relative group overflow-hidden">
             <div className="p-8 text-center bg-[#fafafa]/40 rounded-2xl border border-black/5">
@@ -118,24 +168,24 @@ export default function PassClient({ dict }: { dict: any }) {
               <div className="flex flex-1 gap-2">
                 <button
                   onClick={regenerate}
-                  className="flex-1 py-4 bg-zinc-100 hover:bg-zinc-700 text-zinc-900 rounded-xl font-bold transition-all flex items-center justify-center gap-2 group"
+                  className="flex-1 py-4 bg-white hover:bg-zinc-900 border border-black/5 hover:border-black/10 text-zinc-900 hover:text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 group shadow-sm active:scale-95"
                 >
                   <RefreshCw className="w-5 h-5 group-active:rotate-180 transition-transform duration-500" />
-                  <span className="text-sm sm:text-base">{dict.tools.passgen.generate}</span>
+                  <span className="text-sm sm:text-base !text-zinc-900 group-hover:!text-white">{dict.tools.passgen.generate}</span>
                 </button>
               </div>
               <div className="flex flex-1 gap-2">
                 <button
                   onClick={() => copyToClipboard(password)}
-                  className="flex-1 py-4 bg-emerald-600 hover:bg-emerald-500 text-zinc-900 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+                  className="flex-1 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/10 active:scale-95"
                 >
                   {copied ? <Check className="w-5 h-5 animate-bounce" /> : <Copy className="w-5 h-5" />}
-                  <span className="text-sm sm:text-base">{copied ? dict.tools.passgen.copied : dict.tools.passgen.copy}</span>
+                  <span className="text-sm sm:text-base text-white">{copied ? dict.tools.passgen.copied : dict.tools.passgen.copy}</span>
                 </button>
                 <button
                   onClick={() => setShowQR(!showQR)}
-                  className={`p-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
-                    showQR ? 'bg-white text-black' : 'bg-zinc-100 text-zinc-900 hover:bg-zinc-700'
+                  className={`p-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 border shadow-sm active:scale-95 ${
+                    showQR ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-900 hover:bg-zinc-50 border-black/5'
                   }`}
                   aria-label="Show QR Code"
                 >
@@ -164,27 +214,62 @@ export default function PassClient({ dict }: { dict: any }) {
             </div>
 
             {/* Toggles */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {['uppercase', 'lowercase', 'numbers', 'symbols'].map((key) => (
-                <button
-                  key={key}
-                  onClick={() => setOptions({ ...options, [key]: !options[key as keyof typeof options] })}
-                  className={`flex items-center justify-between p-4 rounded-xl border transition-all ${
-                    options[key as keyof typeof options]
-                      ? 'bg-emerald-500/5 border-emerald-500/20 text-zinc-900'
-                      : 'bg-zinc-100 border-black/5 text-zinc-600'
-                  }`}
-                >
-                  <span className="font-medium text-sm uppercase tracking-wider">{dict.tools.passgen[key]}</span>
-                  <div className={`w-10 h-6 rounded-full relative transition-colors ${
-                      options[key as keyof typeof options] ? 'bg-emerald-500' : 'bg-zinc-100'
-                    }`}>
-                    <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${
-                        options[key as keyof typeof options] ? 'left-5' : 'left-1'
-                      }`} />
-                  </div>
-                </button>
-              ))}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-1">
+                  {dict.tools.passgen.options}
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {['uppercase', 'lowercase', 'numbers', 'symbols'].map((key) => (
+                    <button
+                      key={key}
+                      onClick={() => toggleOption(key)}
+                      className={`flex items-center justify-between p-4 rounded-xl border transition-all ${
+                        options[key as keyof typeof options]
+                          ? 'bg-emerald-500/5 border-emerald-500/20 text-zinc-900 shadow-sm'
+                          : 'bg-zinc-100/50 border-black/5 text-zinc-400'
+                      }`}
+                    >
+                      <span className="font-medium text-xs uppercase tracking-wider">{dict.tools.passgen[key]}</span>
+                      <div className={`w-10 h-6 rounded-full relative transition-colors ${
+                          options[key as keyof typeof options] ? 'bg-emerald-500' : 'bg-zinc-200'
+                        }`}>
+                        <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm ${
+                            options[key as keyof typeof options] ? 'left-5' : 'left-1'
+                          }`} />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-1">
+                  {lang === 'zh' ? '特殊格式 (Special Formats)' : 'Special Formats'}
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {['uuid', 'pin6', 'pin8'].map((key) => (
+                    <button
+                      key={key}
+                      onClick={() => toggleOption(key)}
+                      className={`flex items-center justify-between sm:justify-center flex-row sm:flex-col gap-3 p-4 rounded-xl border transition-all ${
+                        options[key as keyof typeof options]
+                          ? 'bg-cyan-500/5 border-cyan-500/20 text-zinc-900 shadow-sm'
+                          : 'bg-zinc-100/50 border-black/5 text-zinc-400'
+                      }`}
+                    >
+                      <span className="font-bold text-[10px] uppercase tracking-widest">{dict.tools.passgen[key]}</span>
+                      <div className={`w-8 h-4 rounded-full relative transition-colors ${
+                          options[key as keyof typeof options] ? 'bg-cyan-500' : 'bg-zinc-200'
+                        }`}>
+                        <div className={`absolute top-0.5 w-3 h-3 bg-white rounded-full transition-all ${
+                            options[key as keyof typeof options] ? 'left-4.5' : 'left-0.5'
+                          }`} />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 

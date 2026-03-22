@@ -71,7 +71,7 @@ export default function IPClient() {
       geo: "地理位置 (Geo-Location)",
       net: "网络/ASN (Connectivity)",
       sec: "安全审计 (Security Audit)",
-      env: "环境感知 (Environment)",
+      env_title: "环境感知 (Environment)",
       loading: "正在同步全球路由节点...",
       copy: "复制 JSON",
       isp: "运营商 / 组织",
@@ -92,7 +92,10 @@ export default function IPClient() {
       ipv4: "IPv4 地址",
       ipv6: "IPv6 地址",
       not_found: "未检测到",
-      detecting: "检测中..."
+      detecting: "检测中...",
+      vpn_recommend: "推荐 VPN 服务",
+      vpn_recommend_desc: "为了更好的上网体验和隐私保护，我们推荐使用 NordVPN。全球领先的加密通讯服务，有效隐藏真实 IP 并加密所有流量。",
+      vpn_btn: "立即获取 NordVPN (68% OFF)"
     },
     en: {
       title: "Ops IP Insights",
@@ -102,7 +105,7 @@ export default function IPClient() {
       geo: "Geo-Location",
       net: "Connectivity / ASN",
       sec: "Security Audit",
-      env: "Environment Awareness",
+      env_title: "Environment Awareness",
       loading: "Synchronizing global routing nodes...",
       copy: "Copy JSON",
       isp: "ISP / Organization",
@@ -123,14 +126,17 @@ export default function IPClient() {
       ipv4: "IPv4 Address",
       ipv6: "IPv6 Address",
       not_found: "Not Detected",
-      detecting: "Detecting..."
+      detecting: "Detecting...",
+      vpn_recommend: "Recommended VPN Service",
+      vpn_recommend_desc: "For a better experience and privacy, we recommend NordVPN. Global leading encrypted communication service. Hide IP and encrypt traffic.",
+      vpn_btn: "Get NordVPN Now (68% OFF)"
     }
   }[lang]
 
   useEffect(() => {
     async function probeConnectivity() {
       setLoading(true)
-      
+
       const fetchIpAddress = async (url: string) => {
         try {
           const res = await fetch(url, { signal: AbortSignal.timeout(3000) })
@@ -249,19 +255,40 @@ export default function IPClient() {
     <div className="min-h-screen bg-[#fafafa] text-zinc-700 font-sans selection:bg-accent selection:text-zinc-900 pb-24 relative overflow-hidden">
       {/* Background Grid Layer */}
       <div className="absolute inset-0 bg-grid-zinc-900/[0.05] pointer-events-none"></div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-accent/5 blur-[120px] rounded-full pointer-events-none"></div>
-
-      <div className="w-full max-w-6xl mx-auto px-6 py-4 flex justify-end items-center z-20 relative">
-        <button 
-          onClick={copyToClipboard}
-          className="flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-md hover:border-zinc-300 transition-all active:scale-95"
-        >
-          {copied ? <Check className="w-4 h-4 text-emerald-700" /> : <Copy className="w-4 h-4" />}
-          <span className="text-xs font-mono uppercase tracking-wider">{copied ? dict.copied : dict.copy}</span>
-        </button>
-      </div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
 
       <main className="w-full max-w-6xl mx-auto px-6 mt-12 z-20 relative">
+        {/* Breadcrumbs */}
+        <div className="flex items-center gap-2 mb-8 text-[11px] font-mono uppercase tracking-widest text-zinc-500">
+          <Link href={`/`} className="hover:text-emerald-600 transition-colors">HOME</Link>
+          <span className="text-zinc-300">/</span>
+          <Link href={`/services`} className="hover:text-emerald-600 transition-colors">MATRIX</Link>
+          <span className="text-zinc-300">/</span>
+          <span className="text-zinc-900 border-b border-emerald-500/30 font-bold uppercase">OPSKIT-NODE</span>
+        </div>
+
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+          <div className="flex items-center gap-4">
+            <div className="p-3.5 bg-zinc-900 rounded-2xl shadow-xl border border-zinc-800 group transition-all">
+              <Globe className="w-7 h-7 text-emerald-500 group-hover:scale-110 transition-transform" />
+            </div>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight flex items-center gap-3 italic">
+                {dict.title}
+              </h1>
+              <p className="text-zinc-500 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-1">{dict.subtitle}</p>
+            </div>
+          </div>
+          <button 
+            onClick={copyToClipboard}
+            className="flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-xl hover:border-zinc-300 transition-all active:scale-95 shadow-sm"
+          >
+            {copied ? <Check className="w-4 h-4 text-emerald-700" /> : <Copy className="w-4 h-4" />}
+            <span className="text-xs font-mono uppercase tracking-wider">{copied ? dict.copied || 'COPIED' : dict.copy || 'COPY JSON'}</span>
+          </button>
+        </div>
+
         {/* Dual Stack Display */}
         <div className="flex flex-col items-center justify-center text-center mb-16 px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
@@ -409,7 +436,7 @@ export default function IPClient() {
               <div className="w-8 h-8 bg-purple-500/10 border border-purple-500/20 flex items-center justify-center rounded-lg">
                 <Monitor className="w-4 h-4 text-purple-600" />
               </div>
-              <h3 className="text-xs font-mono font-bold text-zinc-900 uppercase tracking-wider">{dict.env}</h3>
+              <h3 className="text-xs font-mono font-bold text-zinc-900 uppercase tracking-wider">{dict.env_title}</h3>
             </div>
             <div className="space-y-4">
               <div className="flex flex-col gap-1">
@@ -431,6 +458,7 @@ export default function IPClient() {
             </div>
           </div>
         </div>
+
 
         {/* Global Traffic Radar Mockup */}
         <div className="mt-16 glass-card p-4 rounded-xl border border-black/5 bg-black/10 backdrop-blur-md overflow-hidden relative min-h-[120px]">

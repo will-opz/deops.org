@@ -1,26 +1,27 @@
 {
   "nav": {
-    "kb": "数字花园",
+    "kb": "运维智能节点",
     "services": "服务矩阵",
     "blog": "技术笔记",
     "about": "关于我们"
   },
   "home": {
-    "meta_title": "deops - AI 驱动的边缘运维基础设施",
-    "meta_desc": "运维的未来由 AI 定义。极简、硬核、边缘动态渲染，专为 SRE 打造。",
+    "meta_title": "OpsKitPro - 专业运维与开发者工具箱",
+    "meta_desc": "运维的未来由高效率定义。极简、硬核、边缘动态渲染，专为 SRE 打造。",
     "system_status": "系统内核 v2.4 运行中",
+    "btn_chat": "Matrix 节点",
     "title_part1": "运维的未来",
     "title_part2_pre": "由",
     "title_part2_ai": "AI",
     "title_part2_suf": "定义",
-    "subtitle": "极简，极客，全面自动化。deops 是为下一代 AI 原生工程师构建的去中心化运维基础设施。",
+    "subtitle": "极简，专业，全面自动化。OpsKitPro 是为下一代 SRE 工程师构建的专业运维工具箱。",
     "btn_init": "初始化协议",
     "btn_docs": "查看文档",
     "card1_title": "AI 驱动洞察",
     "card1_desc": "基于大语言模型的预测性异常检测与自动化根因分析，将 MTTR 降至冰点。",
     "card2_title": "全自动流水线",
     "card2_desc": "事件驱动修复与 CI/CD 深度集成。基础设施即代码，把其余的交给算法。",
-    "card3_title": "极客知识库",
+    "card3_title": "运维智能节点",
     "card3_desc": "类 Obsidian 的 Markdown 渲染引擎，用于事故复盘与架构设计。沉淀你的全量运维记忆。",
     "card4_title": "硬核工具箱",
     "card4_desc": "工业级运维工具。支持熵增随机密码生成与实时二维码矩阵编码，边缘侧零延迟响应。",
@@ -44,8 +45,8 @@
     "cat_cicd": "持续集成与交付"
   },
   "footer": {
-    "copyright": "© 2026 deops.org",
-    "slogan": "深度. 定义. 去中心化.",
+    "copyright": "© 2026 OpsKitPro.com",
+    "slogan": "极简. 专业. 高效.",
     "all_systems_operational": "所有节点响应健康"
   },
 
@@ -59,6 +60,8 @@
     "ip_desc": "深度解析网络元数据，包括 ASN、运营商属性及安全风险判定。",
     "json_title": "JSON 格式化 / 校验器",
     "json_desc": "极低延迟的 JSON 结构化处理工具，支持实时校验与压缩。",
+    "matrix_title": "Matrix 终端",
+    "matrix_desc": "去中心化、端到端加密的实时通讯节点。",
     "ip": {
       "loading": "正在同步全球路由节点...",
       "your_ip": "您的访问地址",
@@ -93,6 +96,9 @@
       "lowercase": "小写字母 (a-z)",
       "numbers": "数字 (0-9)",
       "symbols": "符号 (!@#$)",
+      "uuid": "UUID v4",
+      "pin6": "6位 PIN 码",
+      "pin8": "8位 PIN 码",
       "generate": "重新生成",
       "copy": "复制到剪贴板",
       "show_qr": "显示二维码",

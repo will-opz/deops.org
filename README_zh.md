@@ -1,8 +1,8 @@
-# deops (de + ops) — AI 原生运维基础设施
+# OpsKitPro (Ops + Kit + Professional) — AI 原生运维基础设施
 
 [English](./README.md) | [简体中文](./README_zh.md)
 
-**deops** 是一个极简、硬核且高度自动化的运维基础设施，专为下一代 AI 原生工程师构建。该项目从资深 SRE 的视角设计，体现去中心化、代码定义（Infrastructure as Code）的核心理念。
+**OpsKitPro** 是一个极简、硬核且高度自动化的运维基础设施，专为下一代 AI 原生工程师构建。该项目从资深 SRE 的视角设计，体现去中心化、代码定义（Infrastructure as Code）的核心理念。
 
 > [!IMPORTANT]
 > 本项目运行在 **Cloudflare Workers** 上，通过 [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare) 适配器部署。Worker 入口仅 ~2 KB，服务端逻辑和静态资源从边缘按需加载。
@@ -12,9 +12,10 @@
 ## 🚀 核心特性
 
 - **⚡ 边缘优先架构** — 基于 **Next.js 16 (Turbopack)** + **Cloudflare Workers**，绕过传统服务器瓶颈
-- **🛡️ 网安工具箱** — 工业级实用工具（随机密码生成器、文本转二维码、IP 态势感知）
+- **🛡️ 网安工具箱** — 工业级实用工具（随机密码/UUID/PIN、二维码转化、IP 态势感知、JSON 智能修复）
+- **💬 Matrix 终端** — 去中心化、端到端加密的实时通讯节点，深度集成至服务矩阵
 - **🌐 HUD 服务矩阵** — 45+ 运维工具，12 个分类，Spotlight 全局搜索（`Cmd+K`）
-- **🧠 数字花园** — [kb.deops.org](https://kb.deops.org)，基于 Quartz + Obsidian 的知识图谱
+- **🧠 运维智能节点** — [kb.opskitpro.com](https://kb.opskitpro.com)，基于 Quartz + Obsidian 的知识图谱
 - **🌏 国际化** — Cookie 驱动的中英双语切换，自动检测浏览器语言
 
 ---
@@ -43,8 +44,8 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/will-opz/deops.org.git
-cd deops.org
+git clone https://github.com/will-opz/opskitpro.git
+cd opskitpro
 
 # 安装依赖
 npm install
@@ -130,18 +131,18 @@ npm run upload
 
 | 配置项 | 值 |
 |--------|-----|
-| Worker 名称 | `deops-org` |
-| 自定义域名 | `deops.org`, `www.deops.org` |
+| Worker 名称 | `opskitpro-org` |
+| 自定义域名 | `opskitpro.com`, `www.opskitpro.com` |
 | 兼容性标志 | `nodejs_compat`, `global_fetch_strictly_public` |
 | 兼容日期 | `2024-12-30` |
 
 OpenNext 适配器配置：[`open-next.config.ts`](./open-next.config.ts)
 
-### 子站 `kb.deops.org` (Cloudflare Pages)
+### 子站 `kb.opskitpro.com` (Cloudflare Pages)
 
 | 配置项 | 值 |
 |--------|-----|
-| 仓库 | `will-opz/kb.deops.org` |
+| 仓库 | `will-opz/kb.opskitpro.com` |
 | 构建命令 | `npx quartz build` |
 | 输出目录 | `public` |
 
@@ -160,13 +161,14 @@ OpenNext 适配器配置：[`open-next.config.ts`](./open-next.config.ts)
 │   │   └── tools/            # 网安工具（passgen, qrgen, ip）
 │   ├── components/           # 共享 React 组件
 │   ├── dictionaries/         # i18n 翻译文件（zh.json, en.json）
-│   └── middleware.ts          # 语言检测中间件
+│   └── proxy.ts              # 语言检测与路由代理
 ├── public/                   # 静态资源
 ├── next.config.ts            # Next.js + OpenNext 开发配置
 ├── open-next.config.ts       # OpenNext 适配器配置
 ├── wrangler.jsonc            # Cloudflare Worker 配置
 ├── tailwind.config.ts        # Tailwind CSS 配置
-└── package.json
+├── package.json
+└── README.md
 ```
 
 ---
@@ -191,5 +193,5 @@ OpenNext 适配器配置：[`open-next.config.ts`](./open-next.config.ts)
 
 <p align="center">
   <b>深度. 定义. 去中心化.</b><br/>
-  Designed by <a href="https://deops.org">deops.org</a>
+  Designed by <a href="https://opskitpro.com">OpsKitPro.com</a>
 </p>

@@ -67,3 +67,20 @@
 .logo-svg circle, .logo-svg path { stroke: #52525b; }
 .group:hover .logo-svg rect { stroke: rgba(16,185,129,0.5); }
 .group:hover .logo-svg circle, .group:hover .logo-svg path { stroke: #18181b; }
+
+.ai-glow {
+  color: #10b981;
+  text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+  animation: ai-pulse 4s ease-in-out infinite;
+}
+
+@keyframes ai-pulse {
+  0%, 100% {
+    text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    opacity: 1;
+  }
+  50% {
+    text-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+    opacity: 0.9;
+  }
+}

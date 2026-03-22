@@ -37,7 +37,7 @@ export function SiteHeader({ dict, lang }: { dict: any; lang: 'zh' | 'en' }) {
           <circle cx="16" cy="24" r="2" fill="#10b981" className="animate-pulse group-hover:scale-[1.5] group-hover:fill-emerald-500 transition-all origin-[16px_24px] duration-500"/>
         </svg>
         <span className="font-mono text-xl font-bold tracking-tight text-zinc-900 group-hover:text-accent transition-colors">
-          deops<span className="text-accent animate-pulse">_</span>
+          OpsKit<span className="text-accent animate-pulse">Pro_</span>
         </span>
       </Link>
 
@@ -49,7 +49,7 @@ export function SiteHeader({ dict, lang }: { dict: any; lang: 'zh' | 'en' }) {
         <Link href={`/blog`} className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2">
           <FileText className="w-4 h-4" /> {dict.nav.blog}
         </Link>
-        <a href="https://kb.deops.org" target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+        <a href="https://kb.opskitpro.com" target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2">
           <BookOpen className="w-4 h-4" /> {dict.nav.kb}
         </a>
         <Link href={`/about`} className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2">
@@ -59,7 +59,7 @@ export function SiteHeader({ dict, lang }: { dict: any; lang: 'zh' | 'en' }) {
           <LanguageToggle currentLang={lang} />
         </div>
 
-        <Link href="https://github.com/will-opz/deops.org" target="_blank" className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2 ml-4">
+        <Link href="https://github.com/will-opz/opskitpro" target="_blank" className="text-zinc-600 hover:text-zinc-900 hover:-translate-y-0.5 transition-all flex items-center gap-2 ml-4">
           <Github className="w-5 h-5" />
         </Link>
       </nav>
@@ -83,7 +83,7 @@ export function SiteHeader({ dict, lang }: { dict: any; lang: 'zh' | 'en' }) {
             <Link href={`/blog`} onClick={() => setIsMenuOpen(false)} className="hover:text-zinc-900 flex items-center gap-3">
               <FileText className="w-5 h-5" /> {dict.nav.blog}
             </Link>
-            <a href="https://kb.deops.org" target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="hover:text-zinc-900 flex items-center gap-3">
+            <a href="https://kb.opskitpro.com" target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="hover:text-zinc-900 flex items-center gap-3">
               <BookOpen className="w-5 h-5" /> {dict.nav.kb}
             </a>
             <Link href={`/about`} onClick={() => setIsMenuOpen(false)} className="hover:text-zinc-900 flex items-center gap-3">
@@ -92,7 +92,7 @@ export function SiteHeader({ dict, lang }: { dict: any; lang: 'zh' | 'en' }) {
             
             <div className="flex items-center gap-6 mt-4 pt-8 border-t border-black/10 w-48 justify-center">
               <LanguageToggle currentLang={lang} />
-              <Link href="https://github.com/will-opz/deops.org" target="_blank" onClick={() => setIsMenuOpen(false)} className="text-zinc-600 hover:text-zinc-900">
+              <Link href="https://github.com/will-opz/opskitpro" target="_blank" onClick={() => setIsMenuOpen(false)} className="text-zinc-600 hover:text-zinc-900">
                 <Github className="w-6 h-6" />
               </Link>
             </div>

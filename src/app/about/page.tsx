@@ -28,8 +28,8 @@ export default async function AboutPage() {
           </h1>
           <p className="text-zinc-600 text-lg leading-relaxed max-w-2xl">
             {isZh 
-              ? "极简，极客，全面自动化。deops 是为下一代 AI 原生工程师构建的去中心化运维基础设施。我们相信运维的未来不仅限于基础设施的代码化，更属于边缘计算与大模型驱动的智能决策。"
-              : "Minimalist, hardcore, and fully automated. deops is the decentralized operations infrastructure built for the next generation of AI-native engineers. We believe the future of operations goes beyond infrastructure-as-code; it belongs to edge computing and LLM-driven intelligent decision-making."
+              ? "极简，极客，全面自动化。OpsKitPro 是为下一代 AI 原生工程师构建的去中心化运维基础设施。我们相信运维的未来不仅限于基础设施的代码化，更属于边缘计算与大模型驱动的智能决策。"
+              : "Minimalist, hardcore, and fully automated. OpsKitPro is the decentralized operations infrastructure built for the next generation of AI-native engineers. We believe the future of operations goes beyond infrastructure-as-code; it belongs to edge computing and LLM-driven intelligent decision-making."
             }
           </p>
         </section>
@@ -59,7 +59,7 @@ export default async function AboutPage() {
               { 
                 icon: Terminal, 
                 title: isZh ? "极客至上" : "Hacker Ethos", 
-                desc: isZh ? "终端风格的界面设计、Cmd+K 全局搜索、HUD 仪表盘——deops 为有技术洁癖的人打造。" : "Terminal-inspired UI, Cmd+K global search, HUD dashboards — deops is built for those with a taste for technical perfection."
+                desc: isZh ? "终端风格的界面设计、Cmd+K 全局搜索、HUD 仪表盘——OpsKitPro 为有技术洁癖的人打造。" : "Terminal-inspired UI, Cmd+K global search, HUD dashboards — OpsKitPro is built for those with a taste for technical perfection."
               }
             ].map((item, idx) => {
               const Icon = item.icon
@@ -87,7 +87,7 @@ export default async function AboutPage() {
               <div className="flex items-center gap-3"><span className="text-emerald-600 font-bold">▸</span> Cloudflare Edge Runtime</div>
               <div className="flex items-center gap-3"><span className="text-emerald-600 font-bold">▸</span> Tailwind CSS v4</div>
               <div className="flex items-center gap-3"><span className="text-emerald-600 font-bold">▸</span> Lucide React Icons</div>
-              <div className="flex items-center gap-3"><span className="text-emerald-600 font-bold">▸</span> Quartz (Obsidian Digital Garden)</div>
+              <div className="flex items-center gap-3"><span className="text-emerald-600 font-bold">▸</span> Quartz (Ops Intelligence Node)</div>
               <div className="flex items-center gap-3"><span className="text-emerald-600 font-bold">▸</span> Cookie-based i18n (zh/en)</div>
             </div>
           </div>
@@ -100,8 +100,8 @@ export default async function AboutPage() {
           </h2>
           <div className="flex flex-wrap gap-4">
             {[
-              { label: "GitHub", url: "https://github.com/will-opz/deops.org", icon: Github },
-              { label: isZh ? "数字花园" : "Digital Garden", url: "https://kb.deops.org", icon: Globe },
+              { label: "GitHub", url: "https://github.com/will-opz/opskitpro", icon: Github },
+              { label: isZh ? "运维智能节点" : "Ops Intelligence Node", url: "https://kb.opskitpro.com", icon: Globe },
             ].map((link, idx) => {
               const Icon = link.icon
               return (
@@ -132,8 +132,8 @@ export default async function AboutPage() {
             </div>
             <div>
               <p className="text-sm text-zinc-500 mb-1 font-mono">{isZh ? "业务合作 / 技术交流 / 安全反馈" : "Business / Tech / Security Feedback"}</p>
-              <a href="mailto:admin@deops.org" className="text-lg font-bold text-zinc-900 hover:text-emerald-600 transition-colors font-mono">
-                admin@deops.org
+              <a href="mailto:admin@opskitpro.com" className="text-lg font-bold text-zinc-900 hover:text-emerald-600 transition-colors font-mono">
+                admin@opskitpro.com
               </a>
             </div>
           </div>

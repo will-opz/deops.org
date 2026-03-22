@@ -21,7 +21,7 @@ export default function QRClient({ dict }: { dict: any }) {
       ctx?.drawImage(img, 0, 0)
       const pngFile = canvas.toDataURL('image/png')
       const downloadLink = document.createElement('a')
-      downloadLink.download = `deops-qr-${Date.now()}.png`
+      downloadLink.download = `opskitpro-qr-${Date.now()}.png`
       downloadLink.href = pngFile
       downloadLink.click()
     }
@@ -29,31 +29,31 @@ export default function QRClient({ dict }: { dict: any }) {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pt-12 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-2 mb-8 text-sm font-mono">
-          <Link href={`/`} className="text-zinc-500 hover:text-zinc-900 transition-colors">
-            🏠 首页
-          </Link>
+        <div className="flex items-center gap-2 mb-8 text-[11px] font-mono uppercase tracking-widest text-zinc-500">
+          <Link href={`/`} className="hover:text-emerald-600 transition-colors">HOME</Link>
           <span className="text-zinc-300">/</span>
-          <Link href={`/services`} className="text-emerald-700 hover:text-emerald-600 transition-colors">
-            {dict.nav.services}
-          </Link>
+          <Link href={`/services`} className="hover:text-emerald-600 transition-colors">MATRIX</Link>
+          <span className="text-zinc-300">/</span>
+          <span className="text-zinc-900 border-b border-emerald-500/30 font-bold uppercase">OPSKIT-NODE</span>
         </div>
 
         <div className="flex items-center gap-4 mb-2">
-          <div className="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
-            <QrCode className="w-8 h-8 text-emerald-700" />
+          <div className="p-3.5 bg-zinc-900 rounded-2xl shadow-xl border border-zinc-800 group transition-all">
+            <QrCode className="w-7 h-7 text-emerald-500 group-hover:scale-110 transition-transform" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-800 to-zinc-500">
+            <h1 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight flex items-center gap-3 italic">
               {dict.tools.qrgen_title}
             </h1>
-            <p className="text-zinc-600 mt-1">{dict.tools.qrgen_desc}</p>
+            <p className="text-zinc-500 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-1">{dict.tools.qrgen_desc}</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
           {/* Input Side */}
           <div className="space-y-6">
             <div className="bg-zinc-100 rounded-2xl border border-black/10 p-6 backdrop-blur-sm">

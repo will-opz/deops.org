@@ -33,16 +33,20 @@ export default async function Home() {
 
         <div className="max-w-4xl mx-auto flex flex-col items-center">
 
-          <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
-            <span className="block text-4xl md:text-6xl font-semibold text-zinc-800 tracking-[-0.03em] leading-[1.2] mb-2">
+          <h1 className="mb-10 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100 flex flex-col items-center">
+            <span className="block text-4xl md:text-5xl lg:text-6xl font-medium text-zinc-600 tracking-[-0.02em] leading-[1.3] mb-4">
               {dict.home.title_part1}
             </span>
-            <span className="block text-5xl md:text-7xl font-bold text-zinc-900 tracking-[-0.04em] leading-[1.1]">
-              {dict.home.title_part2_pre}{' '}
-              <span className="inline-block font-mono font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-emerald-400 tracking-[0.06em] [text-shadow:0_0_40px_rgba(16,185,129,0.3)]" style={{ WebkitTextStroke: '0px' }}>
-                {dict.home.title_part2_ai}
+            <span className="block text-5xl md:text-7xl lg:text-8xl font-black text-zinc-900 tracking-[-0.04em] leading-tight">
+              {dict.home.title_part2_pre}
+              <span className="inline-flex items-center mx-3 font-mono ai-glow tracking-[0.05em] select-none">
+                <span className="text-zinc-200 font-light opacity-50 mr-2">[</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 to-emerald-600">
+                  {dict.home.title_part2_ai}
+                </span>
+                <span className="text-zinc-200 font-light opacity-50 ml-2">]</span>
               </span>
-              {dict.home.title_part2_suf ? ` ${dict.home.title_part2_suf}` : ''}
+              {dict.home.title_part2_suf}
             </span>
           </h1>
           
@@ -52,21 +56,22 @@ export default async function Home() {
         </div>
 
         {/* Quick Access HUD */}
-        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 px-6 py-3 rounded-2xl border border-black/5 bg-white/80 backdrop-blur-xl mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 shadow-2xl">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 text-zinc-600 border-r border-black/10 pr-6 mr-2 hidden sm:flex">
-              <Terminal className="w-3.5 h-3.5 text-accent/70" />
-              <span className="text-[11px] font-mono uppercase tracking-[0.15em] font-medium">
-                {dict.home.quick_access}
-              </span>
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 px-8 py-3 rounded-2xl border border-black/5 bg-white/80 backdrop-blur-xl mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 shadow-2xl">
+          <Link href={`/services`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
+            <div className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
+              <TerminalSquare className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
             </div>
-            <Link href={`/tools/passgen`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
-              <div className="w-7 h-7 rounded-md bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-                <Zap className="w-4 h-4 text-orange-600 group-hover:scale-110 transition-transform" />
-              </div>
-              <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.home.tool_passgen}</span>
-            </Link>
-          </div>
+            <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.nav.services}</span>
+          </Link>
+
+          <div className="h-6 w-px bg-black/10 hidden md:block" />
+
+          <Link href={`/tools/passgen`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
+            <div className="w-7 h-7 rounded-md bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
+              <Zap className="w-4 h-4 text-orange-600 group-hover:scale-110 transition-transform" />
+            </div>
+            <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.home.tool_passgen}</span>
+          </Link>
           
           <div className="h-6 w-px bg-black/10 hidden md:block" />
           
@@ -94,15 +99,6 @@ export default async function Home() {
             </div>
             <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.home.tool_json || 'JSON'}</span>
           </Link>
-
-          <div className="h-6 w-px bg-black/10 hidden md:block" />
-
-          <Link href={`/services`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
-            <div className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
-              <TerminalSquare className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
-            </div>
-            <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.nav.services}</span>
-          </Link>
         </div>
 
         {/* Features Grid */}
@@ -120,7 +116,7 @@ export default async function Home() {
             </p>
           </div>
 
-          <a href="https://kb.deops.org" target="_blank" rel="noopener noreferrer" id="kb" className="glass-card p-8 rounded-xl group hover:border-cyan-500/30 transition-all scroll-mt-24 no-underline cursor-pointer">
+          <a href="https://kb.opskitpro.com" target="_blank" rel="noopener noreferrer" id="kb" className="glass-card p-8 rounded-xl group hover:border-cyan-500/30 transition-all scroll-mt-24 no-underline cursor-pointer">
             <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all">
               <BookOpen className="w-6 h-6 text-cyan-600" />
             </div>
