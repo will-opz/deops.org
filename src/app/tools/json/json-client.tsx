@@ -80,21 +80,69 @@ function repairJson(input: string): { repaired: string; fixes: string[] } {
     fixes.push('Replaced undefined/NaN → null')
   }
 
-  // Try adding missing closing brackets
-  const openBraces = (s.match(/{/g) || []).length
-  const closeBraces = (s.match(/}/g) || []).length
-  const openBrackets = (s.match(/\[/g) || []).length
-  const closeBrackets = (s.match(/]/g) || []).length
+  // ─── Bracket Balancing (handles both missing and extra brackets) ───
+  // Use a stack-based approach for accurate matching
+  const stack: string[] = []
+  let inString = false
+  let escaped = false
 
-  if (openBraces > closeBraces) {
-    const diff = openBraces - closeBraces
-    s += '}'.repeat(diff)
-    fixes.push(`Added ${diff} missing closing brace(s) "}"`)
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i]
+    if (escaped) { escaped = false; continue }
+    if (ch === '\\' && inString) { escaped = true; continue }
+    if (ch === '"') { inString = !inString; continue }
+    if (inString) continue
+
+    if (ch === '{' || ch === '[') {
+      stack.push(ch)
+    } else if (ch === '}') {
+      if (stack.length > 0 && stack[stack.length - 1] === '{') {
+        stack.pop()
+      } else {
+        // Extra closing brace — will be handled below
+        stack.push('EXTRA_}')
+      }
+    } else if (ch === ']') {
+      if (stack.length > 0 && stack[stack.length - 1] === '[') {
+        stack.pop()
+      } else {
+        stack.push('EXTRA_]')
+      }
+    }
   }
-  if (openBrackets > closeBrackets) {
-    const diff = openBrackets - closeBrackets
-    s += ']'.repeat(diff)
-    fixes.push(`Added ${diff} missing closing bracket(s) "]"`)
+
+  // Process stack: unclosed openers need closers appended;
+  // extra closers need to be removed or openers prepended
+  let prepend = ''
+  let append = ''
+  const extraClose: string[] = []
+  const missingClose: string[] = []
+
+  // Reverse iterate: stack items are in order of appearance
+  for (const item of stack) {
+    if (item === '{') missingClose.push('}')
+    else if (item === '[') missingClose.push(']')
+    else if (item === 'EXTRA_}') extraClose.push('}')
+    else if (item === 'EXTRA_]') extraClose.push(']')
+  }
+
+  if (missingClose.length > 0) {
+    append = missingClose.reverse().join('')
+    s += append
+    fixes.push(`Added ${missingClose.length} missing closing bracket(s) "${append}"`)
+  }
+
+  if (extraClose.length > 0) {
+    // Strategy: remove the extra closing brackets from the end of the string,
+    // OR prepend matching opening brackets if they seem intentional
+    for (const bracket of extraClose) {
+      // Try removing the last occurrence of the extra bracket
+      const lastIdx = s.lastIndexOf(bracket)
+      if (lastIdx !== -1) {
+        s = s.substring(0, lastIdx) + s.substring(lastIdx + 1)
+      }
+    }
+    fixes.push(`Removed ${extraClose.length} extra closing bracket(s) "${extraClose.join('')}"`)
   }
 
   return { repaired: s, fixes }
