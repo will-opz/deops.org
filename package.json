@@ -19,6 +19,8 @@
     "@formatjs/intl-localematcher": "^0.8.2",
     "@opennextjs/cloudflare": "^1.17.1",
     "@tailwindcss/typography": "^0.5.19",
+    "ajv": "^8.18.0",
+    "ajv-formats": "^3.0.1",
     "esbuild": "^0.27.4",
     "jq-web": "^0.6.2",
     "js-yaml": "^4.1.1",
