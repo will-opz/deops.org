@@ -1,15 +1,15 @@
 'use client'
 
 import { useState, useCallback, useMemo } from 'react'
-import { Braces, Copy, Check, Trash2, AlertTriangle, CheckCircle2, Minimize2, Download, Upload, BookOpen, Wrench, Eye, Code } from 'lucide-react'
+import { Braces, Copy, Check, Trash2, AlertTriangle, CheckCircle2, Minimize2, Download, Upload, BookOpen, Wrench, Eye, Code, Terminal, ArrowRightLeft } from 'lucide-react'
 import Link from 'next/link'
 
 // Components
-import { JsonEditor, JsonTreeNode, DiffView, computeDiff } from './components'
+import { JsonEditor, JsonTreeNode, DiffView, computeDiff, JqQueryPanel, FormatConverter } from './components'
 import type { DiffLine } from './components'
 
 // Hooks
-import { repairJson, getJsonStats } from './hooks/useJsonRepair'
+import { repairJson, getJsonStats } from './hooks'
 
 const SAMPLE_JSON = `{
   "project": "OpsKitPro",
@@ -38,7 +38,30 @@ const SAMPLE_JSON = `{
   }
 }`
 
-type ViewMode = 'editor' | 'tree' | 'diff'
+// K8s-style sample for JQ demo
+const SAMPLE_K8S = `{
+  "apiVersion": "v1",
+  "kind": "PodList",
+  "items": [
+    {
+      "metadata": { "name": "nginx-abc123", "namespace": "default" },
+      "spec": { "nodeName": "node-1" },
+      "status": { "phase": "Running", "restartCount": 0 }
+    },
+    {
+      "metadata": { "name": "redis-xyz789", "namespace": "cache" },
+      "spec": { "nodeName": "node-2" },
+      "status": { "phase": "Running", "restartCount": 2 }
+    },
+    {
+      "metadata": { "name": "api-pending", "namespace": "default" },
+      "spec": { "nodeName": null },
+      "status": { "phase": "Pending", "restartCount": 0 }
+    }
+  ]
+}`
+
+type ViewMode = 'editor' | 'tree' | 'diff' | 'query' | 'convert'
 
 export default function JSONClient({ dict }: { dict: any }) {
   const [json, setJson] = useState('')
@@ -48,6 +71,7 @@ export default function JSONClient({ dict }: { dict: any }) {
   const [viewMode, setViewMode] = useState<ViewMode>('editor')
   const [diffData, setDiffData] = useState<DiffLine[] | null>(null)
   const [repairFixes, setRepairFixes] = useState<string[]>([])
+  const [jqOutput, setJqOutput] = useState('')
 
   const validate = useCallback((value: string) => {
     if (!value.trim()) {
@@ -67,7 +91,6 @@ export default function JSONClient({ dict }: { dict: any }) {
 
   const handleJsonChange = (value: string) => {
     setJson(value)
-    // Reset diff view if user edits
     if (viewMode === 'diff') setViewMode('editor')
   }
 
@@ -131,20 +154,22 @@ export default function JSONClient({ dict }: { dict: any }) {
     setErrorMsg('')
     setDiffData(null)
     setRepairFixes([])
+    setJqOutput('')
     setViewMode('editor')
   }
 
-  const loadSample = () => {
-    setJson(SAMPLE_JSON)
+  const loadSample = (type: 'basic' | 'k8s' = 'basic') => {
+    const sample = type === 'k8s' ? SAMPLE_K8S : SAMPLE_JSON
+    setJson(sample)
     setStatus('valid')
     setErrorMsg('')
-    setViewMode('editor')
     setDiffData(null)
   }
 
   const copyToClipboard = () => {
-    if (!json) return
-    navigator.clipboard.writeText(json)
+    const textToCopy = viewMode === 'query' && jqOutput ? jqOutput : json
+    if (!textToCopy) return
+    navigator.clipboard.writeText(textToCopy)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -163,7 +188,7 @@ export default function JSONClient({ dict }: { dict: any }) {
   const handleFileUpload = () => {
     const input = document.createElement('input')
     input.type = 'file'
-    input.accept = '.json,.txt'
+    input.accept = '.json,.yaml,.yml,.toml,.txt'
     input.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (!file) return
@@ -183,14 +208,14 @@ export default function JSONClient({ dict }: { dict: any }) {
     <div className="min-h-screen pt-12 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
 
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 mb-8 text-[11px] font-mono uppercase tracking-widest text-zinc-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-emerald-600 transition-colors">HOME</Link>
           <span className="text-zinc-300" aria-hidden="true">/</span>
           <Link href="/services" className="hover:text-emerald-600 transition-colors">MATRIX</Link>
           <span className="text-zinc-300" aria-hidden="true">/</span>
-          <span className="text-zinc-900 border-b border-emerald-500/30 font-bold uppercase" aria-current="page">OPSKIT-NODE</span>
+          <span className="text-zinc-900 border-b border-emerald-500/30 font-bold uppercase" aria-current="page">JSON-WORKBENCH</span>
         </nav>
 
         {/* Header */}
@@ -201,54 +226,60 @@ export default function JSONClient({ dict }: { dict: any }) {
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight flex items-center gap-3 italic">
-                {dict.tools.json_title}
+                JSON Workbench
               </h1>
-              <p className="text-zinc-500 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-1">{dict.tools.json_desc}</p>
+              <p className="text-zinc-500 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-1">
+                JQ Query • Format Convert • Smart Repair
+              </p>
             </div>
           </div>
         </header>
 
         {/* Action Bar */}
         <div className="flex flex-wrap items-center gap-2 mb-6" role="toolbar" aria-label="JSON actions">
-          <button onClick={loadSample}
-            className="flex items-center gap-1.5 px-3 py-2 bg-zinc-100 border border-zinc-200 rounded-lg text-xs font-mono text-zinc-600 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700 transition-all active:scale-95">
-            <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
-            {dict.tools.json.sample || 'Sample'}
+          {/* Sample buttons */}
+          <div className="relative group">
+            <button onClick={() => loadSample('basic')}
+              className="flex items-center gap-1.5 px-3 py-2 bg-zinc-100 border border-zinc-200 rounded-lg text-xs font-mono text-zinc-600 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700 transition-all active:scale-95">
+              <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
+              Sample
+            </button>
+          </div>
+          <button onClick={() => loadSample('k8s')}
+            className="flex items-center gap-1.5 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg text-xs font-mono text-blue-700 hover:bg-blue-100 hover:border-blue-300 transition-all active:scale-95">
+            K8s Demo
           </button>
+          
           <button onClick={handleFileUpload}
             className="flex items-center gap-1.5 px-3 py-2 bg-zinc-100 border border-zinc-200 rounded-lg text-xs font-mono text-zinc-600 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700 transition-all active:scale-95">
             <Upload className="w-3.5 h-3.5" aria-hidden="true" />
-            {dict.tools.json.upload || 'Upload'}
+            Upload
           </button>
           <button onClick={downloadJSON} disabled={!json || status === 'invalid'}
-            aria-disabled={!json || status === 'invalid'}
             className="flex items-center gap-1.5 px-3 py-2 bg-zinc-100 border border-zinc-200 rounded-lg text-xs font-mono text-zinc-600 hover:bg-purple-50 hover:border-purple-200 hover:text-purple-700 transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed">
             <Download className="w-3.5 h-3.5" aria-hidden="true" />
-            {dict.tools.json.download || 'Download'}
+            Download
           </button>
 
           <div className="hidden sm:block h-5 w-px bg-zinc-200 mx-1" aria-hidden="true"></div>
 
           <button onClick={smartRepair} disabled={!json || status !== 'invalid'}
-            aria-disabled={!json || status !== 'invalid'}
             className="flex items-center gap-1.5 px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg text-xs font-mono font-bold text-amber-700 hover:bg-amber-100 hover:border-amber-300 transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed">
             <Wrench className="w-3.5 h-3.5" aria-hidden="true" />
-            {dict.tools.json.repair || 'Repair'}
+            Repair
           </button>
 
           <div className="hidden sm:block h-5 w-px bg-zinc-200 mx-1" aria-hidden="true"></div>
 
-          <button onClick={copyToClipboard} disabled={!json}
-            aria-disabled={!json}
+          <button onClick={copyToClipboard} disabled={!json && !jqOutput}
             className="flex items-center gap-1.5 px-3 py-2 bg-white border border-zinc-200 rounded-lg text-xs font-mono text-zinc-600 hover:border-emerald-300 hover:text-emerald-700 transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed shadow-sm">
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" aria-hidden="true" /> : <Copy className="w-3.5 h-3.5" aria-hidden="true" />}
-            {copied ? dict.tools.json.copied : (dict.tools.json.copy || 'Copy')}
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? 'Copied' : 'Copy'}
           </button>
           <button onClick={clearAll} disabled={!json}
-            aria-disabled={!json}
             className="flex items-center gap-1.5 px-3 py-2 bg-zinc-100 border border-zinc-200 rounded-lg text-xs font-mono text-zinc-600 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed">
             <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
-            {dict.tools.json.clear}
+            Clear
           </button>
         </div>
 
@@ -264,25 +295,44 @@ export default function JSONClient({ dict }: { dict: any }) {
               </div>
 
               {/* View mode tabs */}
-              <div className="flex gap-1 bg-zinc-100 rounded-lg p-0.5" role="tablist" aria-label="View mode">
+              <div className="flex gap-1 bg-zinc-100 rounded-lg p-0.5" role="tablist">
                 <button
                   role="tab"
                   aria-selected={viewMode === 'editor'}
                   onClick={() => setViewMode('editor')}
                   className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider transition-all ${viewMode === 'editor' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-400 hover:text-zinc-600'}`}
                 >
-                  <Code className="w-3 h-3" aria-hidden="true" />
+                  <Code className="w-3 h-3" />
                   <span className="hidden sm:inline">Editor</span>
                 </button>
                 <button
                   role="tab"
+                  aria-selected={viewMode === 'query'}
+                  onClick={() => setViewMode('query')}
+                  disabled={status !== 'valid'}
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider transition-all disabled:opacity-30 disabled:cursor-not-allowed ${viewMode === 'query' ? 'bg-white text-emerald-700 shadow-sm' : 'text-zinc-400 hover:text-zinc-600'}`}
+                >
+                  <Terminal className="w-3 h-3" />
+                  <span className="hidden sm:inline">JQ</span>
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={viewMode === 'convert'}
+                  onClick={() => setViewMode('convert')}
+                  disabled={!json.trim()}
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider transition-all disabled:opacity-30 disabled:cursor-not-allowed ${viewMode === 'convert' ? 'bg-white text-blue-700 shadow-sm' : 'text-zinc-400 hover:text-zinc-600'}`}
+                >
+                  <ArrowRightLeft className="w-3 h-3" />
+                  <span className="hidden sm:inline">Convert</span>
+                </button>
+                <button
+                  role="tab"
                   aria-selected={viewMode === 'tree'}
-                  aria-disabled={status !== 'valid'}
                   onClick={() => setViewMode('tree')}
                   disabled={status !== 'valid'}
                   className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider transition-all disabled:opacity-30 disabled:cursor-not-allowed ${viewMode === 'tree' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-400 hover:text-zinc-600'}`}
                 >
-                  <Eye className="w-3 h-3" aria-hidden="true" />
+                  <Eye className="w-3 h-3" />
                   <span className="hidden sm:inline">Tree</span>
                 </button>
                 {diffData && (
@@ -292,7 +342,7 @@ export default function JSONClient({ dict }: { dict: any }) {
                     onClick={() => setViewMode('diff')}
                     className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider transition-all ${viewMode === 'diff' ? 'bg-white text-amber-700 shadow-sm' : 'text-amber-400 hover:text-amber-600'}`}
                   >
-                    <Wrench className="w-3 h-3" aria-hidden="true" />
+                    <Wrench className="w-3 h-3" />
                     <span className="hidden sm:inline">Diff</span>
                   </button>
                 )}
@@ -301,19 +351,25 @@ export default function JSONClient({ dict }: { dict: any }) {
 
             <div className="flex gap-2">
               <button onClick={formatJSON} disabled={!json}
-                aria-disabled={!json}
                 className="px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-500 transition-all active:scale-95 disabled:opacity-30 shadow-lg shadow-emerald-500/10">
-                {dict.tools.json.format}
+                Format
               </button>
               <button onClick={minifyJSON} disabled={!json}
-                aria-disabled={!json}
-                className="px-3 py-1.5 bg-zinc-900 text-white rounded-lg text-xs font-bold hover:bg-zinc-800 transition-all active:scale-95 disabled:opacity-30 flex items-center gap-1.5"
-                title={dict.tools.json.minify}>
-                <Minimize2 className="w-3.5 h-3.5" aria-hidden="true" />
-                <span className="hidden sm:inline">{dict.tools.json.minify}</span>
+                className="px-3 py-1.5 bg-zinc-900 text-white rounded-lg text-xs font-bold hover:bg-zinc-800 transition-all active:scale-95 disabled:opacity-30 flex items-center gap-1.5">
+                <Minimize2 className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Minify</span>
               </button>
             </div>
           </div>
+
+          {/* JQ Query Panel (shown when in query mode) */}
+          {viewMode === 'query' && (
+            <JqQueryPanel 
+              inputJson={json} 
+              onOutputChange={setJqOutput}
+              dict={dict} 
+            />
+          )}
 
           {/* Editor View */}
           {viewMode === 'editor' && (
@@ -321,8 +377,35 @@ export default function JSONClient({ dict }: { dict: any }) {
               value={json}
               onChange={handleJsonChange}
               onValidate={validate}
-              placeholder={dict.tools.json.placeholder}
+              placeholder="Paste JSON, YAML, or TOML here..."
             />
+          )}
+
+          {/* JQ Query Output */}
+          {viewMode === 'query' && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-zinc-100">
+              {/* Input */}
+              <div className="relative">
+                <div className="absolute top-2 left-4 text-[9px] font-mono font-bold uppercase tracking-wider text-zinc-300">INPUT</div>
+                <pre className="p-6 pt-8 min-h-[300px] max-h-[400px] overflow-auto font-mono text-[12px] leading-relaxed text-zinc-600 bg-zinc-50/30">
+                  {json || <span className="text-zinc-300 italic">No input</span>}
+                </pre>
+              </div>
+              {/* Output */}
+              <div className="relative">
+                <div className="absolute top-2 left-4 text-[9px] font-mono font-bold uppercase tracking-wider text-emerald-400">OUTPUT</div>
+                <pre className="p-6 pt-8 min-h-[300px] max-h-[400px] overflow-auto font-mono text-[12px] leading-relaxed text-emerald-700 bg-emerald-50/30">
+                  {jqOutput || <span className="text-zinc-300 italic">Run a query to see output</span>}
+                </pre>
+              </div>
+            </div>
+          )}
+
+          {/* Convert View */}
+          {viewMode === 'convert' && (
+            <div className="p-6">
+              <FormatConverter inputValue={json} dict={dict} />
+            </div>
           )}
 
           {/* Tree View */}
@@ -344,12 +427,12 @@ export default function JSONClient({ dict }: { dict: any }) {
             'bg-zinc-50/50 border-zinc-100 text-zinc-400'
           }`} role="status" aria-live="polite">
             <div className="flex items-center gap-3 min-w-0">
-              {status === 'valid' ? <CheckCircle2 className="w-4 h-4 shrink-0" aria-hidden="true" /> :
-               status === 'invalid' ? <AlertTriangle className="w-4 h-4 shrink-0" aria-hidden="true" /> :
-               <Braces className="w-4 h-4 shrink-0" aria-hidden="true" />}
+              {status === 'valid' ? <CheckCircle2 className="w-4 h-4 shrink-0" /> :
+               status === 'invalid' ? <AlertTriangle className="w-4 h-4 shrink-0" /> :
+               <Braces className="w-4 h-4 shrink-0" />}
               <span className="text-[11px] font-mono font-bold uppercase tracking-wider shrink-0">
-                {status === 'valid' ? dict.tools.json.valid :
-                 status === 'invalid' ? dict.tools.json.invalid : "IDLE"}
+                {status === 'valid' ? 'VALID JSON' :
+                 status === 'invalid' ? 'INVALID' : "IDLE"}
               </span>
               {status === 'invalid' && errorMsg && (
                 <span className="text-[10px] font-mono opacity-70 break-all line-clamp-2 min-w-0">
@@ -360,11 +443,11 @@ export default function JSONClient({ dict }: { dict: any }) {
             {stats && status === 'valid' && (
               <div className="flex items-center gap-3 text-[10px] font-mono text-emerald-600/70 uppercase tracking-wider shrink-0">
                 <span>{stats.type}</span>
-                <span className="text-emerald-300" aria-hidden="true">•</span>
+                <span className="text-emerald-300">•</span>
                 <span>{stats.keys} keys</span>
-                <span className="text-emerald-300" aria-hidden="true">•</span>
+                <span className="text-emerald-300">•</span>
                 <span>depth {stats.depth}</span>
-                <span className="text-emerald-300" aria-hidden="true">•</span>
+                <span className="text-emerald-300">•</span>
                 <span>{stats.size}</span>
               </div>
             )}
