@@ -1,21 +1,17 @@
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { 
-  BrainCircuit, 
-  ArrowUpRight, 
   Zap,
-  Terminal,
-  QrCode,
-  TerminalSquare,
-  BookOpen,
   Globe,
-  FileText,
-  Braces
+  Activity,
+  History,
+  ArrowRight,
+  AlertCircle
 } from 'lucide-react'
 import { getDictionary } from '@/dictionaries'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
-
+import HomeSearch from '@/components/HomeSearch'
 
 export default async function Home() {
   const cookieStore = await cookies();
@@ -26,146 +22,146 @@ export default async function Home() {
     <>
       <SiteHeader dict={dict} lang={lang} />
 
-      {/* Main Content */}
-      <main className="flex-grow flex flex-col items-center justify-center text-center px-6 z-10 mt-12 md:mt-20 mb-32 relative">
+      {/* 1. Hero Section & 2. Quick Detection (via HomeSearch) */}
+      <main className="flex-grow flex flex-col items-center justify-center text-center px-6 z-10 mt-12 md:mt-24 mb-32 relative">
         {/* Subtle Hero Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-accent/5 blur-[120px] rounded-full pointer-events-none z-[-1]"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-accent/5 blur-[150px] rounded-full pointer-events-none z-[-1]"></div>
 
         <div className="max-w-4xl mx-auto flex flex-col items-center">
-
-          <h1 className="mb-10 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100 flex flex-col items-center">
-            <span className="block text-4xl md:text-5xl lg:text-6xl font-medium text-zinc-600 tracking-[-0.02em] leading-[1.3] mb-4">
+          <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100 flex flex-col items-center leading-none">
+            <span className="block text-3xl md:text-4xl lg:text-5xl font-medium text-zinc-500 tracking-[-0.02em] mb-4">
               {dict.home.title_part1}
             </span>
-            <span className="block text-5xl md:text-7xl lg:text-8xl font-black text-zinc-900 tracking-[-0.04em] leading-tight">
+            <span className="block text-6xl md:text-8xl lg:text-9xl font-black text-zinc-900 tracking-[-0.05em] leading-[0.9]">
               {dict.home.title_part2_pre}
-              <span className="inline-flex items-center mx-3 font-mono ai-glow tracking-[0.05em] select-none">
-                <span className="text-zinc-200 font-light opacity-50 mr-2">[</span>
+              <span className="inline-flex items-center mx-2 font-mono ai-glow tracking-tighter select-none">
+                <span className="text-zinc-200 font-light opacity-30 mr-1">[</span>
                 <span className="text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 to-emerald-600">
                   {dict.home.title_part2_ai}
                 </span>
-                <span className="text-zinc-200 font-light opacity-50 ml-2">]</span>
+                <span className="text-zinc-200 font-light opacity-30 ml-1">]</span>
               </span>
-              {dict.home.title_part2_suf}
+              {dict.home.title_part2_suf || ""}
             </span>
           </h1>
           
-          <p className="text-lg md:text-xl text-zinc-600 max-w-2xl mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+          <p className="text-base md:text-lg text-zinc-500 max-w-2xl mb-12 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 font-mono text-balance">
             {dict.home.subtitle}
           </p>
         </div>
 
-        {/* Quick Access HUD */}
-        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 px-8 py-3 rounded-2xl border border-black/5 bg-white/80 backdrop-blur-xl mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 shadow-2xl">
-          <Link href={`/services`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
-            <div className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
-              <TerminalSquare className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
+        {/* Global Diagnostic Input */}
+        <HomeSearch dict={dict} lang={lang} />
+
+        {/* 3. Core Tools Section (Focused 3) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mb-24 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-600">
+          <Link href={`/tools/website-check`} className="glass-card p-8 rounded-[2rem] group hover:border-emerald-500/30 transition-all text-left">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all">
+              <Activity className="w-6 h-6 text-emerald-600" />
             </div>
-            <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.nav.services}</span>
+            <h3 className="text-xl font-bold text-zinc-900 mb-3 flex items-center gap-2 uppercase tracking-tighter italic">
+              {dict.home.card1_title}
+              <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+            </h3>
+            <p className="text-zinc-500 text-sm leading-relaxed font-mono">
+              {dict.home.card1_desc}
+            </p>
           </Link>
 
-          <div className="h-6 w-px bg-black/10 hidden md:block" />
-
-          <Link href={`/tools/passgen`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
-            <div className="w-7 h-7 rounded-md bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-              <Zap className="w-4 h-4 text-orange-600 group-hover:scale-110 transition-transform" />
+          <Link href={`/tools/ip-lookup`} className="glass-card p-8 rounded-[2rem] group hover:border-purple-500/30 transition-all text-left">
+            <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all">
+              <Globe className="w-6 h-6 text-purple-600" />
             </div>
-            <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.home.tool_passgen}</span>
-          </Link>
-          
-          <div className="h-6 w-px bg-black/10 hidden md:block" />
-          
-          <Link href={`/tools/qrgen`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
-            <div className="w-7 h-7 rounded-md bg-cyan-500/10 flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-              <QrCode className="w-4 h-4 text-cyan-600 group-hover:scale-110 transition-transform" />
-            </div>
-            <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.home.tool_qrgen}</span>
-          </Link>
-          
-          <div className="h-6 w-px bg-black/10 hidden md:block" />
-
-          <Link href={`/tools/ip`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
-            <div className="w-7 h-7 rounded-md bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
-              <Globe className="w-4 h-4 text-purple-600 group-hover:scale-110 transition-transform" />
-            </div>
-            <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.home.tool_ip}</span>
+            <h3 className="text-xl font-bold text-zinc-900 mb-3 flex items-center gap-2 uppercase tracking-tighter italic">
+              {dict.home.card2_title}
+              <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+            </h3>
+            <p className="text-zinc-500 text-sm leading-relaxed font-mono">
+              {dict.home.card2_desc}
+            </p>
           </Link>
 
-          <div className="h-6 w-px bg-black/10 hidden md:block" />
-
-          <Link href={`/tools/json`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
-            <div className="w-7 h-7 rounded-md bg-zinc-500/10 flex items-center justify-center group-hover:bg-zinc-500/20 transition-colors">
-              <Braces className="w-4 h-4 text-zinc-600 group-hover:scale-110 transition-transform" />
+          <Link href={`/tools/dns-lookup`} className="glass-card p-8 rounded-[2rem] group hover:border-orange-500/30 transition-all text-left">
+            <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-orange-500/20 transition-all">
+              <History className="w-6 h-6 text-orange-600" />
             </div>
-            <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.home.tool_json || 'JSON'}</span>
-          </Link>
-
-          <div className="h-6 w-px bg-black/10 hidden md:block" />
-
-          <Link href={`/tools/websocket`} className="flex items-center gap-2.5 group hover:bg-black/5 px-3 py-1.5 rounded-lg transition-all">
-            <div className="w-7 h-7 rounded-md bg-cyan-500/10 flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-              <Zap className="w-4 h-4 text-cyan-600 group-hover:scale-110 transition-transform" />
-            </div>
-            <span className="text-sm font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors">{dict.home.tool_websocket || 'WS'}</span>
+            <h3 className="text-xl font-bold text-zinc-900 mb-3 flex items-center gap-2 uppercase tracking-tighter italic">
+              {dict.home.card3_title}
+              <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+            </h3>
+            <p className="text-zinc-500 text-sm leading-relaxed font-mono">
+              {dict.home.card3_desc}
+            </p>
           </Link>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl text-left">
-          <div id="insight" className="glass-card p-8 rounded-xl group cursor-default scroll-mt-24">
-            <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all">
-              <BrainCircuit className="w-6 h-6 text-emerald-600" />
-            </div>
-            <h3 className="text-xl font-bold text-zinc-900 mb-3 flex items-center gap-2">
-              {dict.home.card1_title}
-              <ArrowUpRight className="w-4 h-4 text-zinc-600 group-hover:text-emerald-600 transition-colors opacity-0 group-hover:opacity-100" />
-            </h3>
-            <p className="text-zinc-600 text-sm leading-relaxed">
-              {dict.home.card1_desc}
-            </p>
-          </div>
+        {/* 4. Common Use Cases (Scenes) */}
+        <div className="w-full max-w-7xl mb-32 text-left bg-white border border-black/5 shadow-sm rounded-[3rem] p-12 md:p-24 relative overflow-hidden transition-all hover:shadow-xl group">
+           <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 blur-[120px] rounded-full group-hover:bg-emerald-500/10 transition-colors"></div>
+           <div className="relative z-10">
+              <h2 className="text-4xl md:text-5xl font-black text-zinc-900 tracking-tighter italic mb-12 lowercase">
+                 {dict.home.scenes.title}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                 {[
+                   { title: dict.home.scenes.s1_title, desc: dict.home.scenes.s1_desc, icon: AlertCircle },
+                   { title: dict.home.scenes.s2_title, desc: dict.home.scenes.s2_desc, icon: Zap },
+                   { title: dict.home.scenes.s3_title, desc: dict.home.scenes.s3_desc, icon: Globe },
+                 ].map((scene, i) => (
+                   <div key={i} className="flex flex-col gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-500/5 flex items-center justify-center text-emerald-500">
+                         <scene.icon className="w-5 h-5" />
+                      </div>
+                      <h4 className="text-xl font-bold text-zinc-900 italic tracking-tight">{scene.title}</h4>
+                      <p className="text-zinc-500 text-sm font-mono leading-relaxed truncate-3">{scene.desc}</p>
+                   </div>
+                 ))}
+              </div>
+           </div>
+        </div>
 
-          <a href="https://kb.opskitpro.com" target="_blank" rel="noopener noreferrer" id="kb" className="glass-card p-8 rounded-xl group hover:border-cyan-500/30 transition-all scroll-mt-24 no-underline cursor-pointer">
-            <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all">
-              <BookOpen className="w-6 h-6 text-cyan-600" />
-            </div>
-            <h3 className="text-xl font-bold text-zinc-900 mb-3 flex items-center gap-2">
-              {dict.home.card3_title}
-              <ArrowUpRight className="w-4 h-4 text-zinc-600 group-hover:text-cyan-600 transition-colors opacity-0 group-hover:opacity-100" />
-            </h3>
-            <p className="text-zinc-600 text-sm leading-relaxed">
-              {dict.home.card3_desc}
-            </p>
-          </a>
+        {/* 5. Featured Intel / Technical Notes (Articles) */}
+        <div className="w-full max-w-7xl mb-12 text-left">
+           <div className="flex items-center justify-between mb-10 border-b border-zinc-200/50 pb-6">
+              <div>
+                 <h2 className="text-2xl font-black text-zinc-900 tracking-tight italic">
+                   {dict.home.blog_section?.title || "FEATURED_INTEL"}
+                 </h2>
+                 <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">
+                   {dict.home.blog_section?.subtitle || "SRE Field Notes & Tech Forensics"}
+                 </p>
+              </div>
+              <Link href="/blog" className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 group">
+                 {dict.home.blog_section?.view_all || "VIEW_ALL_POSTS"}
+                 <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+              </Link>
+           </div>
 
-          <Link href={`/services`} className="glass-card p-8 rounded-xl group hover:border-orange-500/30 transition-all scroll-mt-24 no-underline">
-            <div className="w-12 h-12 rounded-lg bg-orange-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-orange-500/20 transition-all">
-              <Zap className="w-6 h-6 text-orange-600" />
-            </div>
-            <h3 className="text-xl font-bold text-zinc-900 mb-3 flex items-center gap-2">
-              {dict.home.card4_title}
-              <ArrowUpRight className="w-4 h-4 text-zinc-600 group-hover:text-orange-600 transition-colors opacity-0 group-hover:opacity-100" />
-            </h3>
-            <p className="text-zinc-600 text-sm leading-relaxed">
-              {dict.home.card4_desc}
-            </p>
-          </Link>
-
-          <Link href={`/blog`} id="blog" className="glass-card p-8 rounded-xl group hover:border-purple-500/30 transition-all scroll-mt-24 no-underline">
-            <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all">
-              <FileText className="w-6 h-6 text-purple-600" />
-            </div>
-            <h3 className="text-xl font-bold text-zinc-900 mb-3 flex items-center gap-2">
-              {dict.home.card5_title || "Technical Blog"}
-              <ArrowUpRight className="w-4 h-4 text-zinc-600 group-hover:text-purple-600 transition-colors opacity-0 group-hover:opacity-100" />
-            </h3>
-            <p className="text-zinc-600 text-sm leading-relaxed">
-              {dict.home.card5_desc || "Deep dives into Kubernetes, SRE workflows, and AI automation."}
-            </p>
-          </Link>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {(dict.home.blog_section?.posts || []).map((post: any, idx: number) => (
+                <Link key={idx} href="/blog" className="group flex flex-col gap-4">
+                   <div className="aspect-[16/9] w-full bg-zinc-100 rounded-[1.5rem] overflow-hidden border border-zinc-200/60 relative">
+                      <div className="absolute top-3 left-3 px-2 py-0.5 bg-white/80 backdrop-blur-md rounded text-[9px] font-bold font-mono tracking-widest border border-black/5 z-10">
+                        {post.tag}
+                      </div>
+                      <div className="w-full h-full bg-gradient-to-br from-zinc-200/50 to-zinc-400/50 group-hover:scale-105 transition-transform duration-700"></div>
+                   </div>
+                   <div>
+                      <div className="text-[10px] text-zinc-400 font-mono mb-2">{post.date}</div>
+                      <h3 className="text-base font-bold text-zinc-900 group-hover:text-emerald-600 transition-colors leading-snug mb-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed font-mono">
+                        {post.desc}
+                      </p>
+                   </div>
+                </Link>
+              ))}
+           </div>
         </div>
       </main>
 
+      {/* 6. Footer (Handled by component) */}
       <SiteFooter dict={dict} />
     </>
   )

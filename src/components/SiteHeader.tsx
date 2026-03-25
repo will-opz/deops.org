@@ -36,9 +36,13 @@ export function SiteHeader({ dict, lang }: { dict: any; lang: 'zh' | 'en' }) {
           {/* Heartbeat / Pulse / Automation */}
           <circle cx="16" cy="24" r="2" fill="#10b981" className="animate-pulse group-hover:scale-[1.5] group-hover:fill-emerald-500 transition-all origin-[16px_24px] duration-500"/>
         </svg>
-        <span className="font-mono text-xl font-bold tracking-tight text-zinc-900 group-hover:text-accent transition-colors">
-          OpsKit<span className="text-accent animate-pulse">Pro_</span>
+        <span className="font-mono text-xl font-bold tracking-tight text-zinc-900 group-hover:text-emerald-600 transition-colors">
+          OpsKit<span className="text-emerald-500 animate-pulse">Pro_</span>
         </span>
+        <div className="hidden lg:flex items-center gap-2 ml-4 px-3 py-1 bg-zinc-100 rounded-full border border-zinc-200 shadow-sm animate-in fade-in duration-1000">
+           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+           <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none mt-0.5">{dict.home.system_status}</span>
+        </div>
       </Link>
 
       {/* Desktop Nav */}

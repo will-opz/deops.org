@@ -6,33 +6,71 @@
     "about": "关于我们"
   },
   "home": {
-    "meta_title": "OpsKitPro - 专业运维与开发者工具箱",
-    "meta_desc": "运维的未来由高效率定义。极简、硬核、边缘动态渲染，专为 SRE 打造。",
+    "meta_title": "网站诊断工具 | IP查询 | DNS检测 - OpsKitPro",
+    "meta_desc": "运维的未来由高效率定义。网站打不开？一键检测原因。检测 DNS、CDN、SSL 状态，极简、硬核、专为 SRE 打造。",
     "system_status": "系统内核 v2.4 运行中",
     "btn_chat": "Matrix 节点",
-    "title_part1": "运维的未来",
-    "title_part2_pre": "由",
-    "title_part2_ai": "AI",
-    "title_part2_suf": "定义",
-    "subtitle": "极简，专业，全面自动化。OpsKitPro 是为下一代 SRE 工程师构建的专业运维工具箱。",
-    "btn_init": "初始化协议",
+    "title_part1": "网站打不开？",
+    "title_part2_pre": "一键检测",
+    "title_part2_ai": "原因",
+    "title_part2_suf": "",
+    "subtitle": "输入域名，立即分析：✔️DNS 是否异常 ✔️CDN / Cloudflare 状态 ✔️SSL 证书问题。简单 · 快速 · 无需登录。",
+    "btn_init": "立即检测你的网站",
     "btn_docs": "查看文档",
-    "card1_title": "AI 驱动洞察",
-    "card1_desc": "基于大语言模型的预测性异常检测与自动化根因分析，将 MTTR 降至冰点。",
-    "card2_title": "全自动流水线",
-    "card2_desc": "事件驱动修复与 CI/CD 深度集成。基础设施即代码，把其余的交给算法。",
-    "card3_title": "运维智能节点",
-    "card3_desc": "类 Obsidian 的 Markdown 渲染引擎，用于事故复盘与架构设计。沉淀你的全量运维记忆。",
-    "card4_title": "硬核工具箱",
-    "card4_desc": "工业级运维工具。支持熵增随机密码生成与实时二维码矩阵编码，边缘侧零延迟响应。",
+    "card1_title": "网站诊断",
+    "card1_desc": "一键检测网站是否可访问，快速定位 DNS、CDN、SSL 等问题。OpsKitPro 核心排障入口。",
+    "card2_title": "IP 查询",
+    "card2_desc": "查看 IP 所在地、ISP、网络信息，支持快速检测代理/VPN。深度态势感知。",
+    "card3_title": "DNS 查询",
+    "card3_desc": "查询域名解析记录，检测 DNS 是否异常或被污染。支持多节点全球解析取证。",
+    "card4_title": "运维应急包",
+    "card4_desc": "生产环境应急工具集。包含 WebSocket 调试、JSON 审计与紧急密码重置。",
     "card5_title": "技术笔记 / 博客",
-    "card5_desc": "深度技术文章与 SRE 实战笔记。涵盖 K8s 调优、网络安全与 AI 自动化工作流。",
-    "quick_access": "快捷指令",
+    "card5_desc": "Cloudflare 502 错误怎么解决？DNS 查询详解。深度 SRE 实战笔记。",
+    "quick_access": "立即检测你的网站",
     "tool_passgen": "密码生成",
     "tool_qrgen": "二维码转化",
-    "tool_ip": "IP 指令",
+    "tool_ip": "IP 查询",
     "tool_json": "JSON 工具",
-    "tool_websocket": "WS 调试"
+    "tool_websocket": "WS 调试",
+    "diagnostics_placeholder": "搜索域名 (e.g. example.com) 立即诊断...",
+    "diagnostics_btn": "立即检测",
+    "diagnostics_suffix": "正确性",
+    "scenes": {
+      "title": "常见使用场景",
+      "subtitle": "解决运维过程中的高频痛点",
+      "s1_title": "🔍 网站打不开？",
+      "s1_desc": "快速检测服务器、DNS 或 CDN 是否异常。",
+      "s2_title": "⚡️ Cloudflare 报错？",
+      "s2_desc": "定位 403 / 502 / 520 等常见状态码冲突。",
+      "s3_title": "🌐 DNS 解析异常？",
+      "s3_desc": "检查解析是否生效，防止域名被污染。"
+    },
+    "blog_section": {
+      "title": "技术取证笔记",
+      "subtitle": "来自边缘节点的实战记录与排障指南",
+      "view_all": "查看全部笔记",
+      "posts": [
+        {
+          "tag": "DIAGNOSTIC",
+          "date": "2026-03-25",
+          "title": "网站打不开怎么办？5步排查法",
+          "desc": "遇到 502 或解析错误？本文教你如何快速定位故障源。"
+        },
+        {
+          "tag": "SECURITY",
+          "date": "2026-03-25",
+          "title": "如何深度查询 IP 详细信息？",
+          "desc": "掌握 ASN 取证与地理位置解析，识别恶意节点。"
+        },
+        {
+          "tag": "NETWORK",
+          "date": "2026-03-25",
+          "title": "DNS 记录类型全解析：A, MX, CNAME",
+          "desc": "搞不懂 DNS 配置？本文为你拨云见日。"
+        }
+      ]
+    }
   },
   "services": {
     "title_part1": "服务",
@@ -47,24 +85,39 @@
   },
   "footer": {
     "copyright": "© 2026 OpsKitPro.com",
-    "slogan": "极简. 专业. 高效.",
+    "slogan": "OpsKitPro - 简单高效的运维工具集合 | 无需登录 · 免费使用 · 持续更新",
     "all_systems_operational": "所有节点响应健康"
   },
-
   "tools": {
     "cat_cyber": "网安工具箱 (Cyber Tools)",
+    "diagnostic_title": "网站全量诊断 (Forensics)",
+    "diagnostic_desc": "一键排查 DNS、SSL 及 CDN 链路故障。检测网站是否可访问。",
     "passgen_title": "随机密码生成",
     "passgen_desc": "1Password 级熵增策略，支持二维码安全迁移。",
     "qrgen_title": "文字转二维码",
     "qrgen_desc": "极速文本矩阵编码，支持实时预览与下载。",
-    "ip_title": "Ops IP 态势感知",
-    "ip_desc": "深度解析网络元数据，包括 ASN、运营商属性及安全风险判定。",
+    "ip_title": "IP 查询工具",
+    "ip_desc": "查看 IP 所在地、ISP、网络信息，支持检测代理/VPN。",
     "json_title": "JSON 格式化 / 校验器",
-    "json_desc": "极低延迟的 JSON 结构化处理工具，支持实时校验与压缩。",
+    "json_desc": "极低延迟的 JSON 结构化处理工具，带审计审计能力。",
     "websocket_title": "WebSocket 实时调试器",
-    "websocket_desc": "全双工通讯探测工具，支持消息订阅与实时日志记录。",
+    "websocket_desc": "全双工通讯探测工具，支持消息订阅与日志记录。",
     "matrix_title": "Matrix 终端",
     "matrix_desc": "去中心化、端到端加密的实时通讯节点。",
+    "website_check": {
+      "loading": "正在诊断网站健康状况...",
+      "l1": "DNS 解析检测中...",
+      "l2": "服务器连接测试...",
+      "l3": "SSL 证书检查...",
+      "l4": "CDN 状态分析...",
+      "summary_good": "检测结果：✅ 运行良好",
+      "summary_bad": "检测结果：⚠️ 存在问题",
+      "score": "总体评分",
+      "availability": "网站可访问性",
+      "advice_title": "优化建议",
+      "cta_title": "继续排查问题",
+      "related_articles": "相关教程"
+    },
     "ip": {
       "loading": "正在同步全球路由节点...",
       "your_ip": "您的访问地址",
@@ -90,7 +143,11 @@
       "type_corporate": "企业专线",
       "safe": "响应健康",
       "unsafe": "风险节点",
-      "searching": "探测中..."
+      "searching": "探测中...",
+      "ip_placeholder": "输入 IP 地址或留空查询本机...",
+      "ip_btn": "查询 IP",
+      "ip_json_toggle": "原始数据 (JSON)",
+      "ip_map_placeholder": "地图坐标感知中..."
     },
     "passgen": {
       "length": "密码长度",
@@ -132,7 +189,7 @@
       "repair_summary": "已应用修复"
     },
     "websocket": {
-      "placeholder": "输入 WebSocket 地址 (ws:// 或 wss://)",
+      "placeholder": "输入 WebSocket 地址",
       "connect": "连接节点",
       "disconnect": "断开连接",
       "send": "发送数据",
@@ -149,6 +206,18 @@
       "type": "类型",
       "message": "数据载荷",
       "time": "时间"
+    },
+    "dns": {
+      "placeholder": "查询域名 (google.com)...",
+      "btn": "运行检测 (Analyze)",
+      "type_label": "记录类型",
+      "provider_label": "DNS 节点",
+      "status_ok": "解析成功 (Resolved)",
+      "status_err": "解析故障 (Fault)",
+      "no_records": "无解析记录",
+      "raw_json": "原始响应 (JSON)",
+      "latency": "耗时",
+      "ttl": "TTL"
     }
   }
 }

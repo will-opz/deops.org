@@ -57,10 +57,12 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
     {
       category: dict.tools.cat_cyber,
       tools: [
+        { name: dict.tools.diagnostic_title, desc: dict.tools.diagnostic_desc, icon: Activity, status: "operational", url: `/tools/website-check` },
         { name: dict.tools.passgen_title, desc: dict.tools.passgen_desc, icon: KeyRound, status: "operational", url: `/tools/passgen` },
         { name: dict.tools.qrgen_title, desc: dict.tools.qrgen_desc, icon: QrCode, status: "operational", url: `/tools/qrgen` },
-        { name: dict.tools.ip_title, desc: dict.tools.ip_desc, icon: Globe, status: "operational", url: `/tools/ip` },
+        { name: dict.tools.ip_title, desc: dict.tools.ip_desc, icon: Globe, status: "operational", url: `/tools/ip-lookup` },
         { name: dict.tools.json_title, desc: dict.tools.json_desc, icon: Braces, status: "operational", url: `/tools/json` },
+        { name: dict.tools.dns.btn, desc: dict.tools.dns_lookup_desc || "Deep DNS forensics", icon: Search, status: "operational", url: `/tools/dns-lookup` },
         { name: dict.tools.websocket_title, desc: dict.tools.websocket_desc, icon: Zap, status: "operational", url: `/tools/websocket` },
         { name: dict.tools.matrix_title, desc: dict.tools.matrix_desc, icon: MessageSquare, status: "operational", url: "https://matrix.org" },
       ]
@@ -369,7 +371,7 @@ export default function ServicesClient({ dict, lang }: { dict: any, lang: "zh" |
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-10 right-10 p-3 bg-zinc-900/90 text-white rounded-full shadow-lg backdrop-blur-md hover:bg-emerald-600 transition-all duration-300 z-50 group border border-zinc-700/50 hover:scale-110"
+          className="fixed bottom-10 right-10 p-4 bg-white/90 text-zinc-900 rounded-full shadow-2xl backdrop-blur-xl hover:bg-emerald-500 hover:text-white transition-all duration-300 z-50 group border border-black/5 hover:scale-110"
           aria-label="Scroll to top"
         >
           <ArrowUp className="w-5 h-5 group-hover:-translate-y-1 transition-transform duration-300" />

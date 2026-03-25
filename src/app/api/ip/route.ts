@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 
   const fetchFallbackData = async (queryIp: string) => {
     try {
-      const res = await fetch(`http://ip-api.com/json/${queryIp}`, { signal: AbortSignal.timeout(4000) })
+      const res = await fetch(`https://ip-api.com/json/${queryIp}`, { signal: AbortSignal.timeout(4000) })
       const data = await res.json()
       if (data.status === 'fail') throw new Error('API Fail')
       return {
