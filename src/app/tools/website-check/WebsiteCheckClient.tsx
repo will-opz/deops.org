@@ -348,7 +348,7 @@ export default function WebsiteCheckClient({ dict }: { dict: any }) {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                  <div className="space-y-4">
-                    {getAdvice(result).length > 0 ? getAdvice(result).map((advice, i) => (
+                    {adviceList.length > 0 ? adviceList.map((advice, i) => (
                       <div key={i} className="flex gap-4 p-5 bg-white rounded-2xl border border-orange-200 shadow-sm relative group overflow-hidden">
                          <div className="absolute inset-y-0 left-0 w-1 bg-orange-500"></div>
                          <div className="flex-grow">

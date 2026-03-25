@@ -16,7 +16,8 @@ export async function GET(request: NextRequest) {
     
     // 1. DNS Lookup (Using Cloudflare DoH)
     const dnsPromise = fetch(`https://cloudflare-dns.com/dns-query?name=${domain}&type=A`, {
-      headers: { 'accept': 'application/dns-json' }
+      headers: { 'accept': 'application/dns-json' },
+      signal: AbortSignal.timeout(5000)
     }).then(res => res.json())
 
     // 2. HTTP Connectivity & Basic Detection
@@ -24,12 +25,15 @@ export async function GET(request: NextRequest) {
     const httpPromise = fetch(targetUrl, {
       method: 'GET',
       redirect: 'follow',
-      headers: { 'User-Agent': 'OpsKitPro-Diagnostic/1.0' }
+      headers: { 'User-Agent': 'OpsKitPro-Diagnostic/1.0' },
+      signal: AbortSignal.timeout(8000)
     })
 
     // 3. SSL Forensics (Simulated or via public probe for Edge compatibility)
     // On Edge, we can't use tls module. We'll use a reliable public probe for SSL details.
-    const sslPromise = fetch(`https://api.sslchecker.com/check/${domain}`).then(r => r.json()).catch(() => null)
+    const sslPromise = fetch(`https://api.sslchecker.com/check/${domain}`, {
+      signal: AbortSignal.timeout(5000)
+    }).then(r => r.json()).catch(() => null)
 
     const [dnsResult, httpRes, sslData] = await Promise.all([
       dnsPromise, 
@@ -88,7 +92,7 @@ export async function GET(request: NextRequest) {
     let geo = { country: 'Unknown', isp: 'Unknown' }
     if (ip !== 'N/A' && !ip.includes(':')) {
       try {
-        const geoRes = await fetch(`https://ipapi.co/${ip}/json/`).then(r => r.json())
+        const geoRes = await fetch(`https://ipapi.co/${ip}/json/`, { signal: AbortSignal.timeout(4000) }).then(r => r.json())
         geo = { country: geoRes.country_name || 'Unknown', isp: geoRes.org || geoRes.asn || 'Unknown' }
       } catch {
         // Geolocation unavailable, fallback to defaults
