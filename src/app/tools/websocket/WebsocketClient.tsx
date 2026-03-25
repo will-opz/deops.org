@@ -1,22 +1,60 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
-import { Zap } from 'lucide-react'
-import { useWebSocket } from './hooks'
-import { ConnectionPanel, MessageComposer, LogViewer, StatsPanel } from './components'
+import { Zap, MessageSquare, Binary, Activity } from 'lucide-react'
+import { useMultiConnection } from './hooks'
+import { 
+  ConnectionPanel, 
+  MessageComposer, 
+  LogViewer, 
+  StatsPanel,
+  SessionManager,
+  BinaryComposer,
+  PingMonitor,
+  ConnectionTabs
+} from './components'
+
+type ViewMode = 'text' | 'binary' | 'ping'
 
 export default function WebsocketClient() {
   const {
-    status,
-    logs,
-    stats,
-    config,
+    tabs,
+    activeTab,
+    activeTabId,
+    setActiveTabId,
     connect,
     disconnect,
     send,
+    addTab,
+    removeTab,
+    renameTab,
     clearLogs,
-    setConfig
-  } = useWebSocket()
+    canAddTab
+  } = useMultiConnection()
+
+  const [viewMode, setViewMode] = useState<ViewMode>('text')
+
+  const handleConnect = (url: string, options?: any) => {
+    connect(activeTabId, url, options)
+  }
+
+  const handleDisconnect = () => {
+    disconnect(activeTabId)
+  }
+
+  const handleSend = (data: string | ArrayBuffer) => {
+    send(activeTabId, data)
+  }
+
+  const handleSendPing = () => {
+    send(activeTabId, JSON.stringify({ type: 'ping', timestamp: Date.now() }))
+  }
+
+  const handleLoadSession = (logs: any[]) => {
+    // Would need to implement session loading into current tab
+    console.log('Load session:', logs.length, 'messages')
+  }
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-zinc-700 font-sans selection:bg-cyan-500/20 selection:text-zinc-900 pb-24 relative overflow-hidden">
@@ -31,11 +69,11 @@ export default function WebsocketClient() {
           <span className="text-zinc-300">/</span>
           <Link href="/services" className="hover:text-cyan-600 transition-colors">MATRIX</Link>
           <span className="text-zinc-300">/</span>
-          <span className="text-zinc-900 border-b border-cyan-500/30 font-bold uppercase">WS-PROBE</span>
+          <span className="text-zinc-900 border-b border-cyan-500/30 font-bold uppercase">WS-WORKBENCH</span>
         </nav>
 
         {/* Header */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
           <div className="flex items-center gap-4">
             <div className="p-3.5 bg-zinc-900 rounded-2xl shadow-xl border border-zinc-800 group transition-all">
               <Zap className="w-7 h-7 text-cyan-500 group-hover:scale-110 transition-transform" />
@@ -45,61 +83,128 @@ export default function WebsocketClient() {
                 WebSocket Workbench
               </h1>
               <p className="text-zinc-500 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-1">
-                Full-Duplex Protocol Debugger • Templates • Auto-Reconnect
+                Multi-Tab • Binary • Templates • Sessions
               </p>
             </div>
           </div>
 
-          {/* Status Badge */}
+          {/* Session Manager */}
+          <SessionManager
+            currentUrl={activeTab.url}
+            currentLogs={activeTab.logs}
+            onLoadSession={handleLoadSession}
+          />
+        </header>
+
+        {/* Connection Tabs */}
+        <div className="mb-6">
+          <ConnectionTabs
+            tabs={tabs}
+            activeTabId={activeTabId}
+            onSelectTab={setActiveTabId}
+            onAddTab={addTab}
+            onRemoveTab={removeTab}
+            onRenameTab={renameTab}
+            canAddTab={canAddTab}
+          />
+        </div>
+
+        {/* Status Badge */}
+        <div className="flex items-center justify-between mb-6">
           <div className={`flex items-center gap-2 px-4 py-2 rounded-full border text-[10px] font-bold uppercase tracking-widest transition-all ${
-            status === 'connected' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600' :
-            status === 'connecting' ? 'bg-amber-500/10 border-amber-500/20 text-amber-600 animate-pulse' :
-            status === 'error' ? 'bg-red-500/10 border-red-500/20 text-red-600' :
+            activeTab.status === 'connected' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600' :
+            activeTab.status === 'connecting' ? 'bg-amber-500/10 border-amber-500/20 text-amber-600 animate-pulse' :
+            activeTab.status === 'error' ? 'bg-red-500/10 border-red-500/20 text-red-600' :
             'bg-zinc-100 border-zinc-200 text-zinc-500'
           }`}>
             <div className={`w-2 h-2 rounded-full ${
-              status === 'connected' ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' :
-              status === 'connecting' ? 'bg-amber-500' :
-              status === 'error' ? 'bg-red-500' :
+              activeTab.status === 'connected' ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' :
+              activeTab.status === 'connecting' ? 'bg-amber-500' :
+              activeTab.status === 'error' ? 'bg-red-500' :
               'bg-zinc-400'
             }`} />
-            {status === 'connected' ? 'Connected' :
-             status === 'connecting' ? 'Connecting...' :
-             status === 'error' ? 'Error' : 'Disconnected'}
+            {activeTab.status === 'connected' ? 'Connected' :
+             activeTab.status === 'connecting' ? 'Connecting...' :
+             activeTab.status === 'error' ? 'Error' : 'Disconnected'}
           </div>
-        </header>
+
+          {/* View Mode Tabs */}
+          <div className="flex items-center gap-1 bg-zinc-100 rounded-lg p-0.5">
+            <button
+              onClick={() => setViewMode('text')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${
+                viewMode === 'text' ? 'bg-white text-cyan-600 shadow-sm' : 'text-zinc-400 hover:text-zinc-600'
+              }`}
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              Text
+            </button>
+            <button
+              onClick={() => setViewMode('binary')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${
+                viewMode === 'binary' ? 'bg-white text-purple-600 shadow-sm' : 'text-zinc-400 hover:text-zinc-600'
+              }`}
+            >
+              <Binary className="w-3.5 h-3.5" />
+              Binary
+            </button>
+            <button
+              onClick={() => setViewMode('ping')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${
+                viewMode === 'ping' ? 'bg-white text-amber-600 shadow-sm' : 'text-zinc-400 hover:text-zinc-600'
+              }`}
+            >
+              <Activity className="w-3.5 h-3.5" />
+              Ping
+            </button>
+          </div>
+        </div>
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Connection Panel */}
           <div className="lg:col-span-8">
             <ConnectionPanel
-              status={status}
-              config={config}
-              onConnect={connect}
-              onDisconnect={disconnect}
-              onConfigChange={(updates) => setConfig(prev => ({ ...prev, ...updates }))}
+              status={activeTab.status}
+              config={activeTab.config}
+              onConnect={handleConnect}
+              onDisconnect={handleDisconnect}
+              onConfigChange={() => {}}
             />
           </div>
 
           {/* Stats Panel */}
           <div className="lg:col-span-4">
-            <StatsPanel status={status} stats={stats} />
+            <StatsPanel status={activeTab.status} stats={activeTab.stats} />
           </div>
 
-          {/* Message Composer */}
+          {/* Message Composer based on view mode */}
           <div className="lg:col-span-12">
-            <MessageComposer
-              status={status}
-              onSend={send}
-            />
+            {viewMode === 'text' && (
+              <MessageComposer
+                status={activeTab.status}
+                onSend={handleSend}
+              />
+            )}
+            {viewMode === 'binary' && (
+              <BinaryComposer
+                status={activeTab.status}
+                onSend={handleSend}
+              />
+            )}
+            {viewMode === 'ping' && (
+              <PingMonitor
+                status={activeTab.status}
+                onSendPing={handleSendPing}
+              />
+            )}
           </div>
 
           {/* Log Viewer */}
           <div className="lg:col-span-12">
             <LogViewer
-              logs={logs}
-              onClear={clearLogs}
+              logs={activeTab.logs}
+              onClear={() => clearLogs(activeTabId)}
             />
           </div>
         </div>
