@@ -62,7 +62,8 @@ export default function DnsClient() {
       setDomain(q)
       lookup(q, selectedType, selectedProvider)
     }
-  }, [searchParams])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]) // intentionally run only on URL param change
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -155,7 +156,7 @@ export default function DnsClient() {
          <div className="mb-12 p-10 bg-red-50 border border-red-100 rounded-[2.5rem] text-red-600 flex items-start gap-6 animate-in fade-in slide-in-from-top-4">
             <AlertCircle className="w-8 h-8 shrink-0" />
             <div>
-               <h3 className="text-xl font-black italic uppercase tracking-tight mb-2">QUEREY_EXCEPTION</h3>
+               <h3 className="text-xl font-black italic uppercase tracking-tight mb-2">QUERY_EXCEPTION</h3>
                <p className="text-sm opacity-80 leading-relaxed uppercase">{error}</p>
             </div>
          </div>

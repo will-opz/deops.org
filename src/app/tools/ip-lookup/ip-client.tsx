@@ -71,6 +71,15 @@ export default function IPClient() {
     fetchIP(q)
   }, [searchParams, fetchIP])
 
+  const formatCoords = (lat: string | number, lon: string | number) => {
+    const la = parseFloat(String(lat))
+    const lo = parseFloat(String(lon))
+    if (isNaN(la) || isNaN(lo)) return 'N/A'
+    const latDir = la >= 0 ? 'N' : 'S'
+    const lonDir = lo >= 0 ? 'E' : 'W'
+    return `${Math.abs(la).toFixed(4)}°${latDir} / ${Math.abs(lo).toFixed(4)}°${lonDir}`
+  }
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     fetchIP(inputIp)
@@ -184,7 +193,7 @@ export default function IPClient() {
                   <div className="mt-8 text-center relative z-10">
                      <div className="text-[10px] text-zinc-500 uppercase tracking-[0.4em] font-bold mb-2">Geolocation_Locked</div>
                      <div className="text-xs font-mono text-white/80">
-                        {data.latitude}N / {data.longitude}E
+                        {formatCoords(data.latitude, data.longitude)}
                      </div>
                   </div>
                </div>

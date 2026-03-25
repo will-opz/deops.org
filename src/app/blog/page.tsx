@@ -1,17 +1,14 @@
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { 
-  FileText, 
   ArrowRight, 
-  Search, 
   Clock, 
   Activity, 
   ShieldCheck, 
   Globe,
   Radio,
-  History,
   Terminal,
-  Cpu
+  Zap
 } from 'lucide-react'
 import { getDictionary } from '@/dictionaries'
 import { SiteHeader } from '@/components/SiteHeader'
@@ -164,21 +161,4 @@ export default async function BlogPage() {
   )
 }
 
-function Zap(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 14.7V3h11l-4 9H20L9 21l2-7.3H4Z" />
-    </svg>
-  )
-}
+

@@ -115,6 +115,22 @@ export default function PassClient({ dict }: { dict: any }) {
 
   const regenerate = () => generatePassword(true)
 
+  // Password strength calculation (entropy-based)
+  const getStrength = (pwd: string) => {
+    if (!pwd) return { score: 0, label: '', color: '' }
+    let charsetSize = 0
+    if (/[a-z]/.test(pwd)) charsetSize += 26
+    if (/[A-Z]/.test(pwd)) charsetSize += 26
+    if (/[0-9]/.test(pwd)) charsetSize += 10
+    if (/[^a-zA-Z0-9]/.test(pwd)) charsetSize += 32
+    const entropy = pwd.length * Math.log2(Math.max(charsetSize, 1))
+    if (entropy < 28) return { score: 1, label: 'Weak', color: 'bg-red-500' }
+    if (entropy < 36) return { score: 2, label: 'Fair', color: 'bg-orange-400' }
+    if (entropy < 60) return { score: 3, label: 'Good', color: 'bg-yellow-400' }
+    if (entropy < 80) return { score: 4, label: 'Strong', color: 'bg-emerald-400' }
+    return { score: 5, label: 'Very Strong', color: 'bg-emerald-600' }
+  }
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
     setCopied(true)
@@ -163,6 +179,22 @@ export default function PassClient({ dict }: { dict: any }) {
                 {password}
               </span>
             </div>
+            {/* Strength indicator */}
+            {password && (() => {
+              const { score, label, color } = getStrength(password)
+              return (
+                <div className="px-4 pt-2 pb-1 flex items-center gap-3">
+                  <div className="flex gap-1 flex-1">
+                    {[1,2,3,4,5].map(i => (
+                      <div key={i} className={`h-1 flex-1 rounded-full transition-all duration-500 ${i <= score ? color : 'bg-zinc-200'}`} />
+                    ))}
+                  </div>
+                  <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${
+                    score <= 2 ? 'text-red-500' : score === 3 ? 'text-yellow-500' : 'text-emerald-600'
+                  }`}>{label}</span>
+                </div>
+              )
+            })()}
             
             <div className="flex flex-col sm:flex-row p-2 gap-2">
               <div className="flex flex-1 gap-2">
@@ -297,7 +329,7 @@ export default function PassClient({ dict }: { dict: any }) {
                     key={idx}
                     className="flex items-center justify-between p-3 bg-[#fafafa]/30 rounded-xl border border-black/5 group hover:border-emerald-500/30 transition-colors"
                   >
-                    <span className="font-mono text-zinc-600 group-hover:text-zinc-200 transition-colors truncate mr-4">
+                    <span className="font-mono text-zinc-600 group-hover:text-zinc-900 transition-colors truncate mr-4">
                       {h}
                     </span>
                     <button
@@ -347,7 +379,7 @@ export default function PassClient({ dict }: { dict: any }) {
             </div>
             <button 
               onClick={() => setShowQR(false)}
-              className="mt-4 w-full py-3 bg-zinc-100 hover:bg-zinc-700 text-zinc-900 rounded-xl transition-colors font-medium hover:text-zinc-900"
+              className="mt-4 w-full py-3 bg-zinc-100 hover:bg-zinc-800 text-zinc-700 hover:text-white rounded-xl transition-colors font-medium"
             >
               Close
             </button>
