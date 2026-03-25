@@ -17,9 +17,9 @@ export default function HomeSearch({ dict, lang }: { dict: any, lang: string }) 
   }
 
   const quickChecks = [
-    { name: "DNS", icon: Zap },
-    { name: "SSL", icon: ShieldCheck },
-    { name: "CDN", icon: Globe },
+    { name: dict.home.features.dns, icon: Zap },
+    { name: dict.home.features.ssl, icon: ShieldCheck },
+    { name: dict.home.features.cdn, icon: Globe },
   ]
 
   return (
@@ -47,13 +47,18 @@ export default function HomeSearch({ dict, lang }: { dict: any, lang: string }) 
         </div>
       </form>
       
-      <div className="flex items-center justify-center gap-6 mt-6">
+      <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
         {quickChecks.map((item) => (
-          <div key={item.name} className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-widest text-zinc-400 select-none">
-            <item.icon className="w-3 h-3 text-emerald-500" />
-            <span>{item.name} {dict.home.diagnostics_suffix}</span>
+          <div key={item.name} className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-600 border border-emerald-100 select-none transition-all hover:bg-emerald-100 cursor-default">
+            <item.icon className="w-3 h-3" />
+            <span>{item.name}</span>
           </div>
         ))}
+      </div>
+
+      {/* Trust Footer */}
+      <div className="mt-8 text-[9px] font-mono text-zinc-400 uppercase tracking-[0.4em] italic opacity-60">
+        {dict.home.trust_footer}
       </div>
     </div>
   )

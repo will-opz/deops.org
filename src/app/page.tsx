@@ -27,25 +27,28 @@ export default async function Home() {
         {/* Subtle Hero Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-accent/5 blur-[150px] rounded-full pointer-events-none z-[-1]"></div>
 
-        <div className="max-w-4xl mx-auto flex flex-col items-center">
-          <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100 flex flex-col items-center leading-none">
-            <span className="block text-3xl md:text-4xl lg:text-5xl font-medium text-zinc-500 tracking-[-0.02em] mb-4">
+        <div className="max-w-5xl mx-auto flex flex-col items-center">
+          <h1 className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100 flex flex-col items-center gap-3 leading-none">
+            {/* Label badge */}
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/8 border border-emerald-500/20 text-emerald-600 text-sm font-mono font-bold tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               {dict.home.title_part1}
             </span>
-            <span className="block text-6xl md:text-8xl lg:text-9xl font-black text-zinc-900 tracking-[-0.05em] leading-[0.9]">
+            {/* Main headline */}
+            <span className="block text-5xl md:text-7xl lg:text-8xl font-black text-zinc-900 tracking-[-0.04em] leading-[1.0] text-center">
               {dict.home.title_part2_pre}
-              <span className="inline-flex items-center mx-2 font-mono ai-glow tracking-tighter select-none">
-                <span className="text-zinc-200 font-light opacity-30 mr-1">[</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 to-emerald-600">
+              <span className="relative inline-block mx-3">
+                <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-emerald-700 ai-glow">
                   {dict.home.title_part2_ai}
                 </span>
-                <span className="text-zinc-200 font-light opacity-30 ml-1">]</span>
+                {/* Underline accent */}
+                <span className="absolute bottom-1 left-0 right-0 h-[3px] bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full opacity-60" />
               </span>
-              {dict.home.title_part2_suf || ""}
+              {dict.home.title_part2_suf}
             </span>
           </h1>
           
-          <p className="text-base md:text-lg text-zinc-500 max-w-2xl mb-12 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 font-mono text-balance">
+          <p className="text-sm md:text-base text-zinc-500 max-w-xl mb-12 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 font-mono text-center text-balance">
             {dict.home.subtitle}
           </p>
         </div>
