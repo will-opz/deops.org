@@ -61,12 +61,8 @@ export default function PassClient({ dict }: { dict: any }) {
     let generated = ''
 
     if (options.uuid) {
-      // UUID v4 generation
-      generated = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-        const r = (Math.random() * 16) | 0
-        const v = c === 'x' ? r : (r & 0x3) | 0x8
-        return v.toString(16)
-      })
+      // UUID v4 generation using cryptographically secure API
+      generated = crypto.randomUUID()
     } else if (options.pin6 || options.pin8) {
       const pinLength = options.pin6 ? 6 : 8
       const array = new Uint32Array(pinLength)

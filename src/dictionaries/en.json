@@ -172,7 +172,7 @@
       "history": "History",
       "clear_history": "Clear",
       "history_empty": "None",
-      "history_helper": "Stored locally in your browser."
+      "history_helper": "Stored as plain text in your browser's localStorage. Clear history after use if you're on a shared device."
     },
     "qrgen": {
       "placeholder": "Enter text or URL...",

@@ -63,7 +63,7 @@ export function useMultiConnection() {
 
   const addLog = useCallback((tabId: string, type: LogEntry['type'], message: string, options?: { messageType?: LogEntry['messageType'] }) => {
     const entry: LogEntry = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).slice(2, 11),
       type,
       message,
       messageType: options?.messageType || 'text',

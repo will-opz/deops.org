@@ -172,7 +172,7 @@
       "history": "生成历史",
       "clear_history": "清除记录",
       "history_empty": "暂无历史记录",
-      "history_helper": "历史记录仅存储在您的浏览器本地，不会上传至服务器。"
+      "history_helper": "历史记录以明文存储在浏览器 localStorage 中，未加密。共享设备上使用后请及时清除。"
     },
     "qrgen": {
       "placeholder": "在此输入文字或链接...",

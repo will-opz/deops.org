@@ -58,7 +58,7 @@ export function useWebSocket() {
   ) => {
     const size = options?.rawData?.byteLength ?? new Blob([message]).size
     const entry: LogEntry = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).slice(2, 11),
       type,
       message,
       rawData: options?.rawData,

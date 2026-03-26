@@ -10,7 +10,11 @@ export async function GET(request: NextRequest) {
 
   const fetchFallbackData = async (queryIp: string) => {
     try {
-      const res = await fetch(`https://ip-api.com/json/${queryIp}`, { signal: AbortSignal.timeout(4000) })
+      // Request `hosting` and `proxy` fields explicitly; free tier supports `hosting`
+      const res = await fetch(
+        `https://ip-api.com/json/${queryIp}?fields=status,country,countryCode,regionName,city,lat,lon,timezone,isp,as,hosting,proxy`,
+        { signal: AbortSignal.timeout(4000) }
+      )
       const data = await res.json()
       if (data.status === 'fail') throw new Error('API Fail')
       return {
@@ -24,8 +28,9 @@ export async function GET(request: NextRequest) {
         org: data.isp || 'N/A',
         asn: data.as ? data.as.split(' ')[0] : '',
         timezone: data.timezone || 'UTC',
-        network_type: (data.isp || '').toLowerCase().includes('cloud') ? 'Data Center' : 'Residential',
-        proxy: false
+        // ip-api returns `hosting: true` for data-center/hosting IPs (more reliable than ISP name heuristic)
+        network_type: data.hosting ? 'Data Center' : 'Residential',
+        proxy: data.proxy || false
       }
     } catch {
       return null
@@ -64,8 +69,9 @@ export async function GET(request: NextRequest) {
         org: cf.asOrganization || 'N/A',
         asn: cf.asn ? `AS${cf.asn}` : '',
         timezone: cf.timezone || 'UTC',
-        network_type: (cf.asOrganization || '').toLowerCase().includes('cloud') ? 'Data Center' : 'Residential',
-        proxy: false, 
+        // Cloudflare does not expose a direct hosting/residential flag; leave as unknown
+        network_type: 'Unknown',
+        proxy: false,
         _source: 'cloudflare-context'
       })
     }

@@ -17,7 +17,7 @@ export function useJsonStorage() {
   const [drafts, setDrafts] = useState<JsonDraft[]>([])
   const [isLoaded, setIsLoaded] = useState(false)
 
-  // Load drafts from IndexedDB
+  // Load drafts from localStorage
   useEffect(() => {
     if (typeof window === 'undefined') return
 
@@ -102,9 +102,9 @@ export function useUrlLoader() {
     setError(null)
 
     try {
-      // Use a CORS proxy for cross-origin requests
-      const proxyUrl = url.startsWith('http') 
-        ? `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+      // Route cross-origin requests through our own Edge proxy to avoid third-party data leakage
+      const proxyUrl = url.startsWith('http')
+        ? `/api/proxy?url=${encodeURIComponent(url)}`
         : url
 
       const response = await fetch(proxyUrl, {
