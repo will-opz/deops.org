@@ -36,12 +36,11 @@ export default async function RootLayout({
   return (
     <html lang={lang}>
       <head>
-        <Script 
+        <script 
           async 
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3793455361566383"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        ></script>
       </head>
       <body className="min-h-screen flex flex-col font-sans antialiased text-zinc-900 bg-base selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
         {/* Dual Core tech background glow */}
