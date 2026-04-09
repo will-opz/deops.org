@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { Shield, Zap, Search, Terminal, Globe, Github, ArrowUpRight, Mail, Fingerprint, Activity } from 'lucide-react'
+import { Shield, Zap, Search, Terminal, Globe, Github, ArrowUpRight, Mail, Fingerprint, Activity, Twitter } from 'lucide-react'
 import { getDictionary } from '@/dictionaries'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
@@ -29,8 +29,8 @@ export default async function AboutPage() {
           </h1>
           <p className="text-lg text-zinc-600 leading-relaxed max-w-2xl font-mono lowercase">
             {isZh 
-              ? "极简，硬核，数据驱动。OpsKitPro 是为下一代 SRE 工程师构建的轻量化取证基础设施。我们相信运维的本质不仅是写代码，更是对复杂网络环境的实时感知与精准取证。"
-              : "Minimalist, hardcore, data-driven. OpsKitPro is a lightweight forensics infrastructure built for the next generation of SREs. We believe the essence of operations is not just coding, but real-time perception and precise forensics of complex network environments."
+              ? "OpsKitPro 是为现代化 SRE 与开发者打造的边缘原生诊断套件。我们提供免登录、极速响应的 DNS、IP 及网站健康取证分析。我们坚信，真正的系统稳定性源自对复杂网络环境的实时感知 —— 在基础架构产生故障时，为您提供触手可及的精准数据。"
+              : "OpsKitPro is an edge-native diagnostic suite built for modern SREs and developers. We provide instant, zero-login forensics for DNS, IP, and website health. We believe that true reliability starts with real-time perception — providing the precise data you need, right when your infrastructure demands it."
             }
           </p>
         </section>
@@ -96,13 +96,23 @@ export default async function AboutPage() {
                <h2 className="text-3xl font-black italic tracking-tighter text-zinc-900 mb-4 lowercase">WANT_TO_COLLABORATE?</h2>
                <p className="text-sm text-zinc-500 font-mono leading-relaxed max-w-md">Business inquiries or SRE technical exchange. Connect with our core node via encrypted mail.</p>
             </div>
-            <a 
-              href="mailto:admin@opskitpro.com" 
-              className="px-10 py-5 bg-zinc-100 hover:bg-emerald-500 text-zinc-900 hover:text-white rounded-2xl font-black italic text-lg transition-all flex items-center gap-4 group"
-            >
-              ADMIN@OPSKITPRO.COM
-              <Mail className="w-5 h-5 group-hover:scale-110" />
-            </a>
+            <div className="flex flex-col gap-4">
+              <a 
+                href="https://x.com/deopsai" 
+                target="_blank"
+                className="px-10 py-5 bg-zinc-900 text-white hover:bg-emerald-600 rounded-2xl font-black italic text-lg transition-all flex items-center justify-center gap-4 group"
+              >
+                FOLLOW @DEOPSAI
+                <Twitter className="w-5 h-5 group-hover:scale-110" />
+              </a>
+              <a 
+                href="mailto:admin@opskitpro.com" 
+                className="px-10 py-5 bg-zinc-100 hover:bg-emerald-100 text-zinc-900 rounded-2xl font-black italic text-lg transition-all flex items-center justify-center gap-4 group border border-black/5"
+              >
+                ADMIN@OPSKITPRO.COM
+                <Mail className="w-5 h-5 group-hover:scale-110" />
+              </a>
+            </div>
           </div>
         </section>
       </main>
