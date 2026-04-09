@@ -22,12 +22,12 @@ export default async function AboutPage() {
         <section className="mb-24 text-center md:text-left">
           <div className="flex items-center gap-3 mb-6 justify-center md:justify-start">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-            <span className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.4em] italic leading-none">The_Forensics_Vision</span>
+            <span className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.4em] italic leading-none">Global SRE Vision</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-zinc-900 tracking-tighter mb-8 leading-tight">
              {dict.nav.about}
           </h1>
-          <p className="text-lg text-zinc-600 leading-relaxed max-w-2xl font-mono lowercase">
+          <p className="text-lg text-zinc-600 leading-relaxed max-w-2xl font-mono">
             {isZh 
               ? "OpsKitPro 是为现代化 SRE 与开发者打造的边缘原生诊断套件。我们提供免登录、极速响应的 DNS、IP 及网站健康取证分析。我们坚信，真正的系统稳定性源自对复杂网络环境的实时感知 —— 在基础架构产生故障时，为您提供触手可及的精准数据。"
               : "OpsKitPro is an edge-native diagnostic suite built for modern SREs and developers. We provide instant, zero-login forensics for DNS, IP, and website health. We believe that true reliability starts with real-time perception — providing the precise data you need, right when your infrastructure demands it."
@@ -38,7 +38,7 @@ export default async function AboutPage() {
         {/* Philosophy - Light Theme Cards */}
         <section className="mb-24">
           <h2 className="text-[10px] font-black text-zinc-400 mb-10 uppercase tracking-[0.3em] italic flex items-center gap-3">
-             <Fingerprint className="w-4 h-4 text-emerald-500" /> core_philosophy
+             <Fingerprint className="w-4 h-4 text-emerald-500" /> Core Philosophy
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
@@ -68,7 +68,7 @@ export default async function AboutPage() {
                   <item.icon className="w-5 h-5 text-zinc-900 group-hover:text-emerald-500" />
                 </div>
                 <h3 className="text-xl font-bold text-zinc-900 mb-3 italic">{item.title}</h3>
-                <p className="text-xs text-zinc-500 leading-relaxed font-mono lowercase">{item.desc}</p>
+                <p className="text-xs text-zinc-500 leading-relaxed font-mono">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -77,7 +77,7 @@ export default async function AboutPage() {
         {/* Tech Stack - Sub-grid */}
         <section className="mb-24">
            <h2 className="text-[10px] font-black text-zinc-400 mb-10 uppercase tracking-[0.3em] italic flex items-center gap-3">
-             <Activity className="w-4 h-4 text-emerald-500" /> stack_composition
+             <Activity className="w-4 h-4 text-emerald-500" /> Technology Stack
           </h2>
            <div className="bg-zinc-50 rounded-[2.5rem] border border-black/5 p-10 font-mono text-[10px] text-zinc-500 uppercase tracking-widest grid grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="flex items-center gap-3"><span className="text-emerald-500">▸</span> Next.js 16 (Turbo)</div>
@@ -93,7 +93,7 @@ export default async function AboutPage() {
         <section>
           <div className="bg-white border border-black/5 rounded-[3rem] p-12 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10">
             <div className="flex-1">
-               <h2 className="text-3xl font-black italic tracking-tighter text-zinc-900 mb-4 lowercase">WANT_TO_COLLABORATE?</h2>
+               <h2 className="text-3xl font-black italic tracking-tighter text-zinc-900 mb-4">WANT TO COLLABORATE?</h2>
                <p className="text-sm text-zinc-500 font-mono leading-relaxed max-w-md">Business inquiries or SRE technical exchange. Connect with our core node via encrypted mail.</p>
             </div>
             <div className="flex flex-col gap-4">

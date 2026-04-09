@@ -91,12 +91,12 @@ export default async function BlogPage() {
         <div className="mb-24 text-center md:text-left border-b border-zinc-100 pb-16">
            <div className="flex items-center gap-3 mb-6 justify-center md:justify-start">
               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-              <span className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.4em] italic leading-none">Intelligence_Streaming</span>
+              <span className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.4em] italic leading-none">Intelligence Streaming</span>
            </div>
            <h1 className="text-5xl md:text-7xl font-black text-zinc-900 tracking-tighter mb-8 leading-tight">
               {dict.nav.blog}
            </h1>
-           <p className="text-base text-zinc-500 max-w-xl font-mono leading-relaxed lowercase">
+           <p className="text-base text-zinc-500 max-w-xl font-mono leading-relaxed">
               {isZh 
                 ? "来自可观测性、站点可靠性与边缘架构一线的实战记录。包含深度技术取证与架构拆解，与知识库实时同步。"
                 : "Practical insights from the front lines of observability, site reliability, and edge infrastructure. Detailed forensics and architectural deep-dives, synced from our knowledge base."
@@ -130,7 +130,7 @@ export default async function BlogPage() {
                    <h3 className="text-xl font-bold text-zinc-900 group-hover:text-emerald-600 transition-colors leading-tight mb-4 italic">
                       {article.title}
                    </h3>
-                   <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed font-mono opacity-80 mb-8 lowercase">
+                   <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed font-mono opacity-80 mb-8">
                       {article.desc}
                    </p>
 
@@ -150,8 +150,8 @@ export default async function BlogPage() {
                  <Terminal className="w-16 h-16" />
               </div>
               <div>
-                 <h4 className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-6 italic underline decoration-emerald-500/30 underline-offset-4">Join_the_Chain</h4>
-                 <h3 className="text-2xl font-black italic tracking-tighter mb-4 lowercase">WANT_MORE_INTEL?</h3>
+                 <h4 className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-6 italic underline decoration-emerald-500/30 underline-offset-4">Join the Chain</h4>
+                 <h3 className="text-2xl font-black italic tracking-tighter mb-4">WANT MORE INTEL?</h3>
                  <p className="text-[10px] text-zinc-400 font-mono leading-relaxed mb-8 opacity-80 uppercase italic">Get the latest SRE techniques delivered straight to your terminal.</p>
               </div>
               <div className="flex items-center gap-2 p-1.5 bg-zinc-50 border border-zinc-100 rounded-xl focus-within:border-emerald-500/30 transition-all">
